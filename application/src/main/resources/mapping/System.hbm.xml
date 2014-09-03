@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+    <class name="com.changhong.yupan.domain.UpdateStatistic" table="system_update_statistic">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="updateWay" column="update_way" insert="true" update="true" type="java.lang.String"/>
+        <property name="clientSn" column="client_sn" insert="true" update="true" type="java.lang.String"/>
+        <property name="timeCost" column="time_cost" insert="true" update="true" type="java.lang.Long"/>
+    </class>
+
+    <class name="com.changhong.system.domain.SystemActionLog" table="system_action_log">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="userName" column="system_user_name" insert="true" update="true" type="java.lang.String"/>
+        <property name="userNumber" column="system_user_number" insert="true" update="true" type="java.lang.String"/>
+        <property name="action" column="system_action" insert="true" update="true" type="java.lang.String"/>
+    </class>
+</hibernate-mapping>
