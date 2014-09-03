@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase>
+    <yunpan name="baidu">
+        <url>http://pan.baidu.com/s/fake</url>
+        <url>http://pan.baidu.com/s/1isPye</url>
+        <url>http://pan.baidu.com/s/1c0GeK04</url>
+    </yunpan>
+    <yunpan name="huawei">
+        <url>http://dl.vmall.com/fake</url>
+        <url>http://dl.vmall.com/c0a8ylt1wx</url>
+        <url>http://dl.vmall.com/c0jrjpmikz</url>
+        <url>http://dl.vmall.com/c0xd5watgq</url>
+    </yunpan>
+    <yunpan name="xunlei">
+        <url>http://kuai.xunlei.com/d/fake</url>
+        <url>http://kuai.xunlei.com/d/3W5vD5CXdWA9UwQA32a</url>
+    </yunpan>
+</testcase>
