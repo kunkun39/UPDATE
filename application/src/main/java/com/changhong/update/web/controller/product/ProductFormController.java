@@ -55,10 +55,9 @@ public class ProductFormController extends SimpleFormController {
         if (!StringUtils.hasText(productModel)) {
             errors.rejectValue("productModel", "product.model.empty");
         } else {
-            if(!CHStringUtils.containsSpecialChars(productModel)) {
+            if (!CHStringUtils.containsSpecialChars(productModel)) {
                 errors.rejectValue("productModel", "product.model.illegal");
-            }
-            else {
+            } else {
                 int productId = ServletRequestUtils.getIntParameter(request, "id", -1);
                 int modelResponse = productService.obtainProductModelChecking(productId, productModel);
                 if (modelResponse == 1) {
@@ -67,7 +66,7 @@ public class ProductFormController extends SimpleFormController {
                     errors.rejectValue("productModel", "product.model.cannot.change");
                 }
             }
-         }
+        }
 
         String productDescription = ServletRequestUtils.getStringParameter(request, "productDescription", "");
         if (!StringUtils.hasText(productDescription)) {
@@ -90,7 +89,7 @@ public class ProductFormController extends SimpleFormController {
 
         productService.changeProductDetails(productDTO);
 
-        return new ModelAndView(new RedirectView("productoverview.html?current="+current+"&name="+name+"&categoryId="+categoryId));
+        return new ModelAndView(new RedirectView("productoverview.html?current=" + current + "&name=" + name + "&categoryId=" + categoryId));
     }
 
     public void setProductService(ProductService productService) {

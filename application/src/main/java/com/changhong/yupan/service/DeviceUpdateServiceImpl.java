@@ -71,7 +71,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             long endHandle = System.currentTimeMillis();
             long during = endHandle - beginHandle;
             if (response != null) {
-                logger.info("device update succesful with way " + datatype + " and take " + during + "ms");
+                logger.info("device " + username + " update succesful with way " + datatype + " and take " + during + "ms");
             }
 
             /******************************************统计部分黄金分割线************************************************/

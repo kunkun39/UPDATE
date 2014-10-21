@@ -73,12 +73,14 @@ public class CHStringUtils {
     }
 
     public static boolean containsSpecialChars(String value) {
+        if (!StringUtils.hasText(value)) {
+            return true;
+        }
+
         if (value.contains(" ") || value.contains("<") || value.contains(">") || value.contains("=") || value.contains(":") || value.contains(":") || value.contains("&")) {
             return false;
         }
         return true;
-
-
     }
 
 
