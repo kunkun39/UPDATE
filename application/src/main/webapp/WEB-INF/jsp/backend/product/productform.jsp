@@ -74,13 +74,15 @@
 
                     <tr>
                         <td width="200px;">
-                             型号 <span class="required">*</span>
+                             型号(<font color="red">不能包含以下字符:<,>,=,?,:,空格</font>) <span class="required">*</span>
                         </td>
+
                         <td>
                             <spring-form:input path="productModel" maxlength="30" cssStyle="width:200px;"/>&nbsp;
                             <spring-form:errors path="productModel" cssClass="required"/>
                         </td>
                     </tr>
+
 
                     <tr>
                         <td valign="top">

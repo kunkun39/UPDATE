@@ -71,4 +71,15 @@ public class CHStringUtils {
         }
         return tokens[0] + "." + tokens[1];
     }
+
+    public static boolean containsSpecialChars(String value) {
+        if (value.contains(" ") || value.contains("<") || value.contains(">") || value.contains("=") || value.contains(":") || value.contains(":") || value.contains("&")) {
+            return false;
+        }
+        return true;
+
+
+    }
+
+
 }

@@ -223,7 +223,6 @@ public class ProductServiceImpl implements ProductService {
         update.setUpdateFile(null);
         UpdateFile file = (UpdateFile) productDao.findById(uploadFileId, UpdateFile.class);
         productDao.delete(file);
-
         documentService.delete(update, file, false);
     }
 }

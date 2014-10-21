@@ -1,5 +1,6 @@
 package com.changhong.update.web.controller.product;
 
+import com.changhong.common.utils.CHStringUtils;
 import com.changhong.update.service.ProductService;
 import com.changhong.update.web.facade.dto.ProductDTO;
 import org.springframework.util.StringUtils;
@@ -54,14 +55,19 @@ public class ProductFormController extends SimpleFormController {
         if (!StringUtils.hasText(productModel)) {
             errors.rejectValue("productModel", "product.model.empty");
         } else {
-            int productId = ServletRequestUtils.getIntParameter(request, "id", -1);
-            int modelResponse = productService.obtainProductModelChecking(productId, productModel);
-            if (modelResponse == 1) {
-                errors.rejectValue("productModel", "product.model.duplicate");
-            } else if (modelResponse == 2) {
-                errors.rejectValue("productModel", "product.model.cannot.change");
+            if(!CHStringUtils.containsSpecialChars(productModel)) {
+                errors.rejectValue("productModel", "product.model.illegal");
             }
-        }
+            else {
+                int productId = ServletRequestUtils.getIntParameter(request, "id", -1);
+                int modelResponse = productService.obtainProductModelChecking(productId, productModel);
+                if (modelResponse == 1) {
+                    errors.rejectValue("productModel", "product.model.duplicate");
+                } else if (modelResponse == 2) {
+                    errors.rejectValue("productModel", "product.model.cannot.change");
+                }
+            }
+         }
 
         String productDescription = ServletRequestUtils.getStringParameter(request, "productDescription", "");
         if (!StringUtils.hasText(productDescription)) {
