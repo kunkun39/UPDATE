@@ -14,8 +14,6 @@ ALTER TABLE `system_client` ADD INDEX  system_client_username(`username`) ;
 ALTER TABLE `system_client` ADD INDEX  system_client_year(`sta_year`) ;
 ALTER TABLE `system_client` ADD INDEX  system_client_month(`sta_month`) ;
 ALTER TABLE `system_client` ADD INDEX  system_client_day(`sta_day`) ;
-ALTER TABLE `system_client` ADD INDEX  system_client_hour(`sta_hour`) ;
-ALTER TABLE `system_client` ADD INDEX  system_client_gujian_version(`gujian_version`) ;
 ALTER TABLE `system_client` ADD INDEX  system_client_product_model(`product_model`) ;
 ALTER TABLE `system_client_info` ADD INDEX  system_client_info_username(`username`) ;
 

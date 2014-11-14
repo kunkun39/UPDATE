@@ -124,7 +124,6 @@ CREATE TABLE `system_client` (
   `username` varchar(17) not NULL,
   `product_model` varchar(40) default '',
   `gujian_version` varchar(20) default '',
-  `yingjian_version` varchar(40) default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
