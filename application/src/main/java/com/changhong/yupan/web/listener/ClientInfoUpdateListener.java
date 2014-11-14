@@ -20,9 +20,6 @@ public class ClientInfoUpdateListener implements ApplicationListener {
     private Logger logger = Logger.getLogger(ClientInfoUpdateListener.class);
 
     @Autowired
-    private ApplicationThreadPool pool;
-
-    @Autowired
     private ClientService clientService;
 
     public void onApplicationEvent(ApplicationEvent event) {
@@ -34,7 +31,7 @@ public class ClientInfoUpdateListener implements ApplicationListener {
             String gujianVersionAfter = clientUpdate.getClientGujianVersionAfter();
 
             ClientInfoUpdateThread thread = new ClientInfoUpdateThread(username, productModel, gujianVersion, gujianVersionAfter);
-            pool.executeThread(thread);
+            ApplicationThreadPool.executeThread(thread);
         }
     }
 
@@ -60,7 +57,7 @@ public class ClientInfoUpdateListener implements ApplicationListener {
             try {
                 clientService.updateClientInfo(username, productModel, gujianVersion, gujianVersionAfter);
             } catch (Exception e) {
-                logger.error(e.getStackTrace());
+                logger.error("save history error", e);
             }
 
         }

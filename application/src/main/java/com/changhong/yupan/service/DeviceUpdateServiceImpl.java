@@ -7,7 +7,6 @@ import com.changhong.yupan.domain.DeviceUpdateResponse;
 import com.changhong.yupan.domain.UpdateStatistic;
 import com.changhong.yupan.repository.UpdateDao;
 import com.changhong.yupan.web.event.ClientInfoUpdateEvent;
-import jxl.StringFormulaCell;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
@@ -17,7 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Jack Wang
@@ -26,6 +27,8 @@ import java.util.List;
  */
 @Service("deviceUpdateService")
 public class DeviceUpdateServiceImpl implements DeviceUpdateService {
+
+    private static final Log logger = LogFactory.getLog(DeviceUpdateServiceImpl.class);
 
     @Autowired
     private UpdateDao updateDao;
@@ -42,15 +45,16 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
     @Value("${project.update.client.gujian}")
     private boolean updateClientGuJian;
 
-    private static final Log logger = LogFactory.getLog(DeviceUpdateServiceImpl.class);
+
+    /***********************************************升级相关***********************************************************/
 
     public DeviceUpdateResponse obtainUpdateData(String json) {
         long beginHandle = System.currentTimeMillis();
+
         DeviceUpdateResponse response = null;
         try {
             JSONObject o = new JSONObject(json);
             JSONObject client = (JSONObject) o.get("client");
-
             String datatype = client.optString("datatype");
             String model = client.optString("model");
             String username = client.optString("username");
@@ -68,20 +72,9 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                 response = generateBinUpdate(client, datatype, model);
             }
 
-            long endHandle = System.currentTimeMillis();
-            long during = endHandle - beginHandle;
-            if (response != null) {
-                logger.info("device " + username + " update succesful with way " + datatype + " and take " + during + "ms");
-            }
-
             /******************************************统计部分黄金分割线************************************************/
 
             if (response != null) {
-                //插入系统统计时间信息
-                if(saveUpdateHistory) {
-                    UpdateStatistic statistic = new UpdateStatistic(datatype, "", during);
-                    updateDao.persist(statistic);
-                }
                 //插入用户升级历史记录
                 if (updateClientGuJian) {
                     String guJianVersion = null;
@@ -94,6 +87,15 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                     if (StringUtils.hasText(username) && StringUtils.hasText(model) && StringUtils.hasText(guJianVersion) && StringUtils.hasText(guJianVersionAfter)) {
                         ApplicationEventPublisher.publish(new ClientInfoUpdateEvent(username, model, guJianVersion, guJianVersionAfter));
                     }
+                }
+
+                long endHandle = System.currentTimeMillis();
+                long during = endHandle - beginHandle;
+                logger.info("device " + username + " update succesful with way " + datatype + " and take " + during + "ms");
+                //插入系统统计时间信息
+                if (saveUpdateHistory) {
+                    UpdateStatistic statistic = new UpdateStatistic(datatype, "", during);
+                    updateDao.persist(statistic);
                 }
             }
 

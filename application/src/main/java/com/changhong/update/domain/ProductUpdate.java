@@ -72,6 +72,9 @@ public class ProductUpdate extends EntityBase {
 
     private String programSignatureType;
 
+    /**
+     * hibenrate only
+     */
     public ProductUpdate() {
     }
 
@@ -438,5 +441,26 @@ public class ProductUpdate extends EntityBase {
 
     public void setProgramSignatureType(String programSignatureType) {
         this.programSignatureType = programSignatureType;
+    }
+
+    /***************************************这部分是用户放到缓存中的临时变量，防止Lazy Exception****************************/
+
+    private String actualFilePath;
+
+    private String actualFileName;
+
+    public String getActualFilePath() {
+        return actualFilePath;
+    }
+
+    public String getActualFileName() {
+        return actualFileName;
+    }
+
+    public void generateCacheData() {
+        if (this.updateFile != null) {
+            this.actualFilePath = updateFile.getActualFilePath();
+            this.actualFileName = updateFile.getActualFileName();
+        }
     }
 }

@@ -18,6 +18,8 @@ import com.changhong.update.web.facade.assember.ProductWebAssember;
 import com.changhong.update.web.facade.dto.CategoryDTO;
 import com.changhong.update.web.facade.dto.ProductDTO;
 import com.changhong.update.web.facade.dto.ProductUpdateHistoryDTO;
+import com.changhong.yupan.repository.UpdateDao;
+import com.changhong.yupan.service.DeviceUpdateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +37,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private UpdateDao updateDao;
 
     @Autowired
     private ProductDao productDao;
@@ -191,6 +196,9 @@ public class ProductServiceImpl implements ProductService {
         ProductUpdate update = ProductUpdateWebAssember.toProductUpdateDomain(updateDTO, updateFile);
         documentService.uploadData(update, updateFile);
         productDao.persist(update);
+
+        //清楚缓存
+        updateDao.cleanCache();
 
         //记录添加产品日志
         if(updateDTO.getId() <= 0) {

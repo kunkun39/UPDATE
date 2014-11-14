@@ -61,7 +61,7 @@ public class DeviceUpdateResponse {
             **/
         } else {
             this.obtainDataWay = ObtainDataWay.INTERNAL_DATA;
-            this.deviceURL = webAddress + update.getUpdateFile().getActualFilePath() + "/" + update.getUpdateFile().getActualFileName();
+            this.deviceURL = webAddress + update.getActualFilePath() + "/" + update.getActualFileName();
         }
 
         //返回的URL需要在前面加VIEW属性

@@ -12,5 +12,7 @@ import java.util.List;
  */
 public interface UpdateDao extends EntityObjectDao {
 
+    void cleanCache();
+
     public List<ProductUpdate> findProductUpdate(String model, String updateWay, String version);
 }
