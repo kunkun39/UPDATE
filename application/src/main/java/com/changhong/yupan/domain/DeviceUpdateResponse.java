@@ -28,7 +28,7 @@ public class DeviceUpdateResponse {
     //信息用于记录升级后版本
     private String updateVersion;
 
-    public DeviceUpdateResponse(ProductUpdate update, String webAddress, boolean urlCacheEnable) {
+    public DeviceUpdateResponse(ProductUpdate update, String webAddress) {
         String updateURL = update.getUpdateURL();
         this.view = update.getView();
         this.updateModel = update.getUpdateModel();

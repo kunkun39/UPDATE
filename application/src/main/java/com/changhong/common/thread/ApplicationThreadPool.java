@@ -18,9 +18,9 @@ public class ApplicationThreadPool {
         //线程池所使用的缓冲队列
         pool.setQueueCapacity(500);
         //线程池所使用的缓冲队列
-        pool.setCorePoolSize(250);
+        pool.setCorePoolSize(500);
         //线程池维护线程的最大数量
-        pool.setMaxPoolSize(500);
+        pool.setMaxPoolSize(1000);
         //线程池维护线程所允许的空闲时间
         pool.setKeepAliveSeconds(10000);
         pool.initialize();

@@ -1,24 +1,22 @@
 package com.changhong.yupan.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.changhong.common.utils.CHStringUtils;
 import com.changhong.common.web.application.ApplicationEventPublisher;
 import com.changhong.update.domain.ProductUpdate;
 import com.changhong.yupan.domain.DeviceUpdateResponse;
-import com.changhong.yupan.domain.UpdateStatistic;
 import com.changhong.yupan.repository.UpdateDao;
 import com.changhong.yupan.web.event.ClientInfoUpdateEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User: Jack Wang
@@ -36,12 +34,6 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
     @Value("${application.web.url}")
     private String webAddress;
 
-    @Value("${project.url.cache.enable}")
-    private boolean urlCacheEnable;
-
-    @Value("${project.save.update.history}")
-    private boolean saveUpdateHistory;
-
     @Value("${project.update.client.gujian}")
     private boolean updateClientGuJian;
 
@@ -53,11 +45,11 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
 
         DeviceUpdateResponse response = null;
         try {
-            JSONObject o = new JSONObject(json);
+            JSONObject o = JSON.parseObject(json);
             JSONObject client = (JSONObject) o.get("client");
-            String datatype = client.optString("datatype");
-            String model = client.optString("model");
-            String username = client.optString("username");
+            String datatype = client.getString("datatype");
+            String model = client.getString("model");
+            String username = client.getString("username");
 
             if ("1".equals(datatype) || "2".equals(datatype)) {
                 response = generateGuJianChaFenUpdate(client, username, datatype, model);
@@ -80,9 +72,9 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                     String guJianVersion = null;
                     String guJianVersionAfter = response.getUpdateVersion();
                     if ("1".equals(datatype) || "3".equals(datatype)) {
-                        guJianVersion = client.optString("firmwareversion");
+                        guJianVersion = client.getString("firmwareversion");
                     } else if ("2".equals(datatype)) {
-                        guJianVersion = client.optString("firmware_diffversion");
+                        guJianVersion = client.getString("firmware_diffversion");
                     }
                     if (StringUtils.hasText(username) && StringUtils.hasText(model) && StringUtils.hasText(guJianVersion) && StringUtils.hasText(guJianVersionAfter)) {
                         ApplicationEventPublisher.publish(new ClientInfoUpdateEvent(username, model, guJianVersion, guJianVersionAfter));
@@ -92,11 +84,6 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                 long endHandle = System.currentTimeMillis();
                 long during = endHandle - beginHandle;
                 logger.info("device " + username + " update succesful with way " + datatype + " and take " + during + "ms");
-                //插入系统统计时间信息
-                if (saveUpdateHistory) {
-                    UpdateStatistic statistic = new UpdateStatistic(datatype, "", during);
-                    updateDao.persist(statistic);
-                }
             }
 
         } catch (JSONException e) {
@@ -120,23 +107,26 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
         }
      */
     private DeviceUpdateResponse generateGuJianChaFenUpdate(JSONObject client, String username, String datatype, String model) {
-        String androidsdk = client.optString("androidsdk");
+        String androidsdk = client.getString("androidsdk");
         if (!StringUtils.hasText(datatype) || !StringUtils.hasText(model) || !StringUtils.hasText(androidsdk)) {
             return null;
         }
 
         List<ProductUpdate> updates = updateDao.findProductUpdate(model, datatype, androidsdk);
+        if (updates == null || updates.isEmpty()) {
+            return null;
+        }
 
-        String macadress = client.optString("macadress");
-        String signtype = client.optString("signtype");
-        String testmode = client.optString("testmode");
+        String macadress = client.getString("macadress");
+        String signtype = client.getString("signtype");
+        String testmode = client.getString("testmode");
         String firmwareversion = "";
         if ("1".equals(datatype)) {
-            firmwareversion = client.optString("firmwareversion");
+            firmwareversion = client.getString("firmwareversion");
         } else {
-            firmwareversion = client.optString("firmware_diffversion");
+            firmwareversion = client.getString("firmware_diffversion");
         }
-        String hardwareversion = client.optString("hardwareversion");
+        String hardwareversion = client.getString("hardwareversion");
 
 
         for (ProductUpdate update : updates) {
@@ -210,7 +200,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             }
 
             if (passed) {
-                return new DeviceUpdateResponse(update, webAddress, urlCacheEnable);
+                return new DeviceUpdateResponse(update, webAddress);
             }
         }
 
@@ -235,23 +225,23 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
         }
      */
     private DeviceUpdateResponse generateDvbUpdate(JSONObject client, String username, String datatype, String model) {
-        String dtvversion = client.optString("dtvversion");
+        String dtvversion = client.getString("dtvversion");
         if (!StringUtils.hasText(datatype) || !StringUtils.hasText(model) || !StringUtils.hasText(dtvversion)) {
             return null;
         }
 
         List<ProductUpdate> updates = updateDao.findProductUpdate(model, datatype, dtvversion);
 
-        String androidsdk = client.optString("androidsdk");
-        String macadress = client.optString("macadress");
-        String signtype = client.optString("signtype");
-        String testmode = client.optString("testmode");
-        String firmwareversion = client.optString("firmwareversion");
-        String hardwareversion = client.optString("hardwareversion");
-        String operatorcode = client.optString("operatorcode");
-        String catype = client.optString("catype");
-        String caversion = client.optString("caversion");
-        String refercoreversion = client.optString("refercoreversion");
+        String androidsdk = client.getString("androidsdk");
+        String macadress = client.getString("macadress");
+        String signtype = client.getString("signtype");
+        String testmode = client.getString("testmode");
+        String firmwareversion = client.getString("firmwareversion");
+        String hardwareversion = client.getString("hardwareversion");
+        String operatorcode = client.getString("operatorcode");
+        String catype = client.getString("catype");
+        String caversion = client.getString("caversion");
+        String refercoreversion = client.getString("refercoreversion");
 
         for (ProductUpdate update : updates) {
             boolean passed = true;
@@ -344,7 +334,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             }
 
             if (passed) {
-                return new DeviceUpdateResponse(update, webAddress, urlCacheEnable);
+                return new DeviceUpdateResponse(update, webAddress);
             }
         }
 
@@ -364,17 +354,17 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
         }
      */
     private DeviceUpdateResponse generateAppUpdate(JSONObject client, String datatype, String model) {
-        String packagename = client.optString("packagename");
-        String appversioncode = client.optString("appversioncode");
+        String packagename = client.getString("packagename");
+        String appversioncode = client.getString("appversioncode");
         if (!StringUtils.hasText(datatype) || !StringUtils.hasText(packagename) || !StringUtils.hasText(appversioncode)) {
             return null;
         }
 
         List<ProductUpdate> updates = updateDao.findProductUpdate(packagename, datatype, appversioncode);
 
-        String sdkadapt = client.optString("sdkadapt");
-        String signtype = client.optString("signtype");
-        String testmode = client.optString("testmode");
+        String sdkadapt = client.getString("sdkadapt");
+        String signtype = client.getString("signtype");
+        String testmode = client.getString("testmode");
 
         for (ProductUpdate update : updates) {
             boolean passed = true;
@@ -402,7 +392,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             }
 
             if (passed) {
-                return new DeviceUpdateResponse(update, webAddress, urlCacheEnable);
+                return new DeviceUpdateResponse(update, webAddress);
             }
         }
 
@@ -422,16 +412,16 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
     }
      */
     private DeviceUpdateResponse generateBinUpdate(JSONObject client, String datatype, String model) {
-        String dataname = client.optString("dataname");
-        String dataversioncode = client.optString("dataversioncode");
+        String dataname = client.getString("dataname");
+        String dataversioncode = client.getString("dataversioncode");
         if (!StringUtils.hasText(datatype) || !StringUtils.hasText(model) || !StringUtils.hasText(dataname) || !StringUtils.hasText(dataversioncode)) {
             return null;
         }
 
         List<ProductUpdate> updates = updateDao.findProductUpdate(model, datatype, dataname + "|" + dataversioncode);
 
-        String signtype = client.optString("signtype");
-        String testmode = client.optString("testmode");
+        String signtype = client.getString("signtype");
+        String testmode = client.getString("testmode");
 
         for (ProductUpdate update : updates) {
             boolean passed = true;
@@ -446,7 +436,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             }
 
             if (passed) {
-                return new DeviceUpdateResponse(update, webAddress, urlCacheEnable);
+                return new DeviceUpdateResponse(update, webAddress);
             }
         }
 
