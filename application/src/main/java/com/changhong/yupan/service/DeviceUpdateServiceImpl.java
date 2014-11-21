@@ -40,7 +40,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
 
     /***********************************************升级相关***********************************************************/
 
-    public DeviceUpdateResponse obtainUpdateData(String json) {
+    public String obtainUpdateData(String json) {
         long beginHandle = System.currentTimeMillis();
 
         DeviceUpdateResponse response = null;
@@ -90,7 +90,10 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             logger.error("parse json error", e);
         }
 
-        return response;
+        if (response != null) {
+            return response.getDeviceURL();
+        }
+        return null;
     }
 
     /**

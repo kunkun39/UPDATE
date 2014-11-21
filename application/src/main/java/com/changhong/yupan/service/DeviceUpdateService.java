@@ -1,6 +1,5 @@
 package com.changhong.yupan.service;
 
-import com.changhong.yupan.domain.DeviceUpdateResponse;
 
 /**
  * User: Jack Wang
@@ -9,5 +8,5 @@ import com.changhong.yupan.domain.DeviceUpdateResponse;
  */
 public interface DeviceUpdateService {
 
-    DeviceUpdateResponse obtainUpdateData(String json);
+    String obtainUpdateData(String json);
 }
