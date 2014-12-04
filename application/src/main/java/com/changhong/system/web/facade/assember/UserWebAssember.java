@@ -73,7 +73,7 @@ public class UserWebAssember {
     public static UserPasswordDTO toPasswordDTO(User user) {
         final int userId = user.getId();
         final String name = user.getName();
-        final String userName = user.getName();
+        final String userName = user.getUsername();
         return new UserPasswordDTO(userId, name, userName);
     }
 }
