@@ -220,6 +220,9 @@ public class ProductServiceImpl implements ProductService {
         }
         productDao.delete(update);
 
+        //清楚缓存
+        updateDao.cleanCache();
+
          //记录删除产品日志
         User user = SecurityUtils.currentUser();
         ApplicationEventPublisher.publish(new ProductUpdateActionEvent(SystemActionLog.ActionType.DELETE,

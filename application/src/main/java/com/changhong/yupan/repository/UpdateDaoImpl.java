@@ -36,20 +36,20 @@ public class UpdateDaoImpl extends HibernateEntityObjectDao implements UpdateDao
 
         getHibernateTemplate().setCacheQueries(true);
         if ("1".equals(updateWay) || "2".equals(updateWay)) {
-            String hql = "from ProductUpdate u where u.updateWay = ? and u.product.model = ? and (u.softwareVersion = ? or u.updateType = '2')";
+            String hql = "from ProductUpdate u where u.updateWay = ? and u.product.model = ? and (u.softwareVersion = ? or u.updateType = '2') order by u.id desc";
             updates =  getHibernateTemplate().find(hql, new Object[]{updateWay, model, version});
 
         } else if ("3".equals(updateWay)) {
-            String hql = "from ProductUpdate u where u.updateWay = ? and u.product.model = ? and (u.dvbVersion = ? or u.updateType = '2')";
+            String hql = "from ProductUpdate u where u.updateWay = ? and u.product.model = ? and (u.dvbVersion = ? or u.updateType = '2') order by u.id desc";
             updates =  getHibernateTemplate().find(hql, new Object[]{updateWay, model, version});
 
         } else if ("4".equals(updateWay)) {
-            String hql = "from ProductUpdate u where u.updateWay = ? and u.appPackage = ? and u.appVersion = ? ";
+            String hql = "from ProductUpdate u where u.updateWay = ? and u.appPackage = ? and u.appVersion = ? order by u.id desc";
             updates =  getHibernateTemplate().find(hql, new Object[]{updateWay, model, version});
 
         } else if ("5".equals(updateWay)) {
             String[] parameters = StringUtils.delimitedListToStringArray(version, "|");
-            String hql = "from ProductUpdate u where u.updateWay = ? and u.product.model = ? and u.programName = ? and u.programVersion = ?";
+            String hql = "from ProductUpdate u where u.updateWay = ? and u.product.model = ? and u.programName = ? and u.programVersion = ? order by u.id desc";
             updates =  getHibernateTemplate().find(hql, new Object[]{updateWay, model, parameters[0], parameters[1]});
 
         }
