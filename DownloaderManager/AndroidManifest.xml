@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ottserver.update"
+    android:versionCode="1"
+    android:versionName="1.2" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.MASTER_CLEAR" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/DialogPopupReserBack" >
+        <activity
+            android:name="com.ottserver.update.LoaderActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <service android:name="com.ottserver.update.LoaderService"
+                 android:enabled="true" android:exported="true" >
+        </service> 
+        <receiver android:name="com.ottserver.update.BootBroadcastReceiver">  
+         <intent-filter>  
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <action android:name="com.action.private_BOOT_COMPLETED" />
+         </intent-filter>  
+        </receiver>
+    </application>
+
+</manifest>
