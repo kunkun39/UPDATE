@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DownloaderManager</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="systemversion">Software:  </string>
+    <string name="systemupdatingprompt">System upgrading, please do not quit!!!</string>
+    <string name="chosemode">select update mode</string>
+    <string name="prompt">Prompt</string>
+    <string name="test">test</string>
+    <string name="formal">formal</string>
+    <string name="downloadprogress">progress： </string>
+    <string name="downloadspeed">speed：  </string>
+    <string name="downloadsuccess">Download completed!</string>
+    <string name="downloadsuccessed">Download Success</string>
+    <string name="downloadfailed">Download the update failed!!!</string>
+    <string name="systemupdating">System upgradting!</string>
+    <string name="systemnoupdating">System no updates!</string>
+    <string name="updatechecking">update</string>
+
+</resources>

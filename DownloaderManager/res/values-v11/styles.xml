@@ -1,0 +1,18 @@
+<resources>
+
+    <!--
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!-- API 11 theme customizations can go here. -->
+    </style>
+    
+    <style name="DialogPopupReserBack" 
+		parent="@android:style/Theme.Translucent.NoTitleBar" > 
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowFrame">@null</item> <!--边框-->
+		<item name="android:backgroundDimEnabled">true</item> <!--蒙版- 模糊 -->	
+    </style>
+
+</resources>
