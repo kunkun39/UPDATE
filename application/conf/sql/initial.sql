@@ -1,5 +1,5 @@
-INSERT INTO `system_user` VALUES (1, '2014-04-01 00:00:00', '系统管理员', '', 'chupdate_admin', 'wlgs8888', 1);
-INSERT INTO `product_category` VALUES (1, '2014-04-01 00:00:00', '所有目录', NULL);
+INSERT INTO `system_user` VALUES (1, '2014-04-01 00:00:00', 'admin', '', 'chupdate_admin', 'wlgs8888', 1);
+INSERT INTO `product_category` VALUES (1, '2014-04-01 00:00:00', 'all', NULL);
 
 insert into system_client_info values (1, '2014-05-22 00:00:00', '65:88:ff:73:69:47');
 insert into system_client_info values (2, '2014-05-22 00:00:00', '65:88:ff:73:69:48');
