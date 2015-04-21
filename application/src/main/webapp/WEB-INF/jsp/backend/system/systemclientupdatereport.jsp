@@ -35,19 +35,40 @@
                         &nbsp;
                     </span>
                     <span>
+                        升级类型:
+                        <select id="updateWay" style="width: 100px;">
+                            <option value="1" <c:if test="${updateWay=='1'}">selected="true"</c:if>>固件升级</option>
+                            <option value="2" <c:if test="${updateWay=='2'}">selected="true"</c:if>>差分升级</option>
+                            <option value="3" <c:if test="${updateWay=='3'}">selected="true"</c:if>>数字电视应用升级</option>
+                            <option value="4" <c:if test="${updateWay=='4'}">selected="true"</c:if>>应用升级</option>
+                            <option value="5" <c:if test="${updateWay=='5'}">selected="true"</c:if>>二进制数据包升级</option>
+                        </select>
+                        &nbsp;
+                    </span>
+                    <span>
+                        升级成功/失败:
+                        <select id="updateSuccess" style="width: 100px;">
+                            <option value="1" <c:if test="${updateSuccess=='1'}">selected="true"</c:if>>成功升级</option>
+                            <option value="0" <c:if test="${updateSuccess=='0'}">selected="true"</c:if>>失败升级</option>
+                        </select>
+                        &nbsp;
+                    </span>
+                    <span>
                         时间:
-                        <select id="reportYear" style="width: 100px;">
+                        <select id="reportYear" style="width: 80px;">
                             <option value="2013" <c:if test="${reportYear==2013}">selected="true"</c:if>>2013</option>
                             <option value="2014" <c:if test="${reportYear==2014}">selected="true"</c:if>>2014</option>
                             <option value="2015" <c:if test="${reportYear==2015}">selected="true"</c:if>>2015</option>
                             <option value="2016" <c:if test="${reportYear==2016}">selected="true"</c:if>>2016</option>
                             <option value="2017" <c:if test="${reportYear==2017}">selected="true"</c:if>>2017</option>
                             <option value="2018" <c:if test="${reportYear==2018}">selected="true"</c:if>>2018</option>
+                            <option value="2019" <c:if test="${reportYear==2019}">selected="true"</c:if>>2019</option>
+                            <option value="2020" <c:if test="${reportYear==2020}">selected="true"</c:if>>2020</option>
                         </select>
                         &nbsp;年
                     </span>
                     <span>
-                        <select id="reportMonth" style="width: 100px;">
+                        <select id="reportMonth" style="width: 80px;">
                             <option value="1" <c:if test="${reportMonth==1}">selected="true"</c:if>>1</option>
                             <option value="2" <c:if test="${reportMonth==2}">selected="true"</c:if>>2</option>
                             <option value="3" <c:if test="${reportMonth==3}">selected="true"</c:if>>3</option>
@@ -63,7 +84,15 @@
                         </select>
                         &nbsp;月
                     </span>
-                    <input type="button" value="查询" onclick="generateReport(); "/>
+                    <span>
+                        报表类型:
+                        <select id="reportType" style="width: 80px;">
+                            <option value="0" <c:if test="${reportType=='0'}">selected="true"</c:if>>曲线图</option>
+                            <option value="1" <c:if test="${reportType=='1'}">selected="true"</c:if>>饼状图</option>
+                        </select>
+                        &nbsp;
+                    </span>
+                    <input type="button" value="统计" onclick="generateReport(); "/>
                 </div>
             </form>
 

@@ -26,10 +26,12 @@ public class ClientUpdateHistory extends EntityBase {
 
     private int hour;
 
+    private String success;
+
     public ClientUpdateHistory() {
     }
 
-    public ClientUpdateHistory(String username, String productModel, String guJianVersion, String gujianVersionAfter) {
+    public ClientUpdateHistory(String username, String productModel, String guJianVersion, String gujianVersionAfter, String success) {
         this.username = username;
         this.productModel = productModel;
         this.guJianVersion = guJianVersion;
@@ -39,6 +41,7 @@ public class ClientUpdateHistory extends EntityBase {
         this.month = time.getMonthOfYear();
         this.day = time.getDayOfMonth();
         this.hour = time.getHourOfDay();
+        this.success = success;
 
     }
 
@@ -106,5 +109,13 @@ public class ClientUpdateHistory extends EntityBase {
 
     public void setHour(int hour) {
         this.hour = hour;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
     }
 }

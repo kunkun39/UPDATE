@@ -16,8 +16,8 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientDao clientDao;
 
-    public void updateClientInfo(String username, String productModel, String guJianVersion, String guJianVersionAfter) {
-        clientDao.updateClientInfoByUsername(username, productModel, guJianVersion, guJianVersionAfter);
+    public void updateClientInfo(String username, String productModel, String guJianVersion, String guJianVersionAfter, String success) {
+        clientDao.updateClientInfoByUsername(username, productModel, guJianVersion, guJianVersionAfter, success);
     }
 
     public void updateLeftClientInfo() {

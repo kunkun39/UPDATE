@@ -2,6 +2,6 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <div class="type">
     <div class="report">
-        <a href="${pageContext.request.contextPath}/backend/systemclientupdatereport.html">固件升级统计</a>
+        <a href="${pageContext.request.contextPath}/backend/systemclientupdatereport.html">升级统计</a>
     </div>
 </div>

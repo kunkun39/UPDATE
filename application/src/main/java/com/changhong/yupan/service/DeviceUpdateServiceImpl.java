@@ -34,10 +34,6 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
     @Value("${application.web.url}")
     private String webAddress;
 
-    @Value("${project.update.client.gujian}")
-    private boolean updateClientGuJian;
-
-
     /***********************************************升级相关***********************************************************/
 
     public String obtainUpdateData(String json) {
@@ -67,20 +63,6 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             /******************************************统计部分黄金分割线************************************************/
 
             if (response != null) {
-                //插入用户升级历史记录
-                if (updateClientGuJian) {
-                    String guJianVersion = null;
-                    String guJianVersionAfter = response.getUpdateVersion();
-                    if ("1".equals(datatype) || "3".equals(datatype)) {
-                        guJianVersion = client.getString("firmwareversion");
-                    } else if ("2".equals(datatype)) {
-                        guJianVersion = client.getString("firmware_diffversion");
-                    }
-                    if (StringUtils.hasText(username) && StringUtils.hasText(model) && StringUtils.hasText(guJianVersion) && StringUtils.hasText(guJianVersionAfter)) {
-                        ApplicationEventPublisher.publish(new ClientInfoUpdateEvent(username, model, guJianVersion, guJianVersionAfter));
-                    }
-                }
-
                 long endHandle = System.currentTimeMillis();
                 long during = endHandle - beginHandle;
                 logger.info("device " + username + " update succesful with way " + datatype + " and take " + during + "ms");
@@ -473,5 +455,23 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             }
         }
         return passed;
+    }
+
+    /***************************************************升级信息统计部分************************************************/
+
+    public void obtainUpdateReport(String json) {
+        try {
+            JSONObject object = (JSONObject) JSONObject.parse(json);
+            String username = object.getString("username");
+            String model = object.getString("model");
+            String versionBefore = object.getString("versionBefore");
+            String versionAfter = object.getString("versionAfter");
+            String success = object.getString("success");
+            if (StringUtils.hasText(username) && StringUtils.hasText(model) && StringUtils.hasText(versionBefore) && StringUtils.hasText(versionAfter)) {
+                ApplicationEventPublisher.publish(new ClientInfoUpdateEvent(username, model, versionBefore, versionAfter, success));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

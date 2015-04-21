@@ -403,6 +403,8 @@
                         <td>
                             <spring-form:input path="updateURL" maxlength="600" cssStyle="width:600px;"/>&nbsp;
                             <spring-form:errors path="updateURL" cssClass="required"/>
+                            <br/>
+                            说明：升级文件为update_固件版本.zip, 如 http://www.baidu.com/update_1.001.zip
                         </td>
                     </tr>
 

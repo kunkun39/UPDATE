@@ -17,12 +17,15 @@ public class ClientInfoUpdateEvent extends ApplicationEvent {
 
     private String clientGujianVersionAfter;
 
-    public ClientInfoUpdateEvent(String clientUsername, String clientProductModel, String clientGujianVersion, String clientGujianVersionAfter) {
+    private String success;
+
+    public ClientInfoUpdateEvent(String clientUsername, String clientProductModel, String clientGujianVersion, String clientGujianVersionAfter, String success) {
         super("client_info_update");
         this.clientUsername = clientUsername;
         this.clientProductModel = clientProductModel;
         this.clientGujianVersion = clientGujianVersion;
         this.clientGujianVersionAfter = clientGujianVersionAfter;
+        this.success = success;
     }
 
     public String getClientUsername() {
@@ -39,5 +42,13 @@ public class ClientInfoUpdateEvent extends ApplicationEvent {
 
     public String getClientGujianVersionAfter() {
         return clientGujianVersionAfter;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
     }
 }

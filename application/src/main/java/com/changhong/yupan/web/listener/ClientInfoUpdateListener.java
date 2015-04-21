@@ -29,37 +29,9 @@ public class ClientInfoUpdateListener implements ApplicationListener {
             String productModel = clientUpdate.getClientProductModel();
             String gujianVersion = clientUpdate.getClientGujianVersion();
             String gujianVersionAfter = clientUpdate.getClientGujianVersionAfter();
+            String success = clientUpdate.getSuccess();
 
-            ClientInfoUpdateThread thread = new ClientInfoUpdateThread(username, productModel, gujianVersion, gujianVersionAfter);
-            ApplicationThreadPool.executeThread(thread);
-        }
-    }
-
-    public class ClientInfoUpdateThread extends Thread {
-
-        private String username;
-
-        private String productModel;
-
-        private String gujianVersion;
-
-        private String gujianVersionAfter;
-
-        public ClientInfoUpdateThread(String username, String productModel, String gujianVersion, String gujianVersionAfter) {
-            this.username = username;
-            this.productModel = productModel;
-            this.gujianVersion = gujianVersion;
-            this.gujianVersionAfter = gujianVersionAfter;
-        }
-
-        @Override
-        public void run() {
-            try {
-                clientService.updateClientInfo(username, productModel, gujianVersion, gujianVersionAfter);
-            } catch (Exception e) {
-                logger.error("save history error", e);
-            }
-
+            clientService.updateClientInfo(username, productModel, gujianVersion, gujianVersionAfter, success);
         }
     }
 }

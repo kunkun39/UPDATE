@@ -38,6 +38,8 @@
                 <prop key="/backend/userchangeenable.html">userChangeEnableController</prop>
                 <prop key="/backend/userchangepassword.html">userChangePasswordController</prop>
                 <prop key="/backend/systemactionlogoverview.html">systemActionLogManagementController</prop>
+
+                <!--statistic part-->
                 <prop key="/backend/systemclientupdatereport.html">systemClientUpdateReportController</prop>
 
                 <!--product part-->
@@ -57,6 +59,7 @@
 
                 <!--device update part-->
                 <prop key="/main.html">deviceUpdateSourceProvideController</prop>
+                <prop key="/report.html">deviceUpdateReportController</prop>
 
                 <!--other part-->
                 <prop key="/backend/urlpaser.html">yuPanUrlParserController</prop>
@@ -150,6 +153,10 @@
 
     <!--device update part-->
     <bean id="deviceUpdateSourceProvideController" class="com.changhong.yupan.web.controller.DeviceUpdateSourceProvideController">
+        <property name="deviceUpdateService" ref="deviceUpdateService"/>
+    </bean>
+
+    <bean id="deviceUpdateReportController" class="com.changhong.yupan.web.controller.DeviceUpdateReportController">
         <property name="deviceUpdateService" ref="deviceUpdateService"/>
     </bean>
 

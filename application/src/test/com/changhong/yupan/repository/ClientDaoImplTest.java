@@ -132,7 +132,7 @@ public class ClientDaoImplTest extends TestCase {
         for (int i = 0; i < 100000; i++) {
             String username = CHStringUtils.getRandomString(17);
             String guJianVersion = getRandomNumber(2) + "";
-            ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, "fake", guJianVersion, "1.1");
+            ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, "fake", guJianVersion, "1.1", "1");
             session.save(clientUpdateHistory);
 
             if (i % 50 == 0) {

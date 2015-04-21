@@ -103,7 +103,7 @@ public class ProductUpdateHistoryDTO {
     //用于列表显示
     public ProductUpdateHistoryDTO(int id, int productId, Date uploadTime, String updateWay, String updateVersion,
                                    String updateCategoryName, String jsonPath, String dataPath,
-                                   int fileId) {
+                                   int fileId, String fromFilter, String toFitler) {
         this.id = id;
         this.productId = productId;
         this.uploadTime = uploadTime;
@@ -113,6 +113,8 @@ public class ProductUpdateHistoryDTO {
         this.jsonPath = jsonPath;
         this.dataPath = dataPath;
         this.updateUploadFileId = fileId;
+        this.fromFilter = fromFilter;
+        this.toFilter = toFitler;
     }
 
     public ProductUpdateHistoryDTO(int id, String updateWay,  String updateWayName,

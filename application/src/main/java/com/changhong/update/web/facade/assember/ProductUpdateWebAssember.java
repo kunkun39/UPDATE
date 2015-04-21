@@ -214,6 +214,8 @@ public class ProductUpdateWebAssember {
         final String updateWayName = update.getUpdateWayName();
         final String productModel = product.getModel();
         final String updateVersion = update.getUpdateVersionName();
+        final String fromFilter = update.getFromFilter();
+        final String toFilter = update.getToFilter();
 
         UpdateFile file = update.getUpdateFile();
         final int uploadFileId = file != null ? file.getId() : -1;
@@ -258,7 +260,7 @@ public class ProductUpdateWebAssember {
             }
         }
 
-        return new ProductUpdateHistoryDTO(id, productId, uploadTime, updateWayName, updateVersion, updateCategoryName, jsonPath, dataPath, uploadFileId);
+        return new ProductUpdateHistoryDTO(id, productId, uploadTime, updateWayName, updateVersion, updateCategoryName, jsonPath, dataPath, uploadFileId, fromFilter, toFilter);
     }
 
     public static List<ProductUpdateHistoryDTO> toProductUpdateHistoryDTOList(List<ProductUpdate> updates) {
