@@ -17,11 +17,11 @@ public class StatisticServiceImpl implements StatisticService {
     @Autowired
     private StatisticDao statisticDao;
 
-    public JSONArray obtainDailyClientUpdateAmountByMonth(String productModel, int year, int month) throws JSONException {
-        return statisticDao.loadDailyClientUpdateAmountByMonth(productModel, year, month);
+    public JSONArray obtainDailyClientUpdateAmountByMonth(String productModel, String updateSuccess, int year, int month) throws JSONException {
+        return statisticDao.loadDailyClientUpdateAmountByMonth(productModel, updateSuccess, year, month);
     }
 
-    public JSONArray obtainDailyClientUpdateAmountByVersion(String productModel, int year, int month) throws JSONException {
-        return statisticDao.loadDailyClientUpdateAmountByVersion(productModel, year, month);
+    public JSONArray obtainDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException {
+        return statisticDao.loadDailyClientUpdateAmountByResult(productModel, year, month);
     }
 }

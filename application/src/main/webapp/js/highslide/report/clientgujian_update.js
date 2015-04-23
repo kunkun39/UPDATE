@@ -52,10 +52,10 @@ var sta_container2 = {
         plotShadow: false
     },
     title: {
-        text: '用户固件更新统计'
+        text: '用户更新统计'
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        pointFormat: '<b>{series.name}: {point.percentage:.1f}%</b>'
     },
     plotOptions: {
         pie: {
@@ -65,7 +65,7 @@ var sta_container2 = {
                 enabled: true,
                 color: '#ffffff',
                 connectorColor: '#bbbbbb',
-                format: '<b style="font-size: small;">{point.name}: {point.percentage:.1f} %</b>'
+                format: '{point.name}<br/>占总升级次数比{point.percentage:.1f} %'
             }
         }
     },
@@ -73,7 +73,7 @@ var sta_container2 = {
         enabled: true
     },
     credits:{
-        text:'固件版本比例统计'
+        text:'用户升级成功/失败比例统计'
     },
     series: [{
         type: 'pie',

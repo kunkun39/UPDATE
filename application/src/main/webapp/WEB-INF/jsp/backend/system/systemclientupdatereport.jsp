@@ -34,17 +34,17 @@
                         </select>
                         &nbsp;
                     </span>
-                    <span>
-                        升级类型:
-                        <select id="updateWay" style="width: 100px;">
-                            <option value="1" <c:if test="${updateWay=='1'}">selected="true"</c:if>>固件升级</option>
-                            <option value="2" <c:if test="${updateWay=='2'}">selected="true"</c:if>>差分升级</option>
-                            <option value="3" <c:if test="${updateWay=='3'}">selected="true"</c:if>>数字电视应用升级</option>
-                            <option value="4" <c:if test="${updateWay=='4'}">selected="true"</c:if>>应用升级</option>
-                            <option value="5" <c:if test="${updateWay=='5'}">selected="true"</c:if>>二进制数据包升级</option>
-                        </select>
-                        &nbsp;
-                    </span>
+                    <%--<span>--%>
+                        <%--升级类型:--%>
+                        <%--<select id="updateWay" style="width: 100px;">--%>
+                            <%--<option value="1" <c:if test="${updateWay=='1'}">selected="true"</c:if>>固件升级</option>--%>
+                            <%--<option value="2" <c:if test="${updateWay=='2'}">selected="true"</c:if>>差分升级</option>--%>
+                            <%--<option value="3" <c:if test="${updateWay=='3'}">selected="true"</c:if>>数字电视应用升级</option>--%>
+                            <%--<option value="4" <c:if test="${updateWay=='4'}">selected="true"</c:if>>应用升级</option>--%>
+                            <%--<option value="5" <c:if test="${updateWay=='5'}">selected="true"</c:if>>二进制数据包升级</option>--%>
+                        <%--</select>--%>
+                        <%--&nbsp;--%>
+                    <%--</span>--%>
                     <span>
                         升级成功/失败:
                         <select id="updateSuccess" style="width: 100px;">
@@ -84,14 +84,6 @@
                         </select>
                         &nbsp;月
                     </span>
-                    <span>
-                        报表类型:
-                        <select id="reportType" style="width: 80px;">
-                            <option value="0" <c:if test="${reportType=='0'}">selected="true"</c:if>>曲线图</option>
-                            <option value="1" <c:if test="${reportType=='1'}">selected="true"</c:if>>饼状图</option>
-                        </select>
-                        &nbsp;
-                    </span>
                     <input type="button" value="统计" onclick="generateReport(); "/>
                 </div>
             </form>
@@ -107,16 +99,21 @@
                         <div id="container1" style="width: 90%; height: 350px; margin: 0 auto"></div>
                     </td>
                 </tr>
-                <%--<tr>--%>
-                    <%--<td>--%>
-                        <%--&nbsp;--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                    <%--<td>--%>
-                        <%--<div id="container2" style="width: 90%; height: 350px; margin: 0 auto"></div>--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="container2" style="width: 90%; height: 350px; margin: 0 auto"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
             </table>
         </td>
     </tr>
@@ -124,12 +121,12 @@
 
 <script type="text/javascript">
 
-    function renew_sta_container(productModel, year, month) {
+    function renew_sta_container(productModel, updateSuccess, year, month) {
         if(productModel == '') {
             return;
         }
 
-        SystemDWRHandler.obtainDailyClientUpdateAmountByMonth(productModel, year, month, function(result) {
+        SystemDWRHandler.obtainDailyClientUpdateAmountByMonth(productModel, updateSuccess, year, month, function(result) {
             var statisticData = JSON.parse(result);
             var total = statisticData[0].total.split(",");
 
@@ -152,40 +149,47 @@
             }
             sta_container1.series[0].data = newData;
 
-            sta_container1.title.text = "产品(" + productModel + ")" + year + "年" + month + "月用户固件更新统计, 升级总次数" + totalUpdateTimes;
+            var successfulString = "";
+            if("1" == updateSuccess) {
+                var successfulString = "成功";
+            } else {
+                var successfulString = "失败";
+            }
+            sta_container1.title.text = "产品(" + productModel + ")" + year + "年" + month + "月用户" + successfulString + "升级总次数" + totalUpdateTimes + "次";
+
             new Highcharts.Chart(sta_container1);
         });
 
-//        SystemDWRHandler.obtainDailyClientUpdateAmountByVersion(productModel, year, month, function(result) {
-//            var statisticData = JSON.parse(result);
-//            sta_container2.title.text = year + "年" + month + "月用户固件升级比例";
-//
-//            var newData = new Array();
-//            for(var i=0; i<statisticData.length; i++) {
-//                var inner = new Array();
-//                inner[0] = statisticData[i].version;
-//                inner[1] = statisticData[i].total;
-//                newData[i] = inner;
-//            }
-//
-//            sta_container2.series[0].data = newData;
-//            new Highcharts.Chart(sta_container2);
-//        });
+        SystemDWRHandler.obtainDailyClientUpdateAmountByResult(productModel, year, month, function(result) {
+            var statisticData = JSON.parse(result);
+            sta_container2.title.text = year + "年" + month + "月用户升级成功与否比例";
+
+            var newData = new Array();
+            for(var i=0; i<statisticData.length; i++) {
+                var inner = new Array();
+                inner[0] = "";
+                if(statisticData[i].success == "1") {
+                    inner[0] = "成功升级次数" + statisticData[i].total + "次";
+                } else {
+                    inner[0] = "失败升级次数" + statisticData[i].total + "次";
+                }
+                inner[1] = statisticData[i].total;
+                newData[i] = inner;
+            }
+
+            sta_container2.series[0].data = newData;
+            new Highcharts.Chart(sta_container2);
+        });
     }
 
     function generateReport() {
         var productModel = $("#reportProduct").val();
+        var updateSuccess = $("#updateSuccess").val();
         var year = $("#reportYear").val();
         var month = $("#reportMonth").val();
-        renew_sta_container(productModel, year, month);
+        var reportType = $("#reportType").val();
+        renew_sta_container(productModel, updateSuccess, year, month, reportType);
     }
-
-    jQuery(function() {
-        var today = new Date();
-        var year = today.getYear() + 1900;
-        var month = today.getMonth() + 1;
-        renew_sta_container('', year, month);
-    });
 
 </script>
 

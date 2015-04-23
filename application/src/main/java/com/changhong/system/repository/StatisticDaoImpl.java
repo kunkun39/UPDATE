@@ -23,12 +23,13 @@ import java.util.Map;
 @Repository("statisticDao")
 public class StatisticDaoImpl extends HibernateEntityObjectDao implements StatisticDao {
 
-    public JSONArray loadDailyClientUpdateAmountByMonth(String productModel, int year, int month) throws JSONException {
+    public JSONArray loadDailyClientUpdateAmountByMonth(String productModel, String updateSuccess, int year, int month) throws JSONException {
         JSONArray array = new JSONArray();
         Map<Integer, Integer> statistic = new HashMap<Integer, Integer>();
 
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-        String sql = "select sta_day, count(id) as total from system_client where product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by sta_day";
+        String sql = "select sta_day, count(id) as total from system_client " +
+                "where successful = '" + updateSuccess  + "' and product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by sta_day";
         SQLQuery query = session.createSQLQuery(sql);
         List list = query.list();
 
@@ -56,22 +57,21 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
         return array;
     }
 
-    public JSONArray loadDailyClientUpdateAmountByVersion(String productModel, int year, int month) throws JSONException {
+    public JSONArray loadDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException {
         JSONArray array = new JSONArray();
 
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-        String sql = "select gujian_version, count(id) as total from system_client where product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by gujian_version";
+        String sql = "select successful, count(id) as total from system_client where product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by successful";
         SQLQuery query = session.createSQLQuery(sql);
         List list = query.list();
 
-
         for (Object o : list) {
             Object[] result = (Object[]) o;
-            String version = (String) result[0];
+            String successful = (String) result[0];
             BigInteger total = (BigInteger) result[1];
 
             JSONObject json = new JSONObject();
-            json.put("version", version);
+            json.put("successful", successful);
             json.put("total", total);
             array.put(json);
         }

@@ -16,11 +16,11 @@ public class SystemDWRHandler {
      @Autowired
     private StatisticService statisticService;
 
-    public String obtainDailyClientUpdateAmountByMonth(String productModel, int year, int month) throws JSONException {
-        return statisticService.obtainDailyClientUpdateAmountByMonth(productModel, year, month).toString();
+    public String obtainDailyClientUpdateAmountByMonth(String productModel, String updateSuccess, int year, int month) throws JSONException {
+        return statisticService.obtainDailyClientUpdateAmountByMonth(productModel, updateSuccess, year, month).toString();
     }
 
-    public String obtainDailyClientUpdateAmountByVersion(String productModel, int year, int month) throws JSONException {
-        return statisticService.obtainDailyClientUpdateAmountByVersion(productModel, year, month).toString();
+    public String obtainDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException {
+        return statisticService.obtainDailyClientUpdateAmountByResult(productModel, year, month).toString();
     }
 }

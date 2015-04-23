@@ -47,14 +47,14 @@ public class StatisticDaoImplTest extends TestCase {
     @Transactional
     @Test
     public void testLoadDailyClientUpdateAmountByMonth() throws Exception {
-        JSONArray array = statisticDao.loadDailyClientUpdateAmountByMonth("ott", 2014, 5);
+        JSONArray array = statisticDao.loadDailyClientUpdateAmountByMonth("ott", "1", 2014, 5);
         System.out.println(array.toString());
     }
 
     @Transactional
     @Test
     public void testLoadDailyClientUpdateAmountByVersion() throws Exception {
-        JSONArray array = statisticDao.loadDailyClientUpdateAmountByVersion("ott", 2014, 5);
+        JSONArray array = statisticDao.loadDailyClientUpdateAmountByResult("ott", 2014, 5);
         System.out.println(array.toString());
     }
 }
