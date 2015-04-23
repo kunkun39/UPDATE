@@ -69,6 +69,7 @@
                     </span>
                     <span>
                         <select id="reportMonth" style="width: 80px;">
+                            <option value="0" <c:if test="${reportMonth==0}">selected="true"</c:if>>全年</option>
                             <option value="1" <c:if test="${reportMonth==1}">selected="true"</c:if>>1</option>
                             <option value="2" <c:if test="${reportMonth==2}">selected="true"</c:if>>2</option>
                             <option value="3" <c:if test="${reportMonth==3}">selected="true"</c:if>>3</option>
@@ -84,6 +85,14 @@
                         </select>
                         &nbsp;月
                     </span>
+                    <span>
+                        报表类型:
+                        <select id="reportType" style="width: 100px;">
+                            <option value="1" <c:if test="${reportType=='1'}">selected="true"</c:if>>曲线图</option>
+                            <option value="0" <c:if test="${reportType=='0'}">selected="true"</c:if>>饼状图</option>
+                        </select>
+                        &nbsp;
+                    </span>
                     <input type="button" value="统计" onclick="generateReport(); "/>
                 </div>
             </form>
@@ -94,9 +103,9 @@
                         &nbsp;
                     </td>
                 </tr>
-                <tr>
+                <tr id="container1_tr" style="width: 90%; height: 350px; margin: 0 auto;">
                     <td>
-                        <div id="container1" style="width: 90%; height: 350px; margin: 0 auto"></div>
+                        <div id="container1" style="width:80%; height: 350px;"></div>
                     </td>
                 </tr>
                 <tr>
@@ -104,9 +113,9 @@
                         &nbsp;
                     </td>
                 </tr>
-                <tr>
+                <tr id="container2_tr" style="width: 90%; height: 350px; margin: 0 auto;">
                     <td>
-                        <div id="container2" style="width: 90%; height: 350px; margin: 0 auto"></div>
+                        <div id="container2" style="width:80%; height: 350px;"></div>
                     </td>
                 </tr>
                 <tr>
@@ -121,65 +130,105 @@
 
 <script type="text/javascript">
 
-    function renew_sta_container(productModel, updateSuccess, year, month) {
+    function renew_sta_container(productModel, updateSuccess, year, month, reportType) {
         if(productModel == '') {
             return;
         }
 
-        SystemDWRHandler.obtainDailyClientUpdateAmountByMonth(productModel, updateSuccess, year, month, function(result) {
-            var statisticData = JSON.parse(result);
-            var total = statisticData[0].total.split(",");
+        if("1" == reportType) {
+            $("#container1_tr").css('display', 'block');
+            $("#container2_tr").css('display', 'none');
 
-            var days = statisticData[0].days;
-            if(parseInt(days) == 28) {
-                sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'];
-            } else if (parseInt(days) == 29) {
-                sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29'];
-            } else if (parseInt(days) == 30) {
-                sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+            if("0" == month) {
+                //全年的报表
+                //一个月的报表
+                SystemDWRHandler.obtainDailyClientUpdateAmountByMonth(productModel, updateSuccess, year, month, function(result) {
+                    var statisticData = JSON.parse(result);
+                    var total = statisticData[0].total.split(",");
+
+                    var days = statisticData[0].days;
+                    sta_container1.xAxis.categories = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+
+                    var newData = new Array();
+                    var totalUpdateTimes = 0;
+                    for(var i=0; i<total.length; i++) {
+                        newData[i] = parseInt(total[i]);
+                        totalUpdateTimes = totalUpdateTimes + parseInt(total[i]);
+                    }
+                    sta_container1.series[0].data = newData;
+
+                    var successfulString = "";
+                    if("1" == updateSuccess) {
+                        var successfulString = "成功";
+                    } else {
+                        var successfulString = "失败";
+                    }
+                    sta_container1.title.text = "产品(" + productModel + ")" + year + "年用户" + successfulString + "升级总次数" + totalUpdateTimes + "次";
+
+                    new Highcharts.Chart(sta_container1);
+                });
             } else {
-                sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+                //一个月的报表
+                SystemDWRHandler.obtainDailyClientUpdateAmountByMonth(productModel, updateSuccess, year, month, function(result) {
+                    var statisticData = JSON.parse(result);
+                    var total = statisticData[0].total.split(",");
+
+                    var days = statisticData[0].days;
+                    if(parseInt(days) == 28) {
+                        sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'];
+                    } else if (parseInt(days) == 29) {
+                        sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29'];
+                    } else if (parseInt(days) == 30) {
+                        sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+                    } else {
+                        sta_container1.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+                    }
+
+                    var newData = new Array();
+                    var totalUpdateTimes = 0;
+                    for(var i=0; i<total.length; i++) {
+                        newData[i] = parseInt(total[i]);
+                        totalUpdateTimes = totalUpdateTimes + parseInt(total[i]);
+                    }
+                    sta_container1.series[0].data = newData;
+
+                    var successfulString = "";
+                    if("1" == updateSuccess) {
+                        var successfulString = "成功";
+                    } else {
+                        var successfulString = "失败";
+                    }
+                    sta_container1.title.text = "产品(" + productModel + ")" + year + "年" + month + "月用户" + successfulString + "升级总次数" + totalUpdateTimes + "次";
+
+                    new Highcharts.Chart(sta_container1);
+                });
             }
 
-            var newData = new Array();
-            var totalUpdateTimes = 0;
-            for(var i=0; i<total.length; i++) {
-                newData[i] = parseInt(total[i]);
-                totalUpdateTimes = totalUpdateTimes + parseInt(total[i]);
-            }
-            sta_container1.series[0].data = newData;
+        } else {
+            $("#container2_tr").css('display', 'block');
+            $("#container1_tr").css('display', 'none');
 
-            var successfulString = "";
-            if("1" == updateSuccess) {
-                var successfulString = "成功";
-            } else {
-                var successfulString = "失败";
-            }
-            sta_container1.title.text = "产品(" + productModel + ")" + year + "年" + month + "月用户" + successfulString + "升级总次数" + totalUpdateTimes + "次";
+            SystemDWRHandler.obtainDailyClientUpdateAmountByResult(productModel, year, month, function(result) {
+                var statisticData = JSON.parse(result);
+                sta_container2.title.text = year + "年" + month + "月用户升级成功与否比例";
 
-            new Highcharts.Chart(sta_container1);
-        });
-
-        SystemDWRHandler.obtainDailyClientUpdateAmountByResult(productModel, year, month, function(result) {
-            var statisticData = JSON.parse(result);
-            sta_container2.title.text = year + "年" + month + "月用户升级成功与否比例";
-
-            var newData = new Array();
-            for(var i=0; i<statisticData.length; i++) {
-                var inner = new Array();
-                inner[0] = "";
-                if(statisticData[i].success == "1") {
-                    inner[0] = "成功升级次数" + statisticData[i].total + "次";
-                } else {
-                    inner[0] = "失败升级次数" + statisticData[i].total + "次";
+                var newData = new Array();
+                for(var i=0; i<statisticData.length; i++) {
+                    var inner = new Array();
+                    inner[0] = "";
+                    if(statisticData[i].success == "1") {
+                        inner[0] = "成功升级次数" + statisticData[i].total + "次";
+                    } else {
+                        inner[0] = "失败升级次数" + statisticData[i].total + "次";
+                    }
+                    inner[1] = statisticData[i].total;
+                    newData[i] = inner;
                 }
-                inner[1] = statisticData[i].total;
-                newData[i] = inner;
-            }
 
-            sta_container2.series[0].data = newData;
-            new Highcharts.Chart(sta_container2);
-        });
+                sta_container2.series[0].data = newData;
+                new Highcharts.Chart(sta_container2);
+            });
+        }
     }
 
     function generateReport() {
