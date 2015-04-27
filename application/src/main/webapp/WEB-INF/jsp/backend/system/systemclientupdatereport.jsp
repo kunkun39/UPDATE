@@ -103,19 +103,14 @@
                         &nbsp;
                     </td>
                 </tr>
-                <tr id="container1_tr" style="width: 90%; height: 350px; margin: 0 auto;">
+                <tr id="container1_tr" style="width: 90%; height: 350px; ">
                     <td>
-                        <div id="container1" style="width:80%; height: 350px;"></div>
+                        <div id="container1" style="width:80%; height: 350px; padding-left: 20px"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr id="container2_tr" style="width: 90%; height: 350px;">
                     <td>
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr id="container2_tr" style="width: 90%; height: 350px; margin: 0 auto;">
-                    <td>
-                        <div id="container2" style="width:80%; height: 350px;"></div>
+                        <div id="container2" style="width:80%; height: 350px; padding-left: 20px"></div>
                     </td>
                 </tr>
                 <tr>
@@ -136,8 +131,8 @@
         }
 
         if("1" == reportType) {
-            $("#container1_tr").css('display', 'block');
-            $("#container2_tr").css('display', 'none');
+            jQuery("#container1_tr").show();
+            jQuery("#container2_tr").hide();
 
             if("0" == month) {
                 //全年的报表
@@ -205,8 +200,8 @@
             }
 
         } else {
-            $("#container2_tr").css('display', 'block');
-            $("#container1_tr").css('display', 'none');
+            jQuery("#container2_tr").show();
+            jQuery("#container1_tr").hide();
 
             SystemDWRHandler.obtainDailyClientUpdateAmountByResult(productModel, year, month, function(result) {
                 var statisticData = JSON.parse(result);
@@ -232,11 +227,11 @@
     }
 
     function generateReport() {
-        var productModel = $("#reportProduct").val();
-        var updateSuccess = $("#updateSuccess").val();
-        var year = $("#reportYear").val();
-        var month = $("#reportMonth").val();
-        var reportType = $("#reportType").val();
+        var productModel = jQuery("#reportProduct").val();
+        var updateSuccess = jQuery("#updateSuccess").val();
+        var year = jQuery("#reportYear").val();
+        var month = jQuery("#reportMonth").val();
+        var reportType = jQuery("#reportType").val();
         renew_sta_container(productModel, updateSuccess, year, month, reportType);
     }
 

@@ -19,7 +19,7 @@
                     <dd><input id="txtUserName" name="j_username" runat="server" type="text" class="login-textbox" /></dd>
                 </dl>
                 <dl>
-                	<dt>密&nbsp;&nbsp;码：</dt>
+                	<dt>密&nbsp;码：</dt>
                     <dd><input id="txtUserPass" name="j_password" runat="server" type="password" class="login-textbox" /></dd>
                 </dl>
                 <dl>
