@@ -14,4 +14,6 @@ public interface StatisticDao extends EntityObjectDao {
     JSONArray loadDailyClientUpdateAmountByMonth(String productModel, String updateSuccess, int year, int month) throws JSONException;
 
     JSONArray loadDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException;
+
+    JSONArray loadVersionClientUpdateAmountByResult(String productModel,String updateSuccess) throws JSONException;
 }

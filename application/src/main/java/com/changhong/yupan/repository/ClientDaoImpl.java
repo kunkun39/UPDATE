@@ -46,7 +46,7 @@ public class ClientDaoImpl extends HibernateEntityObjectDao implements ClientDao
          */
         ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, productModel, guJianVersion, guJianVersionAfter, success);
         histories.add(clientUpdateHistory);
-        if (histories.size() >= 10) {
+        if (histories.size() >= 2) {
             getHibernateTemplate().saveOrUpdateAll(histories);
             histories.clear();
         }

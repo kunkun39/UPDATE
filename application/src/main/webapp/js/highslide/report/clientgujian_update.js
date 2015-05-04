@@ -73,11 +73,100 @@ var sta_container2 = {
         enabled: true
     },
     credits:{
-        text:'用户升级成功/失败比例统计'
+        text:'用户升级成功/失败数量统计'
     },
     series: [{
         type: 'pie',
-        name: '升级比例',
+        name: '升级数量',
+        data: []
+    }]
+};
+
+var sta_container3 = {
+    chart: {
+        type: 'column',
+        renderTo: 'container3'
+    },
+    title: {
+        text: '用户更新统计'
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: []
+    },
+    yAxis: {
+        title: {
+            text: '次数'
+        },
+        min:0
+    },
+    tooltip: {
+        formatter: function() {
+            return '<b>' + this.series.name + this.y + '次';
+        }
+    },
+    legend: {
+        enabled: true
+    },
+    plotOptions: {
+        series: {
+            colorByPoint: true
+        },
+        column: {
+            dataLabels: {
+                enabled: true
+            },
+            pointPadding:0.2,
+            borderWidth:0,
+            enableMouseTracking: true
+        }
+    }, series: [
+        {
+            name: '升级数量',
+            data: []
+        }
+    ],
+    credits:{
+        text:'用户升级成功/失败次数统计'
+    }
+};
+
+var sta_container4 = {
+    chart: {
+        renderTo: 'container4',
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false
+    },
+    title: {
+        text: '用户更新统计'
+    },
+    tooltip: {
+        pointFormat: '<b>{series.name}: {point.percentage:.1f} %</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                color: '#ffffff',
+                connectorColor: '#bbbbbb',
+                format: '{point.name}<br/>占总升级次数比{point.percentage:.1f} %'
+            }
+        }
+    },
+    legend: {
+        enabled: true
+    },
+    credits:{
+        text:'用户升级成功/失败次数统计'
+    },
+    series: [{
+        type: 'pie',
+        name: '升级数量比例',
         data: []
     }]
 };

@@ -24,4 +24,8 @@ public class StatisticServiceImpl implements StatisticService {
     public JSONArray obtainDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException {
         return statisticDao.loadDailyClientUpdateAmountByResult(productModel, year, month);
     }
+
+    public JSONArray obtainVersionClientUpdateAmountByResult(String productModel, String updateSuccess) throws JSONException {
+        return statisticDao.loadVersionClientUpdateAmountByResult(productModel,updateSuccess);
+    }
 }
