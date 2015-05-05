@@ -130,39 +130,26 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
         JSONArray array = new JSONArray();
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 
-        //版本统计
-
-        //查询数据表中versionAfter得到所有的升级版本
-        String sql = "select  DISTINCT gujian_version_after as version from system_client where product_model = '" + productModel + "' group by gujian_version_after";
-        SQLQuery query = session.createSQLQuery(sql);
-
-        StringBuffer buffer = new StringBuffer();
-        JSONObject jsonVersion = new JSONObject();
-
-        List listVersion=query.list();
-        for (Object o : listVersion) {
-            String version= (String)o;
-            buffer.append(version + ",");
-        }
-        jsonVersion.put("version",buffer.toString().substring(0, buffer.toString().length() - 1));
-        array.put(jsonVersion);
-
-       // select  DISTINCT gujian_version_after from system_client where product_model = 'OTS-2000SCA' group by gujian_version_after;
-       // select gujian_version,gujian_version_after, count(gujian_version_after) as total ,successful from system_client where product_model = 'OTS-2000SCA' group by gujian_version_after,successful;
-
         //统计数据表中versionAfter升级的数量
-        String sqlCount = "select count(id) as total from system_client where successful = '" + updateSuccess  + "' and product_model = '" + productModel + "' group by gujian_version_after";
+        String sqlCount = "select DISTINCT(gujian_version_after),count(id) as total from system_client where successful = '" + updateSuccess  + "' and product_model = '" + productModel + "' group by gujian_version_after";
         SQLQuery queryCount = session.createSQLQuery(sqlCount);
 
+        StringBuffer buffer = new StringBuffer();
         StringBuffer bufferTotal = new StringBuffer();
-        JSONObject jsonVersionTotal = new JSONObject();
+        JSONObject json = new JSONObject();
         List list = queryCount.list();
         for(Object o:list){
-            String result= o.toString();
-            bufferTotal.append(result + ",");
+            Object[] result = (Object[]) o;
+            String version= (String)result[0];
+            String total=result[1].toString();
+
+            buffer.append(version+",");
+            bufferTotal.append(total + ",");
         }
-        jsonVersionTotal.put("total",bufferTotal.toString().substring(0, bufferTotal.toString().length() - 1));
-        array.put(jsonVersionTotal);
+
+        json.put("version",buffer.toString().substring(0, buffer.toString().length() - 1));
+        json.put("total",bufferTotal.toString().substring(0, bufferTotal.toString().length() - 1));
+        array.put(json);
 
         return array;
     }

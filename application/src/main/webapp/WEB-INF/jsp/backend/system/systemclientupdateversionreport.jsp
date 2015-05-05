@@ -141,7 +141,7 @@
                 SystemDWRHandler.obtainVersionClientUpdateAmountByResult(productModel, updateSuccess, function(result) {
                     var statisticData = JSON.parse(result);
                     var version = statisticData[0].version.split(",");
-                    var total=statisticData[1].total.split(",");
+                    var total=statisticData[0].total.split(",");
 
                     sta_container3.xAxis.categories=version;
 
@@ -170,7 +170,7 @@
             SystemDWRHandler.obtainVersionClientUpdateAmountByResult(productModel, updateSuccess, function(result) {
                 var statisticData = JSON.parse(result);
                 var version = statisticData[0].version.split(",");
-                var total=statisticData[1].total.split(",");
+                var total=statisticData[0].total.split(",");
 
                 var newData = new Array();
                 for(var i=0; i<total.length; i++) {
