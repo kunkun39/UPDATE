@@ -38,12 +38,12 @@ public class DeviceUpdateFlowTest extends TestCase {
         String json = "{\n" +
                 "        \"username\": \"C6:C3:13:8A:D0:45\",\n" +
                 "        \"model\": \"OTS-2000SCA\",\n" +
-                "        \"versionBefore\": \"2.001\",\n" +
-                "        \"versionAfter\": \"2.002\",\n" +
-                "        \"success\": \"0\"\n" +
+                "        \"versionBefore\": \"2.002\",\n" +
+                "        \"versionAfter\": \"2.003\",\n" +
+                "        \"success\": \"1\"\n" +
                 "}";
 
-        for (int i = 0; i <4; i++) {
+        for (int i = 0; i <40; i++) {
             HttpClientRequestImpl client = new HttpClientRequestImpl();
             PostMethod method = new PostMethod("http://localhost:8080/update/report.html");
             method.addParameter("json", json);

@@ -128,24 +128,51 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
 
     public JSONArray loadVersionClientUpdateAmountByResult(String productModel,String updateSuccess) throws JSONException {
         JSONArray array = new JSONArray();
+        StringBuffer buffer = new StringBuffer();
+        StringBuffer bufferTotal = new StringBuffer();
+        JSONObject json = new JSONObject();
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 
         //统计数据表中versionAfter升级的数量
         String sqlCount = "select DISTINCT(gujian_version_after),count(id) as total from system_client where successful = '" + updateSuccess  + "' and product_model = '" + productModel + "' group by gujian_version_after";
         SQLQuery queryCount = session.createSQLQuery(sqlCount);
-
-        StringBuffer buffer = new StringBuffer();
-        StringBuffer bufferTotal = new StringBuffer();
-        JSONObject json = new JSONObject();
         List list = queryCount.list();
-        for(Object o:list){
-            Object[] result = (Object[]) o;
-            String version= (String)result[0];
-            String total=result[1].toString();
 
-            buffer.append(version+",");
-            bufferTotal.append(total + ",");
+        if(list!=null&&list.size()>0){
+            for(Object o:list){
+                Object[] result = (Object[]) o;
+                String version= (String)result[0];
+                String total=result[1].toString();
+
+                buffer.append(version+",");
+                bufferTotal.append(total + ",");
+            }
+
+        }else{
+            String sql = "select DISTINCT(gujian_version_after) from system_client where  product_model = '" + productModel + "' group by gujian_version_after";
+            SQLQuery query= session.createSQLQuery(sql);
+            List mList = query.list();
+            if(mList!=null&&mList.size()>0){
+                for(Object o:mList){
+                    String version= (String) o;
+                    buffer.append(version+",");
+                    bufferTotal.append(0 + ",");
+                }
+            }
         }
+
+//        StringBuffer buffer = new StringBuffer();
+//        StringBuffer bufferTotal = new StringBuffer();
+//        JSONObject json = new JSONObject();
+//        List list = queryCount.list();
+//        for(Object o:list){
+//            Object[] result = (Object[]) o;
+//            String version= (String)result[0];
+//            String total=result[1].toString();
+//
+//            buffer.append(version+",");
+//            bufferTotal.append(total + ",");
+//        }
 
         json.put("version",buffer.toString().substring(0, buffer.toString().length() - 1));
         json.put("total",bufferTotal.toString().substring(0, bufferTotal.toString().length() - 1));

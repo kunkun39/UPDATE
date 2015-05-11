@@ -173,14 +173,28 @@
                 var total=statisticData[0].total.split(",");
 
                 var newData = new Array();
+                var  temp=0;
                 for(var i=0; i<total.length; i++) {
                     var inner = new Array();
                     inner[0]=version[i];
                     inner[1]=parseInt(total[i]);
+                    temp+=inner[1];
                     newData[i]=inner;
                 }
 
-                sta_container4.series[0].data = newData;
+                var extraData=new Array();
+                if(temp<=0){
+                    for(var i=0; i<total.length; i++) {
+                        var inner = new Array();
+                        inner[0]=version[i];
+                        inner[1]=parseInt(total[i])+1;
+                        extraData[i]=inner;
+                    }
+                    sta_container4.series[0].data = extraData;
+                }else{
+                    sta_container4.series[0].data = newData;
+                }
+
 
                 var successfulString = "";
                 if("1" == updateSuccess) {
