@@ -158,6 +158,9 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
                     buffer.append(version+",");
                     bufferTotal.append(0 + ",");
                 }
+            }else{
+                buffer.append("2.01"+",");
+                bufferTotal.append(0 + ",");
             }
         }
 
