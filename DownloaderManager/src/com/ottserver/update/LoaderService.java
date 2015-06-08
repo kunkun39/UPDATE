@@ -37,6 +37,7 @@ public class LoaderService extends Service {
 	private static String UpgradeDefaultSavePath=null;
 	public static String testmode="false";
 	static String jsonString=null;
+	static String jsonReportString=null;
 	public static JSONObject object=null;
 	static String stringtmp=null;
 	private static Context mContext=null;
@@ -46,6 +47,8 @@ public class LoaderService extends Service {
 	private static float speed=0;
 	public static Downloadask task=null;
 	Runnable mRunnable=null;
+	private static String currentServerAddress=null;
+	public static String serverAddress=null;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -67,7 +70,7 @@ public class LoaderService extends Service {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					if(!Constant.isDownCompleted){
+					if(!Constant.isTaskRunning){
 						mHandler.sendEmptyMessage(3);
 						mHandler.postDelayed(mRunnable, 3600000);
 					}
@@ -77,6 +80,9 @@ public class LoaderService extends Service {
 		
 		SharedPreferences preferences=getSharedPreferences("testmode", Context.MODE_PRIVATE);
 		testmode=preferences.getString("tag", "false");
+		preferences=null;
+		preferences=getSharedPreferences("address", Context.MODE_PRIVATE);
+		serverAddress=preferences.getString("contentpath", "");
 		
 		Intent noKillMe = new Intent("com.smartcenter.HOME_DONT_KILL_ME");
 		noKillMe.putExtra("packageName", "com.changhong.downloadermanager");
@@ -88,8 +94,6 @@ public class LoaderService extends Service {
 			startByBroadcast=false;
 		}
 	}
-	
-	
 	
 	@Override
 	public void onDestroy() {
@@ -161,78 +165,15 @@ public class LoaderService extends Service {
 				 }
 				 Log.i(TAG, "下载中Processing,"+"result百分比是："+result+"%");
 				 if (size == filesize) {
-					//当下载完成时
+					//当下载完成时,汇报信息
+					 initReportInfo(true);
+					 mHandler.sendEmptyMessage(10);
 					 if(LoaderActivity.txt_prompt!=null){
 						 LoaderActivity.txt_prompt.setText(mContext.getResources().getString(R.string.downloadsuccess));
 						 LoaderActivity.tv_speed.setText(mContext.getResources().getString(R.string.downloadspeed));
 					 }
 					 if(Constant.isTaskRunning){
 						 Constant.isTaskRunning=false;
-						 Constant.isDownCompleted=true;
-						 //发送广播
-						 
-						 //重命名update_*.zip为update.zip
-						 if(Constant.downloadpath.contains("10.102.140.140")){
-//							 if(Constant.downloadpath.contains("www.ottserver.com")){
-							 //服务器
-							 if(Constant.filename!=null&&!Constant.filename.equals(""))
-							 {
-								 if(Constant.filename.contains("_")){
-									 String name=Constant.filename.substring(0, Constant.filename.indexOf("_"))+
-											 Constant.filename.substring(Constant.filename.lastIndexOf("."), Constant.filename.length());
-									 Log.e(TAG, "文件名:>>>"+name);
-									 File file1=new File(Constant.path+File.separator+name);
-									 if(file1.exists())file1.delete();
-									 File file2=new File(Constant.filepath);
-									 boolean renameSuccess=file2.renameTo(file1);
-									 if(renameSuccess)
-									 {
-										 Intent intent=new Intent("SYSTEMUPDATE_DOWNLOAD_COMPLETE");
-										 intent.putExtra("path", Constant.path+File.separator+name);
-										 if(Constant.force!=null&&Constant.force.equals("1"))
-										 {
-											 intent.putExtra("Force reboot", true);
-										 }else{
-											 intent.putExtra("Force reboot", false);
-										 }
-										 mContext.sendBroadcast(intent);
-										 Log.e(TAG, "广播发送成功>>>"+Constant.path+File.separator+name);
-//										 checkCAUpdateThread mThread = new checkCAUpdateThread("/mnt/sda/sda4");
-//						                 mThread.start();
-									 }
-								 }else{
-									 File file1=new File(Constant.path+File.separator+Constant.filename);
-									 if(file1.exists())file1.delete();
-									 File file2=new File(Constant.filepath);
-									 file2.renameTo(file1);
-									 Intent intent=new Intent("SYSTEMUPDATE_DOWNLOAD_COMPLETE");
-									 intent.putExtra("path", Constant.path+File.separator+Constant.filename);
-									 if(Constant.force!=null&&Constant.force.equals("1"))
-									 {
-										 intent.putExtra("Force reboot", true);
-									 }else{
-										 intent.putExtra("Force reboot", false);
-									 }
-									 mContext.sendBroadcast(intent);
-									 Log.e(TAG, "广播发送成功>>>"+Constant.path+File.separator+Constant.filename);
-								 }
-						 }
-					 	}else{
-							 //外链地址
-//							 int length=Constant.downloadpath.length();
-//							 int startpoint=Constant.downloadpath.indexOf("update.")+7;
-//							 int lastpoint=startpoint;
-//							 while(lastpoint<=length&&Constant.downloadpath.charAt(lastpoint)!='?'){
-//								 lastpoint++;
-//								 if((lastpoint-startpoint)>5)break;
-//							 }
-//							 String name=Constant.downloadpath.substring(startpoint, lastpoint);
-//							 if(name!=null&&!name.equals("")&&name.length()<=5){
-//								 name="update."+name;
-//							 }else{
-//								 name="update.zip";
-//							 }
-//							 Log.e(TAG, "文件名:>>>"+name);
 							 File file1=new File(Constant.path+File.separator+"update.zip");
 							 if(file1.exists())file1.delete();
 							 File file2=new File(Constant.filepath);
@@ -249,10 +190,7 @@ public class LoaderService extends Service {
 								 }
 								 mContext.sendBroadcast(intent);
 								 Log.e(TAG, "广播发送成功>>>"+Constant.path+File.separator+"update.zip");
-//								 checkCAUpdateThread mThread = new checkCAUpdateThread("/mnt/sda/sda4");
-//				                 mThread.start();
 							 }
-						 }
 					 }
 					 if(task!=null){
 						 task.exit();
@@ -263,6 +201,8 @@ public class LoaderService extends Service {
 				
 			case Failure :    //下载失败时
 				Log.i(TAG, "收到Failure");
+				initReportInfo(false);
+				mHandler.sendEmptyMessage(10);
 				if(task!=null){
 					task.exit();
 				}
@@ -274,7 +214,6 @@ public class LoaderService extends Service {
 					 LoaderActivity.progressBar.setVisibility(View.INVISIBLE);
 					 LoaderActivity.btn.setVisibility(View.VISIBLE);
 				 }
-//				Toast.makeText(getApplicationContext(), "下载失败", Toast.LENGTH_SHORT).show();
 				break;
 			case 3:
 				initSystemInfo();
@@ -287,7 +226,27 @@ public class LoaderService extends Service {
 						public void run() {
 							// TODO Auto-generated method stub
 							Log.e("hhh",">>>>>>>>>>>>>");
-							stringtmp=HttpClientRequestImpl.posttoserver(jsonString);
+							boolean isOK=false;
+							if(serverAddress!=null&&!serverAddress.equals("")){
+								currentServerAddress=serverAddress;
+								mHandler.sendEmptyMessage(9);
+								stringtmp=HttpClientRequestImpl.posttoserver(serverAddress,jsonString);
+								if(stringtmp!=null&&!stringtmp.equals("needless")){
+									isOK=true;
+								}
+							}
+							//如果添加地址不行再轮询服务器地址
+							if(!isOK){
+								for(int i=0;i<Constant.updatePaths.length;i++){
+									//提示检测哪一个服务器地址
+									currentServerAddress=Constant.updatePaths[i];
+									mHandler.sendEmptyMessage(9);
+									stringtmp=HttpClientRequestImpl.posttoserver(Constant.updatePaths[i],jsonString);
+									if(stringtmp!=null&&!stringtmp.equals("needless")){
+										break;
+									}
+								}
+							}
 							mHandler.sendEmptyMessage(6);
 						}
 					}).start();
@@ -304,7 +263,27 @@ public class LoaderService extends Service {
 						public void run() {
 							// TODO Auto-generated method stub
 							Log.e("hhh",">>>>>>>>>>>>>");
-							stringtmp=HttpClientRequestImpl.posttoserver(jsonString);
+							boolean isOK=false;
+							if(serverAddress!=null&&!serverAddress.equals("")){
+								currentServerAddress=serverAddress;
+								mHandler.sendEmptyMessage(9);
+								stringtmp=HttpClientRequestImpl.posttoserver(serverAddress,jsonString);
+								if(stringtmp!=null&&!stringtmp.equals("needless")){
+									isOK=true;
+								}
+							}
+							//如果添加地址不行再轮询服务器地址
+							if(!isOK){
+								for(int i=0;i<Constant.updatePaths.length;i++){
+									//提示检测哪一个服务器地址
+									currentServerAddress=Constant.updatePaths[i];
+									mHandler.sendEmptyMessage(9);
+									stringtmp=HttpClientRequestImpl.posttoserver(Constant.updatePaths[i],jsonString);
+									if(stringtmp!=null&&!stringtmp.equals("needless")){
+										break;
+									}
+								}
+							}
 							mHandler.sendEmptyMessage(7);
 						}
 					}).start();
@@ -319,18 +298,9 @@ public class LoaderService extends Service {
 					LoaderActivity.btn.setVisibility(View.INVISIBLE);
 				}
 				if(Constant.downloadpath!=null&&!Constant.downloadpath.equals("")&&!Constant.isTaskRunning){
-					//1.广播直接给出了下载地址2.未下载完成的任务继续下载
-					if(Constant.downloadpath.contains("10.102.140.140")){
-//						if(Constant.downloadpath.contains("www.ottserver.com")){
-						Log.e(TAG,"服务器地址下载！");
-						task = new Downloadask(Constant.downloadpath,saveDir,1);//实例化下载任务,开始下载
-						task.start();
-					}else{
-						//外链地址下载
-						Log.e(TAG,"外链地址下载！");
-						task = new Downloadask(Constant.downloadpath,saveDir,1);//实例化下载任务,开始下载
-						task.start();
-					}
+					Log.e(TAG,"开始地址下载！");
+					task = new Downloadask(Constant.downloadpath,saveDir,1);//实例化下载任务,开始下载
+					task.start();
 					Toast.makeText(mContext, mContext.getResources().getString(R.string.systemupdating), Toast.LENGTH_SHORT).show();
 				}else{
 //					Toast.makeText(getApplicationContext(), "下载地址获取失败！！！", Toast.LENGTH_SHORT).show();
@@ -359,8 +329,6 @@ public class LoaderService extends Service {
 				}else{
 					Constant.downloadpath=null;
 					Constant.view=null;
-//					Toast.makeText(mContext, "服务器无更新！！！", Toast.LENGTH_SHORT).show();
-//					mHandler.sendEmptyMessage(4);
 				}
 				break;
 			case 7:
@@ -389,25 +357,26 @@ public class LoaderService extends Service {
 						 LoaderActivity.progressBar.setVisibility(View.INVISIBLE);
 						 LoaderActivity.btn.setVisibility(View.VISIBLE);
 					 }
-//					Toast.makeText(mContext, "服务器无更新！！！", Toast.LENGTH_SHORT).show();
-//					mHandler.sendEmptyMessage(4);
 				}
 				break;
-//			case 10:
-//				  int result1 = msg.arg1;
-//	              String path = (String)msg.obj;
-//	              if(result1 == 0)
-//	              {
-//	                  SocketClient socketClient = null;
-//	                  socketClient = new SocketClient();
-//	                  socketClient.writeMess("upgrade " + path);
-//	                  socketClient.readNetResponseSync();
-//	                  Intent intent = new Intent("android.intent.action.MASTER_CLEAR");
-//	                  intent.putExtra("mount_point", path);
-//	                  mContext.sendBroadcast(intent);
-//	                  Log.e("hhh","广播发送成功！！！");
-//	              }
-//				break;
+			case 9:
+				if(LoaderActivity.txt_serveraddress!=null){
+					LoaderActivity.txt_serveraddress.setText("服务器地址："+currentServerAddress);
+				}
+				break;
+			case 10:
+				//汇报升级结果
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						if(jsonReportString!=null&&!jsonReportString.equals("")){
+							HttpClientRequestImpl.posttoserver(Constant.updateReportPaths,jsonReportString);
+						}
+					}
+				}).start();
+				break;
 			default:
 				break;
 			}
@@ -578,5 +547,25 @@ public class LoaderService extends Service {
 				Log.i(TAG,"savedir>>>>"+Constant.path);
 			}
 			saveDir=new File(Constant.path);
+		}
+		private static void initReportInfo(boolean isSuccessed)
+		{
+			JSONObject object_report=new JSONObject();
+			try {
+				object_report.put("username", username);
+				object_report.put("model", DeviceModel);
+				object_report.put("versionBefore", DeviceFirmWareVer);
+				object_report.put("versionAfter", DeviceFirmWareVer);
+				if(isSuccessed){
+					object_report.put("success", "1");
+				}else{
+					object_report.put("success", "0");
+				}
+				jsonReportString=object_report.toString();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				jsonReportString=null;
+			}
 		}
 }

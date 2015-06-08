@@ -18,8 +18,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  *   @author   tangchao
@@ -33,8 +35,12 @@ public class LoaderActivity extends Activity{
 	public static TextView txt_prompt;//提示语
 	public static TextView tv_progress;//显示进度百分比
 	public static TextView tv_speed;//显示下载速度
+	public static TextView txt_serveraddress;//显示采用的服务器地址
 	public static ProgressBar progressBar;//下载进度条，实时图形化显示进度
+	public EditText mEditText;//添加服务器地址
 	public static Button btn=null;
+	public Button btnSave=null;
+	public Button btnClear=null;
 	private String DeviceFirmWareVer=null;
 	private int mKeyCodeIndex = 0;
 	private final int[] mKeyCode = {KeyEvent.KEYCODE_2, KeyEvent.KEYCODE_5, KeyEvent.KEYCODE_8, KeyEvent.KEYCODE_8, KeyEvent.KEYCODE_8};
@@ -48,7 +54,7 @@ public class LoaderActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.clayout_main);
+		setContentView(R.layout.layout_main);
 		//初始化界面组件
 		init();
 		
@@ -105,8 +111,6 @@ public class LoaderActivity extends Activity{
 		Log.e(TAG,"onkeydown : "+keyCode);
 		if(isAllowSetOP(keyCode)){
 			//2、5、8弹出隐藏对话框设定测试模式
-//			loaderService.testmode="true";
-//			
 			AlertDialog.Builder builder = new Builder(LoaderActivity.this);
 			builder.setMessage(getResources().getString(R.string.chosemode));
 			builder.setTitle(getResources().getString(R.string.prompt));
@@ -166,8 +170,6 @@ public class LoaderActivity extends Activity{
 			LoaderService.task.exit();
 		}
 		Log.e(TAG,"kill service!!!!");
-//		ActivityManager manager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);       
-//		manager.killBackgroundProcesses(getPackageName());
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
@@ -180,12 +182,51 @@ public class LoaderActivity extends Activity{
 		txt_prompt = (TextView)this.findViewById(R.id.txt1);
 		tv_progress = (TextView)this.findViewById(R.id.tv_showprogress);
 		tv_speed = (TextView)this.findViewById(R.id.tv_showspeed);
+		txt_serveraddress = (TextView)this.findViewById(R.id.serveraddress);
 		progressBar = (ProgressBar)this.findViewById(R.id.pb_showdownload);
+		mEditText = (EditText)this.findViewById(R.id.inputaddress);
 		btn = (Button)this.findViewById(R.id.btn);
+		btnSave = (Button)this.findViewById(R.id.save);
+		btnClear = (Button)this.findViewById(R.id.clear);
 		
 		DeviceInfo.CollectInfo();
 		DeviceFirmWareVer=""+DeviceInfo.DeviceFirmWareVer;
 		txt_prompt.setText(getResources().getString(R.string.systemversion)+DeviceFirmWareVer);
+		
+		SharedPreferences preferences=getSharedPreferences("address", Context.MODE_PRIVATE);
+		LoaderService.serverAddress=preferences.getString("contentpath", "");
+		if(LoaderService.serverAddress!=null&&!LoaderService.serverAddress.equals("")){
+			mEditText.setText(LoaderService.serverAddress);
+		}
+		btnSave.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(mEditText.getText()!=null&&mEditText.getText().toString()!=""){
+					SharedPreferences preferences=getSharedPreferences("address",Context.MODE_PRIVATE);
+					Editor editor=preferences.edit();
+					editor.putString("contentpath", mEditText.getText().toString());
+					editor.commit();
+					LoaderService.serverAddress=mEditText.getText().toString();
+				}else{
+					Toast.makeText(LoaderActivity.this, "请输入您要添加的服务器地址!", 3000).show();
+				}
+			}
+		});
+		btnClear.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				SharedPreferences preferences=getSharedPreferences("address",Context.MODE_PRIVATE);
+				Editor editor=preferences.edit();
+				editor.clear();
+				editor.commit();
+				LoaderService.serverAddress="";
+				mEditText.setText("");
+			}
+		});
 		
 		//启动Service
 		LoaderService.startByBroadcast=false;

@@ -112,20 +112,14 @@ public class HttpClientRequestImpl {
         return response;
     }
     
-    public static String posttoserver(String json) {
+    public static String posttoserver(String updatepath,String json) {
 
     	String s=null;
     	try{
     		HttpClientRequestImpl client = new HttpClientRequestImpl();
-    		//川网地址
-            PostMethod method = new PostMethod("http://10.102.140.140:8082/update/main.html");
-    		//三台地址
-//            PostMethod method = new PostMethod("http://10.255.255.207:8080/update/main.html");
-            //ottserver服务器地址
-//            PostMethod method = new PostMethod("http://www.ottserver.com:8080/update/main.html");
+            PostMethod method = new PostMethod(updatepath);
             method.addParameter("json", json);
             s = client.httpPostRequest(method);
-//            s=s.replace("www.ottserver.com", "211.149.175.29");
             System.out.println(s);
     	}catch (Exception e) {
     		e.printStackTrace();
