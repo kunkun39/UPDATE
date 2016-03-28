@@ -211,7 +211,7 @@
                 for(var i=0; i<statisticData.length; i++) {
                     var inner = new Array();
                     inner[0] = "";
-                    if(statisticData[i].success == "1") {
+                    if(statisticData[i].successful == "1") {
                         inner[0] = "成功升级次数" + statisticData[i].total + "次";
                     } else {
                         inner[0] = "失败升级次数" + statisticData[i].total + "次";

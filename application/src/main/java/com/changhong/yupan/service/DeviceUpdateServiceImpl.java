@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.changhong.common.utils.CHStringUtils;
 import com.changhong.common.web.application.ApplicationEventPublisher;
 import com.changhong.update.domain.ProductUpdate;
+import com.changhong.update.service.DocumentPathResolver;
 import com.changhong.yupan.domain.DeviceUpdateResponse;
 import com.changhong.yupan.repository.UpdateDao;
 import com.changhong.yupan.web.event.ClientInfoUpdateEvent;
@@ -65,7 +66,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
             if (response != null) {
                 long endHandle = System.currentTimeMillis();
                 long during = endHandle - beginHandle;
-                logger.info("device " + username + " update succesful with way " + datatype + " and take " + during + "ms");
+                logger.info("device " + username + " get update file successful with way " + datatype + " and take " + during + "ms");
             }
 
         } catch (JSONException e) {
@@ -113,10 +114,24 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
         }
         String hardwareversion = client.getString("hardwareversion");
 
+        //先判断能不能APK升级
+        for(ProductUpdate update : updates) {
+            String clientVersion = client.getString("apkversion");
+            String clientVersionD = update.getClientVersion();
+            String apkUpdateURL = update.getApkUpdateURL();
+            try {
+                if (StringUtils.hasText(clientVersion) && StringUtils.hasText(clientVersionD) &&
+                        Double.valueOf(clientVersionD) > Double.valueOf(clientVersion) && StringUtils.hasText(apkUpdateURL)) {
+                    return new DeviceUpdateResponse(update);
+                }
+            } catch (Exception e) {
+                logger.error("obtain apk udpate error", e);
+            }
+        }
 
+        //再判断能不能固件升级
         for (ProductUpdate update : updates) {
             boolean passed = true;
-
             //1 - 如果是普通升级(0)，所有的字段必须比较，
             //2 - 如果是忽略固件版本升级(1), 固件版本不用比较
             //3 - 如果是只对比产品型号，除标记测试字段需要比较，其余的都不用比较
@@ -171,9 +186,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                 }
 
                 //验证用户名范围
-                String fromFilterD = update.getFromFilter();
-                String toFilterD = update.getToFilter();
-                if(!validateUsernameInRange(username, fromFilterD, toFilterD)) {
+                if(!validateUsernameInRange(model, datatype, androidsdk, username)) {
                     passed = false;
                 }
             }
@@ -305,9 +318,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                 }
 
                 //验证用户名范围
-                String fromFilterD = update.getFromFilter();
-                String toFilterD = update.getToFilter();
-                if(!validateUsernameInRange(username, fromFilterD, toFilterD)) {
+                if(!validateUsernameInRange(model, datatype, dtvversion, username)) {
                     passed = false;
                 }
             }
@@ -429,32 +440,11 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
     }
 
     //不区分大小写
-    public boolean validateUsernameInRange(String username, String fromFilter, String toFitler) {
-        boolean passed = false;
-        username = username.toUpperCase();
+    public boolean validateUsernameInRange(String model, String updateWay, String version, String username) {
+        username = username.toLowerCase();
+        String cacheKey = model + "|" + updateWay + "|" + version;
 
-        if (StringUtils.hasText(username)) {
-            if (StringUtils.hasText(fromFilter) && StringUtils.hasText(toFitler)) {
-                fromFilter = fromFilter.toUpperCase();
-                toFitler = toFitler.toUpperCase();
-                if (username.toUpperCase().compareTo(fromFilter) >= 0 && username.compareTo(toFitler) <= 0) {
-                    passed = true;
-                }
-            } else if (!StringUtils.hasText(fromFilter) && StringUtils.hasText(toFitler)) {
-                toFitler = toFitler.toUpperCase();
-                if (username.compareTo(toFitler) <= 0) {
-                    passed = true;
-                }
-            } else if (StringUtils.hasText(fromFilter) && !StringUtils.hasText(toFitler)) {
-                toFitler = toFitler.toUpperCase();
-                if (username.compareTo(fromFilter) >= 0) {
-                    passed = true;
-                }
-            } else if (!StringUtils.hasText(fromFilter) && !StringUtils.hasText(toFitler)) {
-                passed = true;
-            }
-        }
-        return passed;
+        return updateDao.isSNInList(cacheKey, username);
     }
 
     /***************************************************升级信息统计部分************************************************/

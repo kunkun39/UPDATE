@@ -2,10 +2,16 @@ package com.changhong.yupan.repository;
 
 import com.changhong.common.repository.HibernateEntityObjectDao;
 import com.changhong.update.domain.ProductUpdate;
+import com.changhong.update.service.DocumentPathResolver;
 import org.hibernate.classic.Session;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +25,25 @@ import java.util.Map;
 @Repository("updateDao")
 public class UpdateDaoImpl extends HibernateEntityObjectDao implements UpdateDao {
 
+    @Value("${project.upload.file.path}")
+    private String baseStorePath;
+
     private Map<String, List<ProductUpdate>> cache = new HashMap<String, List<ProductUpdate>>();
+    private Map<String, List<String>> snsCache = new HashMap<String, List<String>>();
 
     /***********************************************缓存相关***********************************************************/
 
     public void cleanCache() {
         cache.clear();
+        snsCache.clear();
+    }
+
+    public boolean isSNInList(String key, String username) {
+        List<String> sns = snsCache.get(key);
+        if (sns != null && sns.contains(username)) {
+            return true;
+        }
+        return false;
     }
 
     public List<ProductUpdate> findProductUpdate(String model, String updateWay, String version) {
@@ -57,9 +76,39 @@ public class UpdateDaoImpl extends HibernateEntityObjectDao implements UpdateDao
         if (!updates.isEmpty()) {
             for (ProductUpdate update : updates) {
                 update.generateCacheData();
+
+                List<String> sns = getSNLists(update);
+                snsCache.put(cacheKey, sns);
             }
             cache.put(cacheKey, updates);
         }
         return updates;
+    }
+
+    public List<String> getSNLists(ProductUpdate update) {
+        List<String> snLists = new ArrayList<String>();
+
+        String returnPath = DocumentPathResolver.generateUploadFileNamePath(update);
+        File directory = new File(baseStorePath + File.separatorChar + returnPath);
+        String deviceFile = directory.getAbsolutePath() + File.separatorChar + "devices.txt";
+
+        File file = new File(deviceFile);
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedReader br = new BufferedReader(isr);
+
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                snLists.add(line.toLowerCase());
+            }
+            br.close();
+            isr.close();
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return snLists;
     }
 }

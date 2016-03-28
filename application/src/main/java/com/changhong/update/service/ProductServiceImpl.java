@@ -21,9 +21,11 @@ import com.changhong.update.web.facade.dto.ProductUpdateHistoryDTO;
 import com.changhong.yupan.repository.UpdateDao;
 import com.changhong.yupan.service.DeviceUpdateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductDao productDao;
+
+    @Value("${project.upload.file.path}")
+    private String baseStorePath;
 
     /*************************目录******************************/
 
@@ -188,6 +193,7 @@ public class ProductServiceImpl implements ProductService {
 
     public void changeProductUpdateHistoryDetails(ProductUpdateHistoryDTO updateDTO) throws IOException {
         MultipartFile file = updateDTO.getFile();
+        MultipartFile snFile = updateDTO.getSnFile();
         UpdateFile updateFile = null;
 
         if(file != null && file.getSize() > 0) {
@@ -195,6 +201,7 @@ public class ProductServiceImpl implements ProductService {
         }
         ProductUpdate update = ProductUpdateWebAssember.toProductUpdateDomain(updateDTO, updateFile);
         documentService.uploadData(update, updateFile);
+        documentService.uploadSNData(update, snFile);
         productDao.persist(update);
 
         //清楚缓存
@@ -235,5 +242,13 @@ public class ProductServiceImpl implements ProductService {
         UpdateFile file = (UpdateFile) productDao.findById(uploadFileId, UpdateFile.class);
         productDao.delete(file);
         documentService.delete(update, file, false);
+    }
+
+    public String obtainSNListFilepath(int updateId) {
+        ProductUpdate update = (ProductUpdate) productDao.findById(updateId, ProductUpdate.class);
+        String returnPath = DocumentPathResolver.generateUploadFileNamePath(update);
+        File directory = new File(baseStorePath + File.separatorChar + returnPath);
+
+        return directory.getAbsolutePath() + File.separatorChar + "devices.txt";
     }
 }

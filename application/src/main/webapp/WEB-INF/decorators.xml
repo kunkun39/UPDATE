@@ -5,6 +5,7 @@
         <pattern>/backend/categoryform.html*</pattern>
         <pattern>/backend/productoverview.html*</pattern>
         <pattern>/backend/productform.html*</pattern>
+        <pattern>/backend/productupdatesnlist.html*</pattern>
     </excludes>
 
     <decorator name="main" page="main.jsp">

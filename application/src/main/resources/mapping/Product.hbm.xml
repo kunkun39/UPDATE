@@ -63,8 +63,6 @@
         <property name="updateWay" column="product_update_way" insert="true" update="true" type="java.lang.String"/>
 
         <property name="testFlag" column="test_flag" insert="true" update="true" type="java.lang.String"/>
-        <property name="fromFilter" column="username_from_filter" insert="true" update="true" type="java.lang.String"/>
-        <property name="toFilter" column="username_to_filter" insert="true" update="true" type="java.lang.String"/>
         <property name="versionCompareWay" column="version_compare_way" insert="true" update="true" type="java.lang.String"/>
 
         <property name="softwareVersion" column="software_version" insert="true" update="true" type="java.lang.String"/>
@@ -92,6 +90,8 @@
         <property name="programVersion" column="program_version" insert="true" update="true" type="java.lang.String"/>
         <property name="programSignatureType" column="program_signature_type" insert="true" update="true" type="java.lang.String"/>
 
+        <property name="clientVersion" column="client_version" insert="true" update="true" type="java.lang.String"/>
+        <property name="apkUpdateURL" column="client_apk_url" insert="true" update="true" type="java.lang.String"/>
 
     </class>
 </hibernate-mapping>

@@ -21,10 +21,6 @@ public class ProductUpdate extends EntityBase {
     //下面的属性石共有属性
     private String testFlag;
 
-    private String fromFilter;
-
-    private String toFilter;
-
     private String versionCompareWay;
 
     //下面是固件升级个差分升级的属性
@@ -72,6 +68,11 @@ public class ProductUpdate extends EntityBase {
 
     private String programSignatureType;
 
+    //客户端版本
+    private String clientVersion;
+
+    private String apkUpdateURL;
+
     /**
      * hibenrate only
      */
@@ -82,7 +83,7 @@ public class ProductUpdate extends EntityBase {
     public ProductUpdate(UpdateFile updateFile, Product product, String updateWay, String updateURL,
                          String softwareVersion, String updateType, String macFilter, String signatureType, String testFlag,
                          String guJianVersion, String yingJianVersion, String view, String updateModel,
-                         String fromFilter, String toFilter, String versionCompareWay) {
+                         String versionCompareWay, String clientVersion, String apkUpdateURL) {
         this.updateFile = updateFile;
         this.product = product;
         this.updateWay = updateWay;
@@ -97,9 +98,9 @@ public class ProductUpdate extends EntityBase {
         this.view = view;
         this.updateModel = updateModel;
 
-        this.fromFilter = fromFilter;
-        this.toFilter = toFilter;
         this.versionCompareWay = versionCompareWay;
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     //下面是DVB升级的构造方法
@@ -107,7 +108,7 @@ public class ProductUpdate extends EntityBase {
                          String softwareVersion, String updateType, String macFilter, String signatureType, String testFlag,
                          String guJianVersion, String yingJianVersion, String view, String updateModel,
                          String dvbVersion, String dvbProviderCode, String caType, String caVersion, String caDependVersion,
-                         String fromFilter, String toFilter, String versionCompareWay) {
+                         String versionCompareWay, String clientVersion, String apkUpdateURL) {
         this.updateFile = updateFile;
         this.product = product;
         this.updateWay = updateWay;
@@ -129,14 +130,15 @@ public class ProductUpdate extends EntityBase {
         this.caVersion = caVersion;
         this.caDependVersion = caDependVersion;
 
-        this.fromFilter = fromFilter;
-        this.toFilter = toFilter;
         this.versionCompareWay = versionCompareWay;
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     //二进制APP升级构造方法
     public ProductUpdate(UpdateFile updateFile, Product product, String updateWay, String updateURL, String testFlag,
-                         String appPackage, String appVersionRange, String appVersion, String appSignatureType) {
+                         String appPackage, String appVersionRange, String appVersion, String appSignatureType,
+                         String clientVersion, String apkUpdateURL) {
         this.updateFile = updateFile;
         this.product = product;
         this.updateWay = updateWay;
@@ -147,11 +149,15 @@ public class ProductUpdate extends EntityBase {
         this.appVersionRange = appVersionRange;
         this.appVersion = appVersion;
         this.appSignatureType = appSignatureType;
+
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     //二进制数据包升级构造方法
     public ProductUpdate(UpdateFile updateFile, Product product, String updateWay, String updateURL, String testFlag,
-                         String programName, String programVersion, String programSignatureType) {
+                         String programName, String programVersion, String programSignatureType,
+                         String clientVersion, String apkUpdateURL) {
         this.updateFile = updateFile;
         this.product = product;
         this.updateWay = updateWay;
@@ -161,6 +167,9 @@ public class ProductUpdate extends EntityBase {
         this.programName = programName;
         this.programVersion = programVersion;
         this.programSignatureType = programSignatureType;
+
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     public static String getUpdateWayName(String updateWay) {
@@ -205,18 +214,6 @@ public class ProductUpdate extends EntityBase {
         }
     }
 
-    /**
-     * 这个方法只能在保存钱调用
-     */
-    public void adjustMacRange() {
-        if (StringUtils.hasText(fromFilter) && !StringUtils.hasText(toFilter)) {
-            toFilter = fromFilter;
-        }
-        if (!StringUtils.hasText(fromFilter) && StringUtils.hasText(toFilter)) {
-            fromFilter = toFilter;
-        }
-    }
-
     /*************************************************GE/SET***********************************************************/
 
     public UpdateFile getUpdateFile() {
@@ -249,22 +246,6 @@ public class ProductUpdate extends EntityBase {
 
     public void setUpdateWay(String updateWay) {
         this.updateWay = updateWay;
-    }
-
-    public String getFromFilter() {
-        return fromFilter;
-    }
-
-    public void setFromFilter(String fromFilter) {
-        this.fromFilter = fromFilter;
-    }
-
-    public String getToFilter() {
-        return toFilter;
-    }
-
-    public void setToFilter(String toFilter) {
-        this.toFilter = toFilter;
     }
 
     public String getVersionCompareWay() {
@@ -441,6 +422,22 @@ public class ProductUpdate extends EntityBase {
 
     public void setProgramSignatureType(String programSignatureType) {
         this.programSignatureType = programSignatureType;
+    }
+
+    public String getClientVersion() {
+        return clientVersion;
+    }
+
+    public void setClientVersion(String clientVersion) {
+        this.clientVersion = clientVersion;
+    }
+
+    public String getApkUpdateURL() {
+        return apkUpdateURL;
+    }
+
+    public void setApkUpdateURL(String apkUpdateURL) {
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     /***************************************这部分是用户放到缓存中的临时变量，防止Lazy Exception****************************/

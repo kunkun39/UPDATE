@@ -64,4 +64,6 @@ public interface ProductService {
     void deleteProductUpdate(int productUpdateId);
 
     void deleteProductUploadFile(int productUpdateId, int uploadFileId);
+
+    String obtainSNListFilepath(int updateId);
 }

@@ -42,16 +42,17 @@ public class ProductUpdateWebAssember {
                 update.setView(updateDTO.getView());
                 update.setUpdateModel(updateDTO.getUpdateModel());
 
-                update.setFromFilter(updateDTO.getFromFilter());
-                update.setToFilter(updateDTO.getToFilter());
                 update.setVersionCompareWay(updateDTO.getVersionCompareWay());
+                update.setClientVersion(updateDTO.getClientVersion());
+                update.setApkUpdateURL(updateDTO.getApkUpdateURL());
+
                 if (updateFile != null) {
                     update.setUpdateFile(updateFile);
                 }
             } else {
                 update = new ProductUpdate(updateFile, product, updateWay, updateURL, updateDTO.getSoftwareVersion(), updateDTO.getUpdateType(), updateDTO.getMacFilter(), updateDTO.getSignatureType(),
                         updateDTO.getTestFlag(), updateDTO.getGuJianVersion(), updateDTO.getYingJianVersion(), updateDTO.getView(), updateDTO.getUpdateModel(),
-                        updateDTO.getFromFilter(), updateDTO.getToFilter(), updateDTO.getVersionCompareWay());
+                        updateDTO.getVersionCompareWay(), updateDTO.getClientVersion(), updateDTO.getApkUpdateURL());
             }
 
         } else if ("3".equals(updateWay)) {
@@ -74,8 +75,9 @@ public class ProductUpdateWebAssember {
                 update.setCaVersion(updateDTO.getCaVersion());
                 update.setCaDependVersion(updateDTO.getCaDependVersion());
 
-                update.setFromFilter(updateDTO.getFromFilter());
-                update.setToFilter(updateDTO.getToFilter());
+                update.setClientVersion(updateDTO.getClientVersion());
+                update.setApkUpdateURL(updateDTO.getApkUpdateURL());
+
                 update.setVersionCompareWay(updateDTO.getVersionCompareWay());
                 if (updateFile != null) {
                     update.setUpdateFile(updateFile);
@@ -85,7 +87,7 @@ public class ProductUpdateWebAssember {
                         updateDTO.getSoftwareVersion(), updateDTO.getUpdateType(), updateDTO.getMacFilter(), updateDTO.getSignatureType(),
                         updateDTO.getTestFlag(), updateDTO.getGuJianVersion(), updateDTO.getYingJianVersion(), updateDTO.getView(), updateDTO.getUpdateModel(),
                         updateDTO.getDvbVersion(), updateDTO.getDvbProviderCode(), updateDTO.getCaType(), updateDTO.getCaVersion(), updateDTO.getCaDependVersion(),
-                        updateDTO.getFromFilter(), updateDTO.getToFilter(), updateDTO.getVersionCompareWay());
+                        updateDTO.getVersionCompareWay(), updateDTO.getClientVersion(), updateDTO.getApkUpdateURL());
             }
 
         } else if ("4".equals(updateWay)) {
@@ -97,12 +99,16 @@ public class ProductUpdateWebAssember {
                 update.setAppVersionRange(updateDTO.getAppVersionRange());
                 update.setAppVersion(updateDTO.getAppVersion());
                 update.setAppSignatureType(updateDTO.getAppSignatureType());
+
+                update.setClientVersion(updateDTO.getClientVersion());
+                update.setApkUpdateURL(updateDTO.getApkUpdateURL());
                 if (updateFile != null) {
                     update.setUpdateFile(updateFile);
                 }
             } else {
                 update = new ProductUpdate(updateFile, product, updateWay, updateURL, updateDTO.getTestFlag(),
-                        updateDTO.getAppPackage(), updateDTO.getAppVersionRange(), updateDTO.getAppVersion(), updateDTO.getAppSignatureType());
+                        updateDTO.getAppPackage(), updateDTO.getAppVersionRange(), updateDTO.getAppVersion(), updateDTO.getAppSignatureType(),
+                        updateDTO.getClientVersion(), updateDTO.getApkUpdateURL());
             }
 
         } else if ("5".equals(updateWay)) {
@@ -113,17 +119,19 @@ public class ProductUpdateWebAssember {
                 update.setProgramName(updateDTO.getProgramName());
                 update.setProgramVersion(updateDTO.getProgramVersion());
                 update.setProgramSignatureType(updateDTO.getProgramSignatureType());
+
+                update.setClientVersion(updateDTO.getClientVersion());
+                update.setAppVersionRange(updateDTO.getApkUpdateURL());
                 if (updateFile != null) {
                     update.setUpdateFile(updateFile);
                 }
             } else {
                 update = new ProductUpdate(updateFile, product, updateWay, updateURL, updateDTO.getTestFlag(),
-                        updateDTO.getProgramName(), updateDTO.getProgramVersion(), updateDTO.getProgramSignatureType());
+                        updateDTO.getProgramName(), updateDTO.getProgramVersion(), updateDTO.getProgramSignatureType(),
+                        updateDTO.getClientVersion(), updateDTO.getApkUpdateURL());
             }
         }
 
-        //保存前调整MAC地址的范围
-        update.adjustMacRange();
         return update;
     }
 
@@ -147,13 +155,13 @@ public class ProductUpdateWebAssember {
             final String view = update.getView();
             final String updateModel = update.getUpdateModel();
 
-            final String fromFilter = update.getFromFilter();
-            final String toFilter = update.getToFilter();
             final String versionCompareWay = update.getVersionCompareWay();
+            final String clientVersion = update.getClientVersion();
+            final String apkUpdateURL = update.getApkUpdateURL();
 
             return new ProductUpdateHistoryDTO(id, updateWay, updateWayName, updateURL, uploadFileId, uploadFileName,
                     softwareVersion, updateType, macFilter, signatureType, testFlag, guJianVersion, yingJianVersion, view, updateModel,
-                    fromFilter, toFilter, versionCompareWay);
+                    versionCompareWay, clientVersion, apkUpdateURL);
 
         } else if ("3".equals(updateWay)) {
             final String softwareVersion = update.getSoftwareVersion();
@@ -172,14 +180,14 @@ public class ProductUpdateWebAssember {
             final String caVersion = update.getCaVersion();
             final String caDependVersion = update.getCaDependVersion();
 
-            final String fromFilter = update.getFromFilter();
-            final String toFilter = update.getToFilter();
             final String versionCompareWay = update.getVersionCompareWay();
+            final String clientVersion = update.getClientVersion();
+            final String apkUpdateURL = update.getApkUpdateURL();
 
             return new ProductUpdateHistoryDTO(id, updateWay, updateWayName, updateURL, uploadFileId, uploadFileName,
                     softwareVersion, updateType, macFilter, signatureType, testFlag, guJianVersion, yingJianVersion, view, updateModel,
                     dvbVersion, dvbProviderCode, caType, caVersion, caDependVersion,
-                    fromFilter, toFilter, versionCompareWay);
+                    versionCompareWay ,clientVersion, apkUpdateURL);
 
         } else if ("4".equals(updateWay)) {
             final String testFlag = update.getTestFlag();
@@ -187,18 +195,22 @@ public class ProductUpdateWebAssember {
             final String appVersionRange = update.getAppVersionRange();
             final String appVersion = update.getAppVersion();
             final String appSignatureType = update.getAppSignatureType();
+            final String clientVersion = update.getClientVersion();
+            final String apkUpdateURL = update.getApkUpdateURL();
 
             return new ProductUpdateHistoryDTO(id, updateWay, updateWayName, updateURL, uploadFileId, uploadFileName, testFlag,
-                    appPackage, appVersionRange, appVersion, appSignatureType);
+                    appPackage, appVersionRange, appVersion, appSignatureType, clientVersion, apkUpdateURL);
 
         } else if ("5".equals(updateWay)) {
             final String testFlag = update.getTestFlag();
             final String programName = update.getProgramName();
             final String programVersion = update.getProgramVersion();
             final String programSingureType = update.getProgramSignatureType();
+            final String clientVersion = update.getClientVersion();
+            final String apkUpdateURL = update.getApkUpdateURL();
 
             return new ProductUpdateHistoryDTO(id, updateWay, updateWayName, updateURL, uploadFileId, uploadFileName, testFlag,
-                    programName, programVersion, programSingureType);
+                    programName, programVersion, programSingureType , clientVersion, apkUpdateURL);
         }
 
         return null;
@@ -214,8 +226,6 @@ public class ProductUpdateWebAssember {
         final String updateWayName = update.getUpdateWayName();
         final String productModel = product.getModel();
         final String updateVersion = update.getUpdateVersionName();
-        final String fromFilter = update.getFromFilter();
-        final String toFilter = update.getToFilter();
 
         UpdateFile file = update.getUpdateFile();
         final int uploadFileId = file != null ? file.getId() : -1;
@@ -260,7 +270,7 @@ public class ProductUpdateWebAssember {
             }
         }
 
-        return new ProductUpdateHistoryDTO(id, productId, uploadTime, updateWayName, updateVersion, updateCategoryName, jsonPath, dataPath, uploadFileId, fromFilter, toFilter);
+        return new ProductUpdateHistoryDTO(id, productId, uploadTime, updateWayName, updateVersion, updateCategoryName, jsonPath, dataPath, uploadFileId);
     }
 
     public static List<ProductUpdateHistoryDTO> toProductUpdateHistoryDTOList(List<ProductUpdate> updates) {

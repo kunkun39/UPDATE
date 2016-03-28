@@ -14,5 +14,7 @@ public interface UpdateDao extends EntityObjectDao {
 
     void cleanCache();
 
+    public boolean isSNInList(String key, String username);
+
     public List<ProductUpdate> findProductUpdate(String model, String updateWay, String version);
 }

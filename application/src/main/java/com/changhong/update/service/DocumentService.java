@@ -2,7 +2,7 @@ package com.changhong.update.service;
 
 import com.changhong.update.domain.Document;
 import com.changhong.update.domain.ProductUpdate;
-import com.changhong.update.web.facade.dto.ProductUpdateHistoryDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,6 +15,8 @@ import java.io.OutputStream;
 public interface DocumentService {
 
     public void uploadData(ProductUpdate update, Document document);
+
+    public void uploadSNData(ProductUpdate update, MultipartFile snFile);
 
     public void obtainDownloadData(int productUpdateId, Document document, OutputStream outputStream);
 

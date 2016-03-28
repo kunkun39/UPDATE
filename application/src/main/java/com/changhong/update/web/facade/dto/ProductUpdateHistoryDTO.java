@@ -40,10 +40,6 @@ public class ProductUpdateHistoryDTO {
     //公共部分数据
     private String testFlag;
 
-    private String fromFilter;
-
-    private String toFilter;
-
     private String versionCompareWay;
 
     ////下面是固件升级个差分升级的属性
@@ -91,6 +87,15 @@ public class ProductUpdateHistoryDTO {
 
     private String programSignatureType;
 
+    private MultipartFile snFile;
+
+    private String snUploadFile;
+
+    //客户端版本
+    private String clientVersion;
+
+    private String apkUpdateURL;
+
     public ProductUpdateHistoryDTO() {
         updateWay = "1";
         updateType = "0";
@@ -103,7 +108,7 @@ public class ProductUpdateHistoryDTO {
     //用于列表显示
     public ProductUpdateHistoryDTO(int id, int productId, Date uploadTime, String updateWay, String updateVersion,
                                    String updateCategoryName, String jsonPath, String dataPath,
-                                   int fileId, String fromFilter, String toFitler) {
+                                   int fileId) {
         this.id = id;
         this.productId = productId;
         this.uploadTime = uploadTime;
@@ -113,15 +118,14 @@ public class ProductUpdateHistoryDTO {
         this.jsonPath = jsonPath;
         this.dataPath = dataPath;
         this.updateUploadFileId = fileId;
-        this.fromFilter = fromFilter;
-        this.toFilter = toFitler;
+        this.snUploadFile = "devices.txt";
     }
 
     public ProductUpdateHistoryDTO(int id, String updateWay,  String updateWayName,
                                    String updateURL, int updateUploadFileId, String updateUploadFileName,
                                    String softwareVersion, String updateType, String macFilter, String signatureType,
                                    String testFlag, String guJianVersion, String yingJianVersion, String view, String updateModel,
-                                   String fromFilter, String toFilter, String versionCompareWay) {
+                                   String versionCompareWay, String clientVersion, String apkUpdateURL) {
         this.id = id;
         this.updateURL = updateURL;
         this.updateWay = updateWay;
@@ -139,9 +143,11 @@ public class ProductUpdateHistoryDTO {
         this.view = view;
         this.updateModel = updateModel;
 
-        this.fromFilter = fromFilter;
-        this.toFilter = toFilter;
         this.versionCompareWay = versionCompareWay;
+        this.snUploadFile = "devices.txt";
+
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     public ProductUpdateHistoryDTO(int id, String updateWay, String updateWayName,
@@ -149,7 +155,7 @@ public class ProductUpdateHistoryDTO {
                                    String softwareVersion, String updateType, String macFilter, String signatureType,
                                    String testFlag, String guJianVersion, String yingJianVersion, String view, String updateModel,
                                    String dvbVersion, String dvbProviderCode, String caType, String caVersion, String caDependVersion,
-                                   String fromFilter, String toFilter, String versionCompareWay) {
+                                   String versionCompareWay, String clientVersion, String apkUpdateURL) {
         this.id = id;
         this.updateURL = updateURL;
         this.updateWay = updateWay;
@@ -173,14 +179,17 @@ public class ProductUpdateHistoryDTO {
         this.caVersion = caVersion;
         this.caDependVersion = caDependVersion;
 
-        this.fromFilter = fromFilter;
-        this.toFilter = toFilter;
         this.versionCompareWay = versionCompareWay;
+        this.snUploadFile = "devices.txt";
+
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     public ProductUpdateHistoryDTO(int id, String updateWay, String updateWayName,
                                    String updateURL, int updateUploadFileId, String updateUploadFileName, String testFlag,
-                                   String appPackage, String appVersionRange, String appVersion, String appSignatureType) {
+                                   String appPackage, String appVersionRange, String appVersion, String appSignatureType,
+                                   String clientVersion, String apkUpdateURL) {
         this.id = id;
         this.updateURL = updateURL;
         this.updateWay = updateWay;
@@ -193,11 +202,16 @@ public class ProductUpdateHistoryDTO {
         this.appVersionRange = appVersionRange;
         this.appVersion = appVersion;
         this.appSignatureType = appSignatureType;
+        this.snUploadFile = "devices.txt";
+
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     public ProductUpdateHistoryDTO(int id, String updateWay, String updateWayName,
                                    String updateURL, int updateUploadFileId, String updateUploadFileName, String testFlag,
-                                   String programName, String programVersion, String programSignatureType) {
+                                   String programName, String programVersion, String programSignatureType,
+                                   String clientVersion, String apkUpdateURL) {
         this.id = id;
         this.updateURL = updateURL;
         this.updateWay = updateWay;
@@ -209,6 +223,10 @@ public class ProductUpdateHistoryDTO {
         this.programName = programName;
         this.programVersion = programVersion;
         this.programSignatureType = programSignatureType;
+        this.snUploadFile = "devices.txt";
+
+        this.clientVersion = clientVersion;
+        this.apkUpdateURL = apkUpdateURL;
     }
 
     public int getId() {
@@ -313,22 +331,6 @@ public class ProductUpdateHistoryDTO {
 
     public void setDataPath(String dataPath) {
         this.dataPath = dataPath;
-    }
-
-    public String getFromFilter() {
-        return fromFilter;
-    }
-
-    public void setFromFilter(String fromFilter) {
-        this.fromFilter = fromFilter;
-    }
-
-    public String getToFilter() {
-        return toFilter;
-    }
-
-    public void setToFilter(String toFilter) {
-        this.toFilter = toFilter;
     }
 
     public String getVersionCompareWay() {
@@ -505,5 +507,37 @@ public class ProductUpdateHistoryDTO {
 
     public void setProgramSignatureType(String programSignatureType) {
         this.programSignatureType = programSignatureType;
+    }
+
+    public MultipartFile getSnFile() {
+        return snFile;
+    }
+
+    public void setSnFile(MultipartFile snFile) {
+        this.snFile = snFile;
+    }
+
+    public String getSnUploadFile() {
+        return snUploadFile;
+    }
+
+    public void setSnUploadFile(String snUploadFile) {
+        this.snUploadFile = snUploadFile;
+    }
+
+    public String getClientVersion() {
+        return clientVersion;
+    }
+
+    public void setClientVersion(String clientVersion) {
+        this.clientVersion = clientVersion;
+    }
+
+    public String getApkUpdateURL() {
+        return apkUpdateURL;
+    }
+
+    public void setApkUpdateURL(String apkUpdateURL) {
+        this.apkUpdateURL = apkUpdateURL;
     }
 }

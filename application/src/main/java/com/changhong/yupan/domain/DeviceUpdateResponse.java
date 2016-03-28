@@ -28,6 +28,9 @@ public class DeviceUpdateResponse {
     //信息用于记录升级后版本
     private String updateVersion;
 
+    /**
+     * 用于固件升级
+     */
     public DeviceUpdateResponse(ProductUpdate update, String webAddress) {
         String updateURL = update.getUpdateURL();
         this.view = update.getView();
@@ -69,6 +72,17 @@ public class DeviceUpdateResponse {
 
         //信息用于记录升级后版本
         this.updateVersion = update.getGuJianVersion();
+    }
+
+    /**
+     * 用于APK升级
+     */
+    public DeviceUpdateResponse(ProductUpdate update) {
+        this.view = update.getView();
+        this.updateModel = update.getUpdateModel();
+        this.obtainDataWay = ObtainDataWay.EXTERNAL_URL;
+        this.updateVersion = update.getClientVersion();
+        this.deviceURL = view + updateModel + update.getApkUpdateURL();
     }
 
     public ObtainDataWay getObtainDataWay() {

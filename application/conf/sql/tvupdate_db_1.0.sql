@@ -111,8 +111,6 @@ CREATE TABLE `product_update` (
   `program_signature_type` varchar(80) collate utf8_bin default '',
   `update_model` varchar(1) collate utf8_bin default '1',
   `yingjian_version` varchar(40) collate utf8_bin default '',
-  `username_from_filter` varchar(17) collate utf8_bin default NULL,
-  `username_to_filter` varchar(17) collate utf8_bin default NULL,
   `version_compare_way` varchar(1) collate utf8_bin default '1',
   PRIMARY KEY  (`id`),
   KEY `product_index_update_way` (`product_update_way`),

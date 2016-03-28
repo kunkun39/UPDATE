@@ -43,9 +43,8 @@
                 <td width="7%">升级类型</td>
                 <td width="10%">运行商/包名/程序名</td>
                 <td width="5%">版本</td>
-                <td width="18%">json管理</td>
-                <td width="18%">data本地路径</td>
-                <td width="20%">升级MAC地址范围</td>
+                <td width="28%">json管理</td>
+                <td width="28%">data本地路径</td>
                 <td>操作</td>
                 </thead>
                 <tbody>
@@ -69,9 +68,6 @@
                                     ${update.dataPath}
                                 </a>
                             </c:if>
-                        </td>
-                        <td>
-                            ${update.fromFilter} - ${update.toFilter}
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${product.id}&productUpdateId=${update.id}&updateWayFilter=${updateWayFilter}&versionFilter=${versionFilter}"><button class="thoughtbot">编辑</button></a>

@@ -180,8 +180,8 @@ public class ProductUpdateHistoryFormController extends SimpleFormController {
         //检查提交的数据
         int updateId = ServletRequestUtils.getIntParameter(request, "updateId", -1);
         String updateURL = ServletRequestUtils.getStringParameter(request, "updateURL", "");
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         if (updateId <= 0) {
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile file = multipartRequest.getFile("productUploadFile");
             if ((file == null || file.getSize() == 0) && !StringUtils.hasText(updateURL)) {
                 errors.rejectValue("updateURL", "update.both.data.empty");
@@ -193,13 +193,44 @@ public class ProductUpdateHistoryFormController extends SimpleFormController {
             if (historyDTO.getUpdateUploadFileId() > 0) {
                     validateExternalURL(errors, updateURL);
             } else {
-                MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
                 MultipartFile file = multipartRequest.getFile("productUploadFile");
                 if ((file == null || file.getSize() == 0) && !StringUtils.hasText(updateURL)) {
                     errors.rejectValue("updateURL", "update.both.data.empty");
                 }
 
                 validateExternalURL(errors, updateURL);
+            }
+        }
+
+        //提交的SN文件列表
+        MultipartFile snFile = multipartRequest.getFile("snUploadFileList");
+        if (updateId <= 0) {
+            if (snFile == null || snFile.getSize() == 0) {
+                errors.rejectValue("snUploadFile", "update.sn.file.empty");
+            } else {
+                String filename = snFile.getOriginalFilename();
+                if (!"devices.txt".equals(filename)) {
+                    errors.rejectValue("snUploadFile", "update.sn.file.notright");
+                }
+            }
+        } else {
+            if (snFile != null && snFile.getSize() > 0) {
+                String filename = snFile.getOriginalFilename();
+                if (!"devices.txt".equals(filename)) {
+                    errors.rejectValue("snUploadFile", "update.sn.file.notright");
+                }
+            }
+        }
+
+        //验证APK升级
+        String clientVersion = ServletRequestUtils.getStringParameter(request, "clientVersion", "");
+        if (!StringUtils.hasText(clientVersion)) {
+            errors.rejectValue("clientVersion", "update.client.version.empty");
+        } else {
+            try {
+                Double.valueOf(clientVersion);
+            } catch (NumberFormatException e) {
+                errors.rejectValue("clientVersion", "update.client.version.notnumber");
             }
         }
     }
@@ -229,8 +260,12 @@ public class ProductUpdateHistoryFormController extends SimpleFormController {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile file = multipartRequest.getFile("productUploadFile");
+        MultipartFile snFile = multipartRequest.getFile("snUploadFileList");
         if (file != null && file.getSize() > 0) {
             updateDTO.setFile(file);
+        }
+        if (snFile != null && snFile.getSize() > 0) {
+            updateDTO.setSnFile(snFile);
         }
 
         updateDTO.setProductId(productId);

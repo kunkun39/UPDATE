@@ -7,6 +7,7 @@ import com.changhong.update.domain.Product;
 import com.changhong.update.domain.ProductUpdate;
 import com.changhong.update.domain.ProductUpdateJSONHelper;
 import com.changhong.update.repository.ProductDao;
+import com.changhong.update.web.facade.dto.ProductUpdateHistoryDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.*;
@@ -101,6 +103,30 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
         //上传JSON文件
         String jsonContent = ProductUpdateJSONHelper.generateJSONContent(update, webUrl);
         IOUtils.copyStringToFile(jsonContent, jsonFile);
+    }
+
+    public void uploadSNData(ProductUpdate update, MultipartFile snFile) {
+        //创建存储文件的基本路径
+        String returnPath = DocumentPathResolver.generateUploadFileNamePath(update);
+        File directory = new File(baseStorePath + File.separatorChar + returnPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        //上传有文件
+        if (snFile != null && snFile.getSize() > 0) {
+            File dataFile = new File(directory, "devices.txt");
+
+            try {
+                OutputStream dataOut = new FileOutputStream(dataFile.getAbsolutePath());
+                FileCopyUtils.copy(snFile.getInputStream(), dataOut);
+
+                logger.info("finish upload product update sn file for product " + update.getProgramName());
+            } catch (Exception e) {
+                logger.error(e);
+                throw new CHDocumentOperationException("exception updatesn  file [" + update.getProgramName() + "]", e);
+            }
+        }
     }
 
     public void obtainDownloadData(int productUpdateId, Document document, OutputStream outputStream) {

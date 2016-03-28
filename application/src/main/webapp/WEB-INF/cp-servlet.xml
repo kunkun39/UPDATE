@@ -57,6 +57,7 @@
                 <prop key="/backend/productupdatehistorydelete.html">productUpdateHistoryDeleteController</prop>
                 <prop key="/backend/productupdatefiledownload.html">productUpdateHistoryFileDownloadController</prop>
                 <prop key="/backend/fileuploadpercentage.html">fileUploadPercentageGetController</prop>
+                <prop key="/backend/productupdatesnlist.html">productUpdateSNListController</prop>
 
                 <!--device update part-->
                 <prop key="/main.html">deviceUpdateSourceProvideController</prop>
@@ -155,6 +156,10 @@
     </bean>
 
     <bean id="fileUploadPercentageGetController" class="com.changhong.common.web.contorller.FileUploadPercentageGetController"/>
+
+    <bean id="productUpdateSNListController" class="com.changhong.update.web.controller.product.ProductUpdateSNListController">
+        <property name="productService" ref="productService"/>
+    </bean>
 
     <!--device update part-->
     <bean id="deviceUpdateSourceProvideController" class="com.changhong.yupan.web.controller.DeviceUpdateSourceProvideController">

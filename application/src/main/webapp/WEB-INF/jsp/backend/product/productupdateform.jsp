@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>IP广义升级云端</title>
+    <script src="${pageContext.request.contextPath}/js/popup/modal.popup.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-1.7.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/dwr/engine.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/dwr/util.js" type="text/javascript"></script>
@@ -19,6 +20,41 @@
     <script type='text/javascript' src='${pageContext.request.contextPath}/js/processbar/processbar.js'></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/js/processbar/css/jquery-ui-1.8.16.custom.css" type="text/css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/js/processbar/css/processbar.css" type="text/css"/>
+
+    <script type="text/javascript">
+        jQuery(function() {
+            settings = {
+                align : 'center',									//Valid values, left, right, center
+                top : 50, 											//Use an integer (in pixels)
+                width : 800, 										//Use an integer (in pixels)
+                height : 600, 										//Use an integer (in pixels)
+                padding : 10,										//Use an integer (in pixels)
+                backgroundColor : 'white', 						    //Use any hex code
+                source : '', 				    					//Refer to any page on your server, external pages are not valid e.g. http://www.google.co.uk
+                borderColor : '#333333', 							//Use any hex code
+                borderWeight : 4,									//Use an integer (in pixels)
+                borderRadius : 5, 									//Use an integer (in pixels)
+                fadeOutTime : 300, 									//Use any integer, 0 : no fade
+                disableColor : '#666666', 							//Use any hex code
+                disableOpacity : 40, 								//Valid range 0-100
+                loadingImage : '${pageContext.request.contextPath}/js/popup/loading.gif'
+            };
+            jQuery(document).keyup(function(event) {
+                if (event.keyCode == 27) {
+                    closePopup(settings.fadeOutTime);
+                }
+            });
+	});
+
+	function openSNListDalog(id) {
+		settings.source = '${pageContext.request.contextPath}/backend/productupdatesnlist.html?updateId=' + id;
+		openModalPopup(settings);
+	}
+
+	function openModalPopup(obj) {
+		modalPopup(obj.align, obj.top, obj.width, obj.padding, obj.disableColor, obj.disableOpacity, obj.backgroundColor, obj.borderColor, obj.borderWeight, obj.borderRadius, obj.fadeOutTime, obj.source, obj.loadingImage);
+	}
+    </script>
 </head>
 <body>
 <div class="action">
@@ -103,7 +139,7 @@
                                         <li style="color: blue;">强制升级类型：1）普通升级 -> 服务端校验客户端的所有字段</li>
                                         <li style="color: blue;">强制升级类型：2）忽略固件版本比对的普通强制升级 -> 服务端校验客户端除固件版本的所有字段</li>
                                         <li style="color: blue;">强制升级类型：3）只比对产品型号 -> 服务端只校验客户端的产品型号</li>
-                                        <li style="color: blue;">MAC范围：客户端MAC地址需在服务端MAC地址范围内通过校验,只填写一个会自动按照另一个值补齐</li>
+                                        <li style="color: blue;">SN列表：必须上传一个文件名为devices.txt的SN列表</li>
                                         <li style="color: blue;">系统软件版本：服务端和客户端需保持一致可通过校验</li>
                                         <li style="color: blue;">MAC Filter：服务端的MAC地址的结尾需和客户端MAC地址保持一致</li>
                                         <li style="color: blue;">签名类型：服务端和客户端需保持一致可通过校验</li>
@@ -134,12 +170,16 @@
 
                                 <tr>
                                     <td width="200px;">
-                                         MAC范围
+                                         升级MAC列表 <span class="required">*</span>
                                     </td>
                                     <td>
-                                        <spring-form:input path="fromFilter" maxlength="17" cssStyle="width:200px;"/>&nbsp;到
-                                        <spring-form:input path="toFilter" maxlength="17" cssStyle="width:200px;"/> &nbsp;MAC地址格式示例（字符全小写）:65:88:ff:73:6b:3f
-                                        <spring-form:errors path="toFilter" cssClass="required"/>
+                                        <input type="file" id="snUploadFileList" name="snUploadFileList" class="file" style="width:200px;"/>
+                                        <spring-form:errors path="snUploadFile" cssClass="required"/>
+                                        <c:if test="${productUpdate.snUploadFile != null && productUpdate.snUploadFile != ''}">
+                                            <div id="attachedSnUploadFile">
+                                                <br/>已上传数据文件:devices.txt <a href="#" onclick="openSNListDalog('${productUpdate.id}')">查看MAC列表</a>
+                                            </div>
+                                        </c:if>
                                     </td>
                                 </tr>
 
@@ -405,6 +445,28 @@
                             <spring-form:errors path="updateURL" cssClass="required"/>
                             <br/>
                             说明：升级文件为update_固件版本.zip, 如 http://www.baidu.com/update_1.001.zip
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td width="200px;" >
+                             客户端版本
+                        </td>
+                        <td>
+                            <spring-form:input path="clientVersion" maxlength="600" cssStyle="width:600px;"/>&nbsp;
+                            <spring-form:errors path="clientVersion" cssClass="required"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td width="200px;" >
+                             客户端升级地址
+                        </td>
+                        <td>
+                            <spring-form:input path="apkUpdateURL" maxlength="200" cssStyle="width:600px;"/>&nbsp;
+                            <spring-form:errors path="apkUpdateURL" cssClass="required"/>
+                            <br/>
+                            说明：升级文件为updatemanager.apk, 如 http://www.baidu.com/updatemanager.apk
                         </td>
                     </tr>
 
