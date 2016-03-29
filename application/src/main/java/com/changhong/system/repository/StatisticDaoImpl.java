@@ -30,8 +30,8 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
 
         //全年统计
         if (month > 0) {
-            String sql = "select sta_day, count(id) as total from system_client " +
-                    "where gujian_version = '" + guJianVersion + "' and gujian_version_after = '" + guJianVersionAfter + "' and product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by sta_day";
+            String sql = "select a.sta_day, count(a.id) as total from system_client a " + "left join system_client_info b on a.username = b.username " +
+                    "where a.gujian_version = '" + guJianVersion + "' and a.gujian_version_after = '" + guJianVersionAfter + "' and a.product_model = '" + productModel + "' and a.sta_year = " + year + " and a.sta_month = " + month + " and gujian_version_after <= gujian_version_current  group by a.sta_day";
             SQLQuery query = session.createSQLQuery(sql);
             List list = query.list();
 
@@ -56,8 +56,8 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
             json.put("total", buffer.toString().substring(0, buffer.toString().length() - 1));
             array.put(json);
         } else {
-            String sql = "select sta_month, count(id) as total from system_client " +
-                    "where gujian_version = '" + guJianVersion + "' and gujian_version_after = '" + guJianVersionAfter + "' and product_model = '" + productModel + "' and sta_year = " + year + " group by sta_month";
+            String sql = "select a.sta_month, count(a.id) as total from system_client a " + "left join system_client_info b on a.username = b.username " +
+                    "where a.gujian_version = '" + guJianVersion + "' and a.gujian_version_after = '" + guJianVersionAfter + "' and a.product_model = '" + productModel + "' and a.sta_year = " + year + " and gujian_version_after <= gujian_version_current group by a.sta_month";
             SQLQuery query = session.createSQLQuery(sql);
             List list = query.list();
 
