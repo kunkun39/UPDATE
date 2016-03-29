@@ -236,6 +236,16 @@
 
                                 <tr>
                                     <td width="200px;">
+                                         升级后固件版本
+                                    </td>
+                                    <td>
+                                        <spring-form:input path="guJianVersionAfter" maxlength="30" cssStyle="width:200px;"/>&nbsp; 长虹软件版本
+                                        <spring-form:errors path="guJianVersionAfter" cssClass="required"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td width="200px;">
                                          硬件版本
                                     </td>
                                     <td>

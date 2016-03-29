@@ -63,6 +63,7 @@ public class ProductUpdateHistoryFormController extends SimpleFormController {
             String softwareVersion = ServletRequestUtils.getStringParameter(request, "softwareVersion", "");
             String updateType = ServletRequestUtils.getStringParameter(request, "updateType", "");
             String guJianVersion = ServletRequestUtils.getStringParameter(request, "guJianVersion", "");
+            String guJianVersionAfter = ServletRequestUtils.getStringParameter(request, "guJianVersionAfter", "");
 
             if (!StringUtils.hasText(softwareVersion)) {
                 errors.rejectValue("softwareVersion", "update.software.version.empty");
@@ -84,6 +85,13 @@ public class ProductUpdateHistoryFormController extends SimpleFormController {
                     Double number = Double.valueOf(guJianVersion);
                 } catch (NumberFormatException e) {
                     errors.rejectValue("guJianVersion", "update.gujian.version.number");
+                }
+            }
+            if (StringUtils.hasText(guJianVersionAfter)) {
+                try {
+                    Double number = Double.valueOf(guJianVersionAfter);
+                } catch (NumberFormatException e) {
+                    errors.rejectValue("guJianVersionAfter", "update.gujian.version.number");
                 }
             }
 

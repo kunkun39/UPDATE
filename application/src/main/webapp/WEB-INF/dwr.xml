@@ -14,7 +14,6 @@
         <create creator="spring" javascript="SystemDWRHandler" scope="script">
             <param name="beanName" value="systemDWRHandler"/>
             <include method="obtainDailyClientUpdateAmountByMonth"/>
-            <include method="obtainDailyClientUpdateAmountByResult"/>
             <include method="obtainClientVersionAmountByResult"/>
         </create>
     </allow>

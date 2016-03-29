@@ -38,6 +38,7 @@ public class ProductUpdateWebAssember {
                 update.setSignatureType(updateDTO.getSignatureType());
                 update.setTestFlag(updateDTO.getTestFlag());
                 update.setGuJianVersion(updateDTO.getGuJianVersion());
+                update.setGuJianVersionAfter(updateDTO.getGuJianVersionAfter());
                 update.setYingJianVersion(updateDTO.getYingJianVersion());
                 update.setView(updateDTO.getView());
                 update.setUpdateModel(updateDTO.getUpdateModel());
@@ -51,7 +52,7 @@ public class ProductUpdateWebAssember {
                 }
             } else {
                 update = new ProductUpdate(updateFile, product, updateWay, updateURL, updateDTO.getSoftwareVersion(), updateDTO.getUpdateType(), updateDTO.getMacFilter(), updateDTO.getSignatureType(),
-                        updateDTO.getTestFlag(), updateDTO.getGuJianVersion(), updateDTO.getYingJianVersion(), updateDTO.getView(), updateDTO.getUpdateModel(),
+                        updateDTO.getTestFlag(), updateDTO.getGuJianVersion(), updateDTO.getGuJianVersionAfter(), updateDTO.getYingJianVersion(), updateDTO.getView(), updateDTO.getUpdateModel(),
                         updateDTO.getVersionCompareWay(), updateDTO.getClientVersion(), updateDTO.getApkUpdateURL());
             }
 
@@ -85,7 +86,7 @@ public class ProductUpdateWebAssember {
             } else {
                 update = new ProductUpdate(updateFile, product, updateWay, updateURL,
                         updateDTO.getSoftwareVersion(), updateDTO.getUpdateType(), updateDTO.getMacFilter(), updateDTO.getSignatureType(),
-                        updateDTO.getTestFlag(), updateDTO.getGuJianVersion(), updateDTO.getYingJianVersion(), updateDTO.getView(), updateDTO.getUpdateModel(),
+                        updateDTO.getTestFlag(), updateDTO.getGuJianVersion(), updateDTO.getGuJianVersionAfter(), updateDTO.getYingJianVersion(), updateDTO.getView(), updateDTO.getUpdateModel(),
                         updateDTO.getDvbVersion(), updateDTO.getDvbProviderCode(), updateDTO.getCaType(), updateDTO.getCaVersion(), updateDTO.getCaDependVersion(),
                         updateDTO.getVersionCompareWay(), updateDTO.getClientVersion(), updateDTO.getApkUpdateURL());
             }
@@ -151,6 +152,7 @@ public class ProductUpdateWebAssember {
             final String signatureType = update.getSignatureType();
             final String testFlag = update.getTestFlag();
             final String guJianVersion = update.getGuJianVersion();
+            final String guJianVersionAfter = update.getGuJianVersionAfter();
             final String yingJianVersion = update.getYingJianVersion();
             final String view = update.getView();
             final String updateModel = update.getUpdateModel();
@@ -160,7 +162,7 @@ public class ProductUpdateWebAssember {
             final String apkUpdateURL = update.getApkUpdateURL();
 
             return new ProductUpdateHistoryDTO(id, updateWay, updateWayName, updateURL, uploadFileId, uploadFileName,
-                    softwareVersion, updateType, macFilter, signatureType, testFlag, guJianVersion, yingJianVersion, view, updateModel,
+                    softwareVersion, updateType, macFilter, signatureType, testFlag, guJianVersion, guJianVersionAfter, yingJianVersion, view, updateModel,
                     versionCompareWay, clientVersion, apkUpdateURL);
 
         } else if ("3".equals(updateWay)) {
@@ -170,6 +172,7 @@ public class ProductUpdateWebAssember {
             final String signatureType = update.getSignatureType();
             final String testFlag = update.getTestFlag();
             final String guJianVersion = update.getGuJianVersion();
+            final String guJianVersionAfter = update.getGuJianVersionAfter();
             final String yingJianVersion = update.getYingJianVersion();
             final String view = update.getView();
             final String updateModel = update.getUpdateModel();
@@ -185,7 +188,7 @@ public class ProductUpdateWebAssember {
             final String apkUpdateURL = update.getApkUpdateURL();
 
             return new ProductUpdateHistoryDTO(id, updateWay, updateWayName, updateURL, uploadFileId, uploadFileName,
-                    softwareVersion, updateType, macFilter, signatureType, testFlag, guJianVersion, yingJianVersion, view, updateModel,
+                    softwareVersion, updateType, macFilter, signatureType, testFlag, guJianVersion, guJianVersionAfter, yingJianVersion, view, updateModel,
                     dvbVersion, dvbProviderCode, caType, caVersion, caDependVersion,
                     versionCompareWay ,clientVersion, apkUpdateURL);
 

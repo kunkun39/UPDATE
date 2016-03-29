@@ -33,10 +33,10 @@ public class ClientDaoImpl extends HibernateEntityObjectDao implements ClientDao
         }
     }
 
-    public synchronized void trackClientUpdateInfo(String username, String productModel, String guJianVersion) {
-        ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, productModel, guJianVersion, guJianVersion, "1");
-        List<ClientUpdateHistory> alreadyExists = getHibernateTemplate().find("from ClientUpdateHistory c where c.username = ? and c.productModel = ? and c.guJianVersion = ?",
-                new Object[]{username, productModel, guJianVersion});
+    public synchronized void trackClientUpdateInfo(String username, String productModel, String guJianVersion, String guJianVersionAfter) {
+        ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, productModel, guJianVersion, guJianVersionAfter, "1");
+        List<ClientUpdateHistory> alreadyExists = getHibernateTemplate().find("from ClientUpdateHistory c where c.username = ? and c.productModel = ? and c.guJianVersion = ? and c.guJianVersionAfter = ?",
+                new Object[]{username, productModel, guJianVersion, guJianVersionAfter});
 
         if (alreadyExists.isEmpty()) {
             getHibernateTemplate().saveOrUpdate(clientUpdateHistory);

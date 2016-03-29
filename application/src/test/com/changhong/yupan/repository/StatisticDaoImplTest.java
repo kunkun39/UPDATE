@@ -43,18 +43,4 @@ public class StatisticDaoImplTest extends TestCase {
     public void tearDown() {
         hibernateTemplate = null;
     }
-
-    @Transactional
-    @Test
-    public void testLoadDailyClientUpdateAmountByMonth() throws Exception {
-        JSONArray array = statisticDao.loadDailyClientUpdateAmountByMonth("ott", "1", 2014, 5);
-        System.out.println(array.toString());
-    }
-
-    @Transactional
-    @Test
-    public void testLoadDailyClientUpdateAmountByVersion() throws Exception {
-        JSONArray array = statisticDao.loadDailyClientUpdateAmountByResult("ott", 2014, 5);
-        System.out.println(array.toString());
-    }
 }

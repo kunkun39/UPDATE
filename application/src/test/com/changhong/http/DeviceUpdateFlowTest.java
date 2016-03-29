@@ -25,14 +25,14 @@ public class DeviceUpdateFlowTest extends TestCase {
     public void testExecuteDeviceUpdate() {
         String json = "{\n" +
                 "    \"client\": {\n" +
-                "        \"username\": \"97:2F:3C:D9:E6:42\",\n" +
+                "        \"username\": \"98:2F:3C:D9:E7:01\",\n" +
                 "        \"model\": \"IHO-1000_2K\",\n" +
                 "        \"datatype\": \"1\",\n" +
                 "        \"androidsdk\": \"19\",\n" +
                 "\t\t\"macadress\":\"101\",\n" +
                 "        \"signtype\": \"test\",\n" +
                 "        \"testmode\": \"false\",\n" +
-                "        \"firmwareversion\": \"2.6\",\n" +
+                "        \"firmwareversion\": \"1.6\",\n" +
                 "        \"hardwareversion\": \"00000020\",\n" +
                 "        \"apkversion\": \"2.6\"\n" +
                 "\t\t}\n" +

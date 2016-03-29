@@ -10,9 +10,7 @@ import org.json.JSONException;
  */
 public interface StatisticService {
 
-    JSONArray obtainDailyClientUpdateAmountByMonth(String productModel, String updateSuccess, int year, int month) throws JSONException;
-
-    JSONArray obtainDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException;
+    JSONArray obtainDailyClientUpdateAmountByMonth(String productModel, int year, int month, String guJianVersion, String guJianVersionAfter) throws JSONException;
 
     JSONArray obtainClientVersionAmountByResult(String productModel) throws JSONException;
 }

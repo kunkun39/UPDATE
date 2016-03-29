@@ -77,7 +77,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                 long during = endHandle - beginHandle;
                 logger.info("device " + username + " get update file successful with way " + datatype + " and take " + during + "ms");
                 //升级跟踪
-                clientService.updateClientHistoryInfo(username, model, firmwareversion);
+                clientService.updateClientHistoryInfo(username, model, firmwareversion, response.getUpdateVersionAfter());
             }
             //版本跟踪
             clientService.updateClientInfo(username, model, firmwareversion);

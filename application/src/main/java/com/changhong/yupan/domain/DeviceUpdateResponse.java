@@ -28,6 +28,8 @@ public class DeviceUpdateResponse {
     //信息用于记录升级后版本
     private String updateVersion;
 
+    private String updateVersionAfter;
+
     /**
      * 用于固件升级
      */
@@ -72,6 +74,7 @@ public class DeviceUpdateResponse {
 
         //信息用于记录升级后版本
         this.updateVersion = update.getGuJianVersion();
+        this.updateVersionAfter = update.getGuJianVersionAfter();
     }
 
     /**
@@ -123,5 +126,13 @@ public class DeviceUpdateResponse {
 
     public void setUpdateVersion(String updateVersion) {
         this.updateVersion = updateVersion;
+    }
+
+    public String getUpdateVersionAfter() {
+        return updateVersionAfter;
+    }
+
+    public void setUpdateVersionAfter(String updateVersionAfter) {
+        this.updateVersionAfter = updateVersionAfter;
     }
 }

@@ -11,9 +11,7 @@ import org.json.JSONException;
  */
 public interface StatisticDao extends EntityObjectDao {
 
-    JSONArray loadDailyClientUpdateAmountByMonth(String productModel, String updateSuccess, int year, int month) throws JSONException;
-
-    JSONArray loadDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException;
+    JSONArray loadDailyClientUpdateAmountByMonth(String productModel, int year, int month, String guJianVersion, String guJianVersionAfter) throws JSONException;
 
     JSONArray loadClientVersionAmountByResult(String productModel) throws JSONException;
 }

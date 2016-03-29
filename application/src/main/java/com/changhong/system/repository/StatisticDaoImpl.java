@@ -23,7 +23,7 @@ import java.util.Map;
 @Repository("statisticDao")
 public class StatisticDaoImpl extends HibernateEntityObjectDao implements StatisticDao {
 
-    public JSONArray loadDailyClientUpdateAmountByMonth(String productModel, String updateSuccess, int year, int month) throws JSONException {
+    public JSONArray loadDailyClientUpdateAmountByMonth(String productModel, int year, int month, String guJianVersion, String guJianVersionAfter) throws JSONException {
         Map<Integer, Integer> statistic = new HashMap<Integer, Integer>();
         JSONArray array = new JSONArray();
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -31,7 +31,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
         //全年统计
         if (month > 0) {
             String sql = "select sta_day, count(id) as total from system_client " +
-                    "where successful = '" + updateSuccess + "' and product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by sta_day";
+                    "where gujian_version = '" + guJianVersion + "' and gujian_version_after = '" + guJianVersionAfter + "' and product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by sta_day";
             SQLQuery query = session.createSQLQuery(sql);
             List list = query.list();
 
@@ -57,7 +57,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
             array.put(json);
         } else {
             String sql = "select sta_month, count(id) as total from system_client " +
-                    "where successful = '" + updateSuccess + "' and product_model = '" + productModel + "' and sta_year = " + year + " group by sta_month";
+                    "where gujian_version = '" + guJianVersion + "' and gujian_version_after = '" + guJianVersionAfter + "' and product_model = '" + productModel + "' and sta_year = " + year + " group by sta_month";
             SQLQuery query = session.createSQLQuery(sql);
             List list = query.list();
 
@@ -81,46 +81,6 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
             json.put("days", totalMonths);
             json.put("total", buffer.toString().substring(0, buffer.toString().length() - 1));
             array.put(json);
-        }
-
-        return array;
-    }
-
-    public JSONArray loadDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException {
-        JSONArray array = new JSONArray();
-        Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-
-        //全年统计
-        if (month > 0) {
-            String sql = "select successful, count(id) as total from system_client where product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by successful";
-            SQLQuery query = session.createSQLQuery(sql);
-            List list = query.list();
-
-            for (Object o : list) {
-                Object[] result = (Object[]) o;
-                String successful = (String) result[0];
-                BigInteger total = (BigInteger) result[1];
-
-                JSONObject json = new JSONObject();
-                json.put("successful", successful);
-                json.put("total", total);
-                array.put(json);
-            }
-        } else {
-            String sql = "select successful, count(id) as total from system_client where product_model = '" + productModel + "' and sta_year = " + year + " group by successful";
-            SQLQuery query = session.createSQLQuery(sql);
-            List list = query.list();
-
-            for (Object o : list) {
-                Object[] result = (Object[]) o;
-                String successful = (String) result[0];
-                BigInteger total = (BigInteger) result[1];
-
-                JSONObject json = new JSONObject();
-                json.put("successful", successful);
-                json.put("total", total);
-                array.put(json);
-            }
         }
 
         return array;

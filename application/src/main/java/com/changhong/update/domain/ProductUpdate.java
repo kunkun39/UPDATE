@@ -36,6 +36,8 @@ public class ProductUpdate extends EntityBase {
 
     private String guJianVersion;
 
+    private String guJianVersionAfter;
+
     private String yingJianVersion;
 
     private String view;
@@ -82,7 +84,7 @@ public class ProductUpdate extends EntityBase {
     //下面是固件升级个差分升级的构造方法
     public ProductUpdate(UpdateFile updateFile, Product product, String updateWay, String updateURL,
                          String softwareVersion, String updateType, String macFilter, String signatureType, String testFlag,
-                         String guJianVersion, String yingJianVersion, String view, String updateModel,
+                         String guJianVersion, String guJianVersionAfter, String yingJianVersion, String view, String updateModel,
                          String versionCompareWay, String clientVersion, String apkUpdateURL) {
         this.updateFile = updateFile;
         this.product = product;
@@ -94,6 +96,7 @@ public class ProductUpdate extends EntityBase {
         this.signatureType = signatureType;
         this.testFlag = testFlag;
         this.guJianVersion = guJianVersion;
+        this.guJianVersionAfter = guJianVersionAfter;
         this.yingJianVersion = yingJianVersion;
         this.view = view;
         this.updateModel = updateModel;
@@ -106,7 +109,7 @@ public class ProductUpdate extends EntityBase {
     //下面是DVB升级的构造方法
     public ProductUpdate(UpdateFile updateFile, Product product, String updateWay, String updateURL,
                          String softwareVersion, String updateType, String macFilter, String signatureType, String testFlag,
-                         String guJianVersion, String yingJianVersion, String view, String updateModel,
+                         String guJianVersion, String guJianVersionAfter, String yingJianVersion, String view, String updateModel,
                          String dvbVersion, String dvbProviderCode, String caType, String caVersion, String caDependVersion,
                          String versionCompareWay, String clientVersion, String apkUpdateURL) {
         this.updateFile = updateFile;
@@ -120,6 +123,7 @@ public class ProductUpdate extends EntityBase {
         this.signatureType = signatureType;
         this.testFlag = testFlag;
         this.guJianVersion = guJianVersion;
+        this.guJianVersionAfter = guJianVersionAfter;
         this.yingJianVersion = yingJianVersion;
         this.view = view;
         this.updateModel = updateModel;
@@ -302,6 +306,14 @@ public class ProductUpdate extends EntityBase {
 
     public void setGuJianVersion(String guJianVersion) {
         this.guJianVersion = guJianVersion;
+    }
+
+    public String getGuJianVersionAfter() {
+        return guJianVersionAfter;
+    }
+
+    public void setGuJianVersionAfter(String guJianVersionAfter) {
+        this.guJianVersionAfter = guJianVersionAfter;
     }
 
     public String getYingJianVersion() {
