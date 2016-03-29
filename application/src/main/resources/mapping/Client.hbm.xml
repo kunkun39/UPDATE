@@ -12,7 +12,7 @@
 
         <property name="model" column="product_model" insert="true" update="true" type="java.lang.String"/>
         <property name="username" column="username" insert="true" update="true" type="java.lang.String"/>
-        <property name="version" column="client_version" insert="true" update="true" type="java.lang.String"/>
+        <property name="version" column="gujian_version" insert="true" update="true" type="java.lang.String"/>
     </class>
 
     <class name="com.changhong.system.domain.ClientUpdateHistory" table="system_client">

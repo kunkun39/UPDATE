@@ -31,7 +31,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
         //全年统计
         if (month > 0) {
             String sql = "select sta_day, count(id) as total from system_client " +
-                    "where successful = '" + updateSuccess  + "' and product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by sta_day";
+                    "where successful = '" + updateSuccess + "' and product_model = '" + productModel + "' and sta_year = " + year + " and sta_month = " + month + " group by sta_day";
             SQLQuery query = session.createSQLQuery(sql);
             List list = query.list();
 
@@ -49,7 +49,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
 
             JSONObject json = new JSONObject();
             StringBuffer buffer = new StringBuffer();
-            for (int i=1; i<= totalDays; i++) {
+            for (int i = 1; i <= totalDays; i++) {
                 buffer.append(statistic.get(i) + ",");
             }
             json.put("days", CHDateUtils.getTotalDaysForOneMonth(year, month));
@@ -57,7 +57,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
             array.put(json);
         } else {
             String sql = "select sta_month, count(id) as total from system_client " +
-                    "where successful = '" + updateSuccess  + "' and product_model = '" + productModel + "' and sta_year = " + year + " group by sta_month";
+                    "where successful = '" + updateSuccess + "' and product_model = '" + productModel + "' and sta_year = " + year + " group by sta_month";
             SQLQuery query = session.createSQLQuery(sql);
             List list = query.list();
 
@@ -75,7 +75,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
 
             JSONObject json = new JSONObject();
             StringBuffer buffer = new StringBuffer();
-            for (int i=1; i<= totalMonths; i++) {
+            for (int i = 1; i <= totalMonths; i++) {
                 buffer.append(statistic.get(i) + ",");
             }
             json.put("days", totalMonths);
@@ -126,7 +126,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
         return array;
     }
 
-    public JSONArray loadVersionClientUpdateAmountByResult(String productModel,String updateSuccess) throws JSONException {
+    public JSONArray loadClientVersionAmountByResult(String productModel) throws JSONException {
         JSONArray array = new JSONArray();
         StringBuffer buffer = new StringBuffer();
         StringBuffer bufferTotal = new StringBuffer();
@@ -134,38 +134,27 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 
         //统计数据表中versionAfter升级的数量
-        String sqlCount = "select DISTINCT(gujian_version),count(id) as total from system_client where successful = '" + updateSuccess  + "' and product_model = '" + productModel + "' group by gujian_version";
+        String sqlCount = "select DISTINCT(gujian_version), count(id) as total from system_client_info where product_model = '" + productModel + "' group by gujian_version";
         SQLQuery queryCount = session.createSQLQuery(sqlCount);
         List list = queryCount.list();
 
-        if(list!=null&&list.size()>0){
-            for(Object o:list){
+        if (list != null && list.size() > 0) {
+            for (Object o : list) {
                 Object[] result = (Object[]) o;
-                String version= (String)result[0];
-                String total=result[1].toString();
+                String version = (String) result[0];
+                String total = result[1].toString();
 
-                buffer.append(version+",");
+                buffer.append(version + ",");
                 bufferTotal.append(total + ",");
             }
 
-        }else{
-            String sql = "select DISTINCT(gujian_version) from system_client where  product_model = '" + productModel + "' group by gujian_version";
-            SQLQuery query= session.createSQLQuery(sql);
-            List mList = query.list();
-            if(mList!=null&&mList.size()>0){
-                for(Object o:mList){
-                    String version= (String) o;
-                    buffer.append(version+",");
-                    bufferTotal.append(0 + ",");
-                }
-            }else{
-                buffer.append("2.01"+",");
-                bufferTotal.append(0 + ",");
-            }
+        } else {
+            buffer.append("1.0" + ",");
+            bufferTotal.append(0 + ",");
         }
 
-        json.put("version",buffer.toString().substring(0, buffer.toString().length() - 1));
-        json.put("total",bufferTotal.toString().substring(0, bufferTotal.toString().length() - 1));
+        json.put("version", buffer.toString().substring(0, buffer.toString().length() - 1));
+        json.put("total", bufferTotal.toString().substring(0, bufferTotal.toString().length() - 1));
         array.put(json);
 
         return array;

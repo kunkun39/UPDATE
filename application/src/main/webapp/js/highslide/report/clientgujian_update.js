@@ -88,7 +88,7 @@ var sta_container3 = {
         renderTo: 'container3'
     },
     title: {
-        text: '用户更新统计'
+        text: '用户版本统计'
     },
     subtitle: {
         text: ''
@@ -98,13 +98,13 @@ var sta_container3 = {
     },
     yAxis: {
         title: {
-            text: '次数'
+            text: '人'
         },
         min:0
     },
     tooltip: {
         formatter: function() {
-            return '<b>' + this.series.name + this.y + '次';
+            return '<b>' + this.series.name + this.y + '人';
         }
     },
     legend: {
@@ -124,12 +124,12 @@ var sta_container3 = {
         }
     }, series: [
         {
-            name: '升级数量',
+            name: '用户版本统计',
             data: []
         }
     ],
     credits:{
-        text:'用户升级成功/失败次数统计'
+        text:'用户版本统计'
     }
 };
 
@@ -141,7 +141,7 @@ var sta_container4 = {
         plotShadow: false
     },
     title: {
-        text: '用户更新统计'
+        text: '用户版本统计'
     },
     tooltip: {
         pointFormat: '<b>{series.name}: {point.percentage:.1f} %</b>'
@@ -154,7 +154,7 @@ var sta_container4 = {
                 enabled: true,
                 color: '#ffffff',
                 connectorColor: '#bbbbbb',
-                format: '{point.name}<br/>占总升级次数比{point.percentage:.1f} %'
+                format: '{point.name}<br/>占整体用户数比{point.percentage:.1f} %'
             }
         }
     },
@@ -162,11 +162,11 @@ var sta_container4 = {
         enabled: true
     },
     credits:{
-        text:'用户升级成功/失败次数统计'
+        text:'用户版本统计'
     },
     series: [{
         type: 'pie',
-        name: '升级数量比例',
+        name: '用户版本比例',
         data: []
     }]
 };

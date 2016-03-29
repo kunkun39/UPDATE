@@ -6,6 +6,6 @@
 
     </div>
     <div class="news">
-        <a href="${pageContext.request.contextPath}/backend/systemclientupdateversionreport.html">产品升级统计-按版本</a>
+        <a href="${pageContext.request.contextPath}/backend/systemclientversionreport.html">产品版本统计</a>
     </div>
 </div>

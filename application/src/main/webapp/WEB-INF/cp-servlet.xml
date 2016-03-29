@@ -41,7 +41,7 @@
 
                 <!--statistic part-->
                 <prop key="/backend/systemclientupdatereport.html">systemClientUpdateReportController</prop>
-                <prop key="/backend/systemclientupdateversionreport.html">systemClientUpdateVersionReportController</prop>
+                <prop key="/backend/systemclientversionreport.html">systemClientVersionReportController</prop>
 
                 <!--product part-->
                 <prop key="/backend/productmanagement.html">productManagementController</prop>
@@ -97,7 +97,7 @@
         <property name="productService" ref="productService"/>
     </bean>
 
-    <bean id="systemClientUpdateVersionReportController" class="com.changhong.system.web.controller.SystemClientUpdateVersionReportController">
+    <bean id="systemClientVersionReportController" class="com.changhong.system.web.controller.SystemClientVersionReportController">
         <property name="productService" ref="productService"/>
     </bean>
 

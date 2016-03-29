@@ -14,5 +14,5 @@ public interface StatisticService {
 
     JSONArray obtainDailyClientUpdateAmountByResult(String productModel, int year, int month) throws JSONException;
 
-    JSONArray obtainVersionClientUpdateAmountByResult(String productModel, String updateSuccess) throws JSONException;
+    JSONArray obtainClientVersionAmountByResult(String productModel) throws JSONException;
 }

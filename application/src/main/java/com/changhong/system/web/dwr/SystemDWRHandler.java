@@ -24,7 +24,7 @@ public class SystemDWRHandler {
         return statisticService.obtainDailyClientUpdateAmountByResult(productModel, year, month).toString();
     }
 
-    public String obtainVersionClientUpdateAmountByResult(String productModel, String updateSuccess) throws JSONException {
-        return statisticService.obtainVersionClientUpdateAmountByResult(productModel,updateSuccess).toString();
+    public String obtainClientVersionAmountByResult(String productModel) throws JSONException {
+        return statisticService.obtainClientVersionAmountByResult(productModel).toString();
     }
 }

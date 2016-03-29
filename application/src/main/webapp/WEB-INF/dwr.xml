@@ -15,7 +15,7 @@
             <param name="beanName" value="systemDWRHandler"/>
             <include method="obtainDailyClientUpdateAmountByMonth"/>
             <include method="obtainDailyClientUpdateAmountByResult"/>
-            <include method="obtainVersionClientUpdateAmountByResult"/>
+            <include method="obtainClientVersionAmountByResult"/>
         </create>
     </allow>
 </dwr>
