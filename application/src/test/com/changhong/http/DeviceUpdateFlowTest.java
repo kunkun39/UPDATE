@@ -19,42 +19,27 @@ import java.util.Scanner;
  */
 public class DeviceUpdateFlowTest extends TestCase {
 
-    public final static String HOST = "http://www.changhongotv.scmcc.com.cn:8080/update/";
+//    public final static String HOST = "http://www.changhongotv.scmcc.com.cn:8080/update/";
+    public final static String HOST = "http://localhost:8080/update/";
 
     public void testExecuteDeviceUpdate() {
         String json = "{\n" +
                 "    \"client\": {\n" +
-                "        \"username\": \"11:11:11:11:11\",\n" +
-                "        \"model\": \"TEST\",\n" +
+                "        \"username\": \"97:2F:3C:D9:E7:93\",\n" +
+                "        \"model\": \"IHO-1000_2K\",\n" +
                 "        \"datatype\": \"1\",\n" +
-                "        \"androidsdk\": \"17\",\n" +
+                "        \"androidsdk\": \"19\",\n" +
                 "\t\t\"macadress\":\"101\",\n" +
                 "        \"signtype\": \"test\",\n" +
                 "        \"testmode\": \"false\",\n" +
-                "        \"firmwareversion\": \"2.1\",\n" +
-                "        \"hardwareversion\": \"00000030\",\n" +
-                "        \"apkversion\": \"2.7\"\n" +
+                "        \"firmwareversion\": \"1.6\",\n" +
+                "        \"hardwareversion\": \"00000020\",\n" +
+                "        \"apkversion\": \"2.6\"\n" +
                 "\t\t}\n" +
                 "}";
 
         HttpClientRequestImpl client = new HttpClientRequestImpl();
         PostMethod method = new PostMethod(HOST + "main.html");
-        method.addParameter("json", json);
-        String s = client.httpPostRequest(method);
-        System.out.println(s);
-    }
-
-    public void testExecuteDeviceUpdateResultFailed_LIVE() {
-        String json = "{\n" +
-                "        \"username\": \"11:11:11:11:11\",\n" +
-                "        \"model\": \"TEST\",\n" +
-                "        \"versionBefore\": \"2.0\",\n" +
-                "        \"versionAfter\": \"2.7\",\n" +
-                "        \"success\": \"0\"\n" +
-                "}";
-
-        HttpClientRequestImpl client = new HttpClientRequestImpl();
-        PostMethod method = new PostMethod(HOST + "report.html");
         method.addParameter("json", json);
         String s = client.httpPostRequest(method);
         System.out.println(s);

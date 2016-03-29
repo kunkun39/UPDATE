@@ -1,18 +1,13 @@
 package com.changhong.yupan.repository;
 
 import com.changhong.common.repository.HibernateEntityObjectDao;
+import com.changhong.system.domain.Client;
 import com.changhong.system.domain.ClientUpdateHistory;
-import com.changhong.system.domain.ClientUpdateHistory2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.SQLQuery;
-import org.hibernate.classic.Session;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * User: Jack Wang
@@ -24,39 +19,30 @@ public class ClientDaoImpl extends HibernateEntityObjectDao implements ClientDao
 
     private static final Log logger = LogFactory.getLog(ClientDaoImpl.class);
 
-    @Value("${project.machine.id}")
-    private int machineID;
+    public void updateClientInfo(String username, String productModel, String guJianVersion) {
+        List<Client> clients = getHibernateTemplate().find("from Client c where c.username = ?", new Object[]{username});
 
-    private static List<ClientUpdateHistory> histories = new ArrayList<ClientUpdateHistory>();
+        if (clients.isEmpty()) {
+            Client client = new Client(productModel, username, guJianVersion);
+            getHibernateTemplate().saveOrUpdate(client);
+        } else {
+            Client client = clients.get(0);
+            if (!client.getVersion().equals(guJianVersion)) {
+                client.setVersion(guJianVersion);
+            }
+        }
+    }
 
-    public synchronized void updateClientInfoByUsername(String username, String productModel, String guJianVersion, String guJianVersionAfter, String success) {
-        /**
-         * 老的保存用户更新记录，每一次插入都开一个连接
-         */
-//        Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-//
-//        ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, productModel, guJianVersion, guJianVersionAfter);
-//        SQLQuery insert = session.createSQLQuery("insert system_client(username, product_model, gujian_version, gujian_version_after, sta_year, sta_month, sta_day, sta_hour) " +
-//                "values ('" + username + "', '" + productModel + "','" + guJianVersion + "', '" + guJianVersionAfter +
-//                "', '" + clientUpdateHistory.getYear() + "', '" + clientUpdateHistory.getMonth() + "', '" + clientUpdateHistory.getDay() + "', '" + clientUpdateHistory.getHour() + "')");
-//        insert.executeUpdate();
+    public synchronized void trackClientUpdateInfo(String username, String productModel, String guJianVersion) {
+        ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, productModel, guJianVersion, guJianVersion, "1");
+        List<ClientUpdateHistory> alreadyExists = getHibernateTemplate().find("from ClientUpdateHistory c where c.username = ? and c.productModel = ? and c.guJianVersion = ?",
+                new Object[]{username, productModel, guJianVersion});
 
-        /**
-         * 最新的, MYSQL批插入，速度是5倍以上，请看测试代码
-         */
-        ClientUpdateHistory clientUpdateHistory = new ClientUpdateHistory(username, productModel, guJianVersion, guJianVersionAfter, success);
-        histories.add(clientUpdateHistory);
-        if (histories.size() >= 5) {
-            getHibernateTemplate().saveOrUpdateAll(histories);
-            histories.clear();
+        if (alreadyExists.isEmpty()) {
+            getHibernateTemplate().saveOrUpdate(clientUpdateHistory);
         }
     }
 
     public void updateLeftClientInfo() {
-        if (histories.size() > 0) {
-            logger.info("save left client update history " + histories.size());
-            getHibernateTemplate().saveOrUpdateAll(histories);
-            histories.clear();
-        }
     }
 }

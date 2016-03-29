@@ -32,6 +32,9 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
     @Autowired
     private UpdateDao updateDao;
 
+    @Autowired
+    private ClientService clientService;
+
     @Value("${application.web.url}")
     private String webAddress;
 
@@ -63,11 +66,21 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
 
             /******************************************统计部分黄金分割线************************************************/
 
+            String firmwareversion = "";
+            if ("1".equals(datatype)) {
+                firmwareversion = client.getString("firmwareversion");
+            } else {
+                firmwareversion = client.getString("firmware_diffversion");
+            }
             if (response != null) {
                 long endHandle = System.currentTimeMillis();
                 long during = endHandle - beginHandle;
                 logger.info("device " + username + " get update file successful with way " + datatype + " and take " + during + "ms");
+                //升级跟踪
+                clientService.updateClientHistoryInfo(username, model, firmwareversion);
             }
+            //版本跟踪
+            clientService.updateClientInfo(username, model, firmwareversion);
 
         } catch (JSONException e) {
             logger.error("parse json error", e);
@@ -445,23 +458,5 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
         String cacheKey = model + "|" + updateWay + "|" + version;
 
         return updateDao.isSNInList(cacheKey, username);
-    }
-
-    /***************************************************升级信息统计部分************************************************/
-
-    public void obtainUpdateReport(String json) {
-        try {
-            JSONObject object = (JSONObject) JSONObject.parse(json);
-            String username = object.getString("username");
-            String model = object.getString("model");
-            String versionBefore = object.getString("versionBefore");
-            String versionAfter = object.getString("versionAfter");
-            String success = object.getString("success");
-            if (StringUtils.hasText(username) && StringUtils.hasText(model) && StringUtils.hasText(versionBefore) && StringUtils.hasText(versionAfter)) {
-                ApplicationEventPublisher.publish(new ClientInfoUpdateEvent(username, model, versionBefore, versionAfter, success));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -7,7 +7,9 @@ package com.changhong.yupan.service;
  */
 public interface ClientService {
 
-    public void updateClientInfo(String username, String productModel, String guJianVersion, String guJianVersionAfter, String success);
+    public void updateClientInfo(String username, String productModel, String guJianVersion);
+
+    public void updateClientHistoryInfo(String username, String productModel, String guJianVersion);
 
     public void updateLeftClientInfo();
 }

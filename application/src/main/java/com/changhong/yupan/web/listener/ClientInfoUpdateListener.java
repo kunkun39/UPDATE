@@ -32,7 +32,7 @@ public class ClientInfoUpdateListener implements ApplicationListener {
             String success = clientUpdate.getSuccess();
 
             logger.info("device " + username + " update to version " + gujianVersionAfter + "with result " + success);
-            clientService.updateClientInfo(username, productModel, gujianVersion, gujianVersionAfter, success);
+            clientService.updateClientHistoryInfo(username, productModel, gujianVersion);
         }
     }
 }

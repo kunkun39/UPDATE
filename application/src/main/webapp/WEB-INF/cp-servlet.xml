@@ -61,10 +61,6 @@
 
                 <!--device update part-->
                 <prop key="/main.html">deviceUpdateSourceProvideController</prop>
-                <prop key="/report.html">deviceUpdateReportController</prop>
-
-                <!--other part-->
-                <prop key="/backend/urlpaser.html">yuPanUrlParserController</prop>
             </props>
         </property>
     </bean>
@@ -165,11 +161,5 @@
     <bean id="deviceUpdateSourceProvideController" class="com.changhong.yupan.web.controller.DeviceUpdateSourceProvideController">
         <property name="deviceUpdateService" ref="deviceUpdateService"/>
     </bean>
-
-    <bean id="deviceUpdateReportController" class="com.changhong.yupan.web.controller.DeviceUpdateReportController">
-        <property name="deviceUpdateService" ref="deviceUpdateService"/>
-    </bean>
-
-    <bean id="yuPanUrlParserController" class="com.changhong.yupan.web.controller.YuPanUrlParserController"/>
 
 </beans>

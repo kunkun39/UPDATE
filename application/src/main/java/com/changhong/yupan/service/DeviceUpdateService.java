@@ -9,6 +9,4 @@ package com.changhong.yupan.service;
 public interface DeviceUpdateService {
 
     String obtainUpdateData(String json);
-
-    void obtainUpdateReport(String json);
 }

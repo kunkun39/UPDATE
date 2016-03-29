@@ -10,7 +10,9 @@ import com.changhong.common.repository.EntityObjectDao;
  */
 public interface ClientDao extends EntityObjectDao {
 
-    public void updateClientInfoByUsername(String username, String productModel, String guJianVersion, String guJianVerionAfter, String success);
+    public void updateClientInfo(String username, String productModel, String guJianVersion);
+
+    public void trackClientUpdateInfo(String username, String productModel, String guJianVersion);
 
     void updateLeftClientInfo();
 }
