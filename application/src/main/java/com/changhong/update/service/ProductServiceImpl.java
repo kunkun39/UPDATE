@@ -249,6 +249,6 @@ public class ProductServiceImpl implements ProductService {
         String returnPath = DocumentPathResolver.generateUploadFileNamePath(update);
         File directory = new File(baseStorePath + File.separatorChar + returnPath);
 
-        return directory.getAbsolutePath() + File.separatorChar + "devices.txt";
+        return directory.getAbsolutePath() + File.separatorChar + update.getUpdateVersionName() + "_" + "devices.txt";
     }
 }

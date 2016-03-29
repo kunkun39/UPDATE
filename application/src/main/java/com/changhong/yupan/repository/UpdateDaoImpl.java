@@ -90,7 +90,7 @@ public class UpdateDaoImpl extends HibernateEntityObjectDao implements UpdateDao
 
         String returnPath = DocumentPathResolver.generateUploadFileNamePath(update);
         File directory = new File(baseStorePath + File.separatorChar + returnPath);
-        String deviceFile = directory.getAbsolutePath() + File.separatorChar + "devices.txt";
+        String deviceFile = directory.getAbsolutePath() + File.separatorChar + update.getUpdateVersionName() + "_" + "devices.txt";
 
         File file = new File(deviceFile);
         try {
