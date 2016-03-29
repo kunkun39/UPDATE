@@ -19,7 +19,7 @@ import java.util.Map;
  * Date: 14-5-11
  * Time: 下午7:49
  */
-public class SystemClientUpdateVersionReportController extends AbstractController {
+public class SystemClientVersionReportController extends AbstractController {
 
     private ProductService productService;
 
@@ -30,10 +30,8 @@ public class SystemClientUpdateVersionReportController extends AbstractControlle
         Map<String, Object> model = new HashMap<String, Object>();
         List<Product> products = productService.obtainAllUserProducts(SecurityUtils.currectUserId());
         model.put("products", products);
-//        model.put("reportYear", CHDateUtils.getCurrentYear());
-//        model.put("reportMonth", CHDateUtils.getCurrentMonth());
 
-        return new ModelAndView("backend/system/systemclientupdateversionreport", model);
+        return new ModelAndView("backend/system/systemclientversionreport", model);
     }
 
     public void setProductService(ProductService productService) {
