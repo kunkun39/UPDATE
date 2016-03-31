@@ -94,7 +94,7 @@ public class StatisticDaoImpl extends HibernateEntityObjectDao implements Statis
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 
         //统计数据表中versionAfter升级的数量
-        String sqlCount = "select DISTINCT(gujian_version), count(id) as total from system_client_info where product_model = '" + productModel + "' group by gujian_version";
+        String sqlCount = "select DISTINCT(gujian_version_current), count(id) as total from system_client_info where product_model = '" + productModel + "' group by gujian_version_current";
         SQLQuery queryCount = session.createSQLQuery(sqlCount);
         List list = queryCount.list();
 
