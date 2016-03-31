@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+    </bean>
+
+    <bean id="multipartResolver" class="com.changhong.common.web.resolver.ApplicationMultipartResolver">
+        <property name="maxUploadSize" value="1073750000"/>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    </bean>
+
+    <bean class="com.changhong.common.web.handler.ApplicationExceptionHandler"/>
+
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="0"/>
+        <property name="mappings">
+            <props>
+                <prop key="/error.html">errorHandleController</prop>
+                <prop key="/backend/error.html">errorHandleController</prop>
+                <prop key="/backend/index.html">updateLoginController</prop>
+                <prop key="/backend/dashboard.html">dashboardController</prop>
+
+                <!--system part-->
+                <prop key="/backend/useroverview.html">userManagementController</prop>
+                <prop key="/backend/userform.html">userFormController</prop>
+                <prop key="/backend/userchangeenable.html">userChangeEnableController</prop>
+                <prop key="/backend/userchangepassword.html">userChangePasswordController</prop>
+                <prop key="/backend/systemactionlogoverview.html">systemActionLogManagementController</prop>
+
+                <!--statistic part-->
+                <prop key="/backend/systemclientupdatereport.html">systemClientUpdateReportController</prop>
+                <prop key="/backend/systemclientversionreport.html">systemClientVersionReportController</prop>
+
+                <!--product part-->
+                <prop key="/backend/productmanagement.html">productManagementController</prop>
+                <prop key="/backend/productcategorytree.html">productCategoryTreeController</prop>
+                <prop key="/backend/categoryform.html">productCategoryFormController</prop>
+                <prop key="/backend/categorydelete.html">productCategoryDeleteController</prop>
+                <prop key="/backend/productoverview.html">productOverviewController</prop>
+                <prop key="/backend/productform.html">productFormController</prop>
+                <prop key="/backend/productdelete.html">productDeleteController</prop>
+                <prop key="/backend/myresponsibleproduct.html">myResponsibleProductController</prop>
+                <prop key="/backend/productupdatehistory.html">productUpdateHistoryController</prop>
+                <prop key="/backend/productupdatehistoryform.html">productUpdateHistoryFormController</prop>
+                <prop key="/backend/productupdatehistorydelete.html">productUpdateHistoryDeleteController</prop>
+                <prop key="/backend/productupdatefiledownload.html">productUpdateHistoryFileDownloadController</prop>
+                <prop key="/backend/fileuploadpercentage.html">fileUploadPercentageGetController</prop>
+                <prop key="/backend/productupdatesnlist.html">productUpdateSNListController</prop>
+
+                <!--device update part-->
+                <prop key="/main.html">deviceUpdateSourceProvideController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="errorHandleController" class="com.changhong.common.web.contorller.ApplicationExceptionController"/>
+
+    <bean id="updateLoginController" class="com.changhong.update.web.controller.UpdateLoginController"/>
+
+    <bean id="dashboardController" class="com.changhong.update.web.controller.DashboardController"/>
+
+    <!--system part-->
+
+    <bean id="userManagementController" class="com.changhong.system.web.controller.UserManagementController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userFormController" class="com.changhong.system.web.controller.UserFormController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userChangeEnableController" class="com.changhong.system.web.controller.UserChangeEnableController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userChangePasswordController" class="com.changhong.system.web.controller.UserChangePasswordController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="systemActionLogManagementController" class="com.changhong.system.web.controller.SystemActionLogManagementController">
+        <property name="systemService" ref="systemService"/>
+    </bean>
+
+    <bean id="systemClientUpdateReportController" class="com.changhong.system.web.controller.SystemClientUpdateReportController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="systemClientVersionReportController" class="com.changhong.system.web.controller.SystemClientVersionReportController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <!--product category and product part-->
+
+    <bean id="productManagementController" class="com.changhong.update.web.controller.product.ProductManagementController"/>
+
+    <bean id="productCategoryTreeController" class="com.changhong.update.web.controller.product.ProductCategoryTreeController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productCategoryFormController" class="com.changhong.update.web.controller.product.ProductCategoryFormController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productCategoryDeleteController" class="com.changhong.update.web.controller.product.ProductCategoryDeleteController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productOverviewController" class="com.changhong.update.web.controller.product.ProductOverviewController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productFormController" class="com.changhong.update.web.controller.product.ProductFormController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productDeleteController" class="com.changhong.update.web.controller.product.ProductDeleteController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="myResponsibleProductController" class="com.changhong.update.web.controller.product.MyResponsibleProductOverviewController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productUpdateHistoryController" class="com.changhong.update.web.controller.product.ProductUpdateHistoryOverviewController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productUpdateHistoryFormController" class="com.changhong.update.web.controller.product.ProductUpdateHistoryFormController">
+        <property name="productService" ref="productService"/>
+        <property name="validateURL" value="${project.external.url.validate}"/>
+    </bean>
+
+    <bean id="productUpdateHistoryFileDownloadController" class="com.changhong.update.web.controller.product.ProductUpdateHistoryFileDownloadController">
+        <property name="productService" ref="productService"/>
+        <property name="documentService" ref="documentService"/>
+    </bean>
+
+    <bean id="productUpdateHistoryDeleteController" class="com.changhong.update.web.controller.product.ProductUpdateHistoryDeleteController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="fileUploadPercentageGetController" class="com.changhong.common.web.contorller.FileUploadPercentageGetController"/>
+
+    <bean id="productUpdateSNListController" class="com.changhong.update.web.controller.product.ProductUpdateSNListController">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <!--device update part-->
+    <bean id="deviceUpdateSourceProvideController" class="com.changhong.yupan.web.controller.DeviceUpdateSourceProvideController">
+        <property name="deviceUpdateService" ref="deviceUpdateService"/>
+    </bean>
+
+</beans>

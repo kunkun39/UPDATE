@@ -1,0 +1,11 @@
+1 - 川网升级服务器
+
+JAVA_OPTS="$JAVA_OPTS -Xms4096M -Xmx4096M -XX:PermSize=512M -XX:MaxPermSize=512M"
+
+<Connector port="8082" protocol="org.apache.coyote.http11.Http11Protocol" maxThread="2000" acceptCount="1000"
+               connectionTimeout="20000" enableLookups="false"
+               redirectPort="8443" URIEncoding="UTF-8"/>
+
+ulimit -a 40000
+
+------------------------------------------------------------------------------------------------------------------------
