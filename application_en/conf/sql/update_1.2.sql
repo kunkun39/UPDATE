@@ -1,1 +1,0 @@
-alter table system_client add `gujian_version_after` varchar(20) default '1.0';

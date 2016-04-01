@@ -51,15 +51,15 @@
     display: inline-block;
     height: 33px;
     line-height: 32px;
-    background: url("./images/tag_bg.png") no-repeat center center;
-    width: 92px;
+    background: url("./images/tag_bg.png") repeat center center;
+    width: 150px;
     text-align: center;
     color: white;
     font-size: 13px;
 }
 
 .header .menu a.selected {
-    background: url("./images/tag_active_bg.png") no-repeat center center;
+    background: url("./images/tag_active_bg.png") repeat center center;
 }
 
 .wrapper .header .logo {

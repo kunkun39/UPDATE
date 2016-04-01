@@ -1,5 +1,6 @@
 package com.changhong.yupan.domain;
 
+import com.alibaba.fastjson.JSONObject;
 import com.changhong.common.utils.NumberUtils;
 import com.changhong.update.domain.ProductUpdate;
 import com.changhong.yupan.utils.ExternalUrlGetterUtils;
@@ -69,9 +70,6 @@ public class DeviceUpdateResponse {
             this.deviceURL = webAddress + update.getActualFilePath() + "/" + update.getActualFileName();
         }
 
-        //返回的URL需要在前面加VIEW属性
-        this.deviceURL = view + updateModel + this.deviceURL;
-
         //信息用于记录升级后版本
         this.updateVersion = update.getGuJianVersion();
         this.updateVersionAfter = update.getGuJianVersionAfter();
@@ -85,7 +83,19 @@ public class DeviceUpdateResponse {
         this.updateModel = update.getUpdateModel();
         this.obtainDataWay = ObtainDataWay.EXTERNAL_URL;
         this.updateVersion = update.getClientVersion();
-        this.deviceURL = view + updateModel + update.getApkUpdateURL();
+        this.updateVersionAfter = update.getGuJianVersionAfter();
+        this.deviceURL = update.getApkUpdateURL();
+    }
+
+    public String obtainUpdateResponse() {
+        JSONObject value = new JSONObject();
+
+        value.put("ver", updateVersionAfter);
+        value.put("url", deviceURL);
+        value.put("view", view);
+        value.put("updatemodel", updateModel);
+
+        return value.toJSONString();
     }
 
     public ObtainDataWay getObtainDataWay() {

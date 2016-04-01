@@ -71,6 +71,7 @@
         <property name="signatureType" column="signature_type" insert="true" update="true" type="java.lang.String"/>
 
         <property name="guJianVersion" column="gujian_version" insert="true" update="true" type="java.lang.String"/>
+        <property name="guJianVersionAfter" column="gujian_version_after" insert="true" update="true" type="java.lang.String"/>
         <property name="yingJianVersion" column="yingjian_version" insert="true" update="true" type="java.lang.String"/>
         <property name="updateModel" column="update_model" insert="true" update="true" type="java.lang.String"/>
         <property name="view" column="view" insert="true" update="true" type="java.lang.String"/>
@@ -92,5 +93,6 @@
 
         <property name="clientVersion" column="client_version" insert="true" update="true" type="java.lang.String"/>
         <property name="apkUpdateURL" column="client_apk_url" insert="true" update="true" type="java.lang.String"/>
+
     </class>
 </hibernate-mapping>

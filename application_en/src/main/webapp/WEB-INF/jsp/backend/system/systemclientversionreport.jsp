@@ -150,7 +150,7 @@
                         newData[i]=parseInt(total[i]);
                     }
                     sta_container3.series[0].data =newData;
-                    sta_container3.title.text = "Product (" + productModel + ") "+ successfulString + " update statistic by version";
+                    sta_container3.title.text = "Product (" + productModel + ") " + " User statistics for each version";
                     new Highcharts.Chart(sta_container3);
                 });
 
@@ -186,7 +186,7 @@
                     sta_container4.series[0].data = newData;
                 }
 
-                sta_container4.title.text = "Product (" + productModel + ") "+ successfulString + " update statistic by version";
+                sta_container4.title.text = "Product (" + productModel + ") " + " User statistics for each version";
                 new Highcharts.Chart(sta_container4);
             });
         }

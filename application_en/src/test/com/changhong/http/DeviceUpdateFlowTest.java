@@ -19,8 +19,9 @@ import java.util.Scanner;
  */
 public class DeviceUpdateFlowTest extends TestCase {
 
-//    public final static String HOST = "http://www.changhongotv.scmcc.com.cn:8080/update/";
-    public final static String HOST = "http://localhost:8080/update/";
+//    public final static String HOST = "http://www.ottserver.com:8080/update/";
+    public final static String HOST = "http://chupdate.yuppcdn.net:8080/update/";
+//    public final static String HOST = "http://211.149.208.93:8099/update/";
 
     public void testExecuteDeviceUpdate() {
         String json = "{\n" +

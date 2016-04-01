@@ -78,7 +78,8 @@ public class UpdateDaoImpl extends HibernateEntityObjectDao implements UpdateDao
                 update.generateCacheData();
 
                 List<String> sns = getSNLists(update);
-                snsCache.put(cacheKey, sns);
+                String snCacheKey = cacheKey + "|" + update.getId();
+                snsCache.put(snCacheKey, sns);
             }
             cache.put(cacheKey, updates);
         }

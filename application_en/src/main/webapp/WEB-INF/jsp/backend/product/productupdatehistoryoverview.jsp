@@ -15,7 +15,7 @@
     <tr>
         <td valign="top">
             <div style="float: left; padding-right: 5px; padding-top: 5px; padding-left: 1px;">
-                <a href="${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${productId}"><button class="thoughtbot">Add Update</button></a>
+                <a href="#" onclick="window.location.href='${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${productId}'"><button class="thoughtbot">Add Update</button></a>
             </div>
             <form action="${pageContext.request.contextPath}/backend/productupdatehistory.html" class="search_form" method="POST">
                 <div class="search">
@@ -40,8 +40,7 @@
             <table width="100%" cellpadding="0" cellspacing="0" class="list">
                 <thead>
                 <td width="8%">&nbsp;&nbsp;Create Time</td>
-                <td width="7%">Update Type</td>
-		<td width="10%">Operator/package name/program name</td>
+                <td width="10%">Update Type</td>
                 <td width="5%">Version</td>
                 <td width="28%">Json Configuration</td>
                 <td width="28%">Update File Configuration</td>
@@ -55,7 +54,6 @@
                     <c:set var="turns" value="${!turns}"/>
                         <td>&nbsp;&nbsp;<ch:timeformat value="${update.uploadTime}" pattern="yyyy-MM-dd HH:mm"/></td>
                         <td>${update.updateWay} </td>
-                        <td>${update.updateCategoryName} </td>
                         <td>${update.updateVersion} </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/web/upload${update.jsonPath}" target="_blank">
@@ -70,7 +68,7 @@
                             </c:if>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${product.id}&productUpdateId=${update.id}&updateWayFilter=${updateWayFilter}&versionFilter=${versionFilter}"><button class="thoughtbot">Edit</button></a>
+                            <a href="#" onclick="window.location.href='${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${product.id}&productUpdateId=${update.id}&updateWayFilter=${updateWayFilter}&versionFilter=${versionFilter}'"><button class="thoughtbot">Edit</button></a>
                             <a href="${pageContext.request.contextPath}/backend/productupdatehistorydelete.html?productId=${product.id}&productUpdateId=${update.id}&updateWayFilter=${updateWayFilter}&versionFilter=${versionFilter}" onclick="return updateDeleteConfirm();"><button class="thoughtbot">Delete</button></a>
                             <%--<c:if test="${update.updateUploadFileId > 0}">--%>
                                 <%--<a href="${pageContext.request.contextPath}/backend/productupdatefiledownload.html?productUpdateId=${update.id}&updateUploadFileId=${update.updateUploadFileId}" class="btns"><span>下载</span></a>--%>

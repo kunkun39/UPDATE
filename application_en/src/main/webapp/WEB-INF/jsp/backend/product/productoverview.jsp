@@ -18,7 +18,7 @@
     <tr>
         <td valign="top">
             <div style="float: left; padding-right: 5px;">
-                <a href="${pageContext.request.contextPath}/backend/productform.html?name=${name}&current=${current}&categoryId=${categoryId}"><button class="thoughtbot">Add Product</button></a>
+                <a href="#" onclick="window.location.href='${pageContext.request.contextPath}/backend/productform.html?name=${name}&current=${current}&categoryId=${categoryId}'"><button class="thoughtbot">Add Product</button></a>
             </div>
             <form action="${pageContext.request.contextPath}/backend/productoverview.html" class="search_form" method="POST">
                 <div class="search">
@@ -45,9 +45,9 @@
                             <td>${product.productModel}</td>
                             <td>${product.productDescription} </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/backend/productform.html?productId=${product.id}&name=${name}&current=${current}&categoryId=${categoryId}"><button class="thoughtbot">Edit</button></a>
+                                <a href="#" onclick="window.location.href='${pageContext.request.contextPath}/backend/productform.html?productId=${product.id}&name=${name}&current=${current}&categoryId=${categoryId}'"><button class="thoughtbot">Edit</button></a>
                                 <a href="#" onclick="return productDeleteConfirm('${product.id}', '${name}', '${current}', '${categoryId}');"><button class="thoughtbot">Delete</button></a>
-                                <a href="${pageContext.request.contextPath}/backend/productupdatehistory.html?productId=${product.id}" target="_blank"><button class="thoughtbot">Update Setting</button></a>
+                                <a href="#" onclick="window.open('${pageContext.request.contextPath}/backend/productupdatehistory.html?productId=${product.id}')"><button class="thoughtbot">Update Setting</button></a>
                             </td>
                         </tr>
                     </c:forEach>

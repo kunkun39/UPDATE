@@ -124,7 +124,7 @@
                         totalUpdateTimes = totalUpdateTimes + parseInt(total[i]);
                     }
                     sta_container1.series[0].data = newData;
-                    sta_container1.title.text = "Product(" + productModel + ") in year " + year + " " + successfulString + " update " + totalUpdateTimes + " times totally";
+                    sta_container1.title.text = "Product(" + productModel + ") in year " + year + " successfully update " + totalUpdateTimes + " times totally";
 
                     new Highcharts.Chart(sta_container1);
                 });
@@ -153,7 +153,7 @@
                     }
                     sta_container1.series[0].data = newData;
 
-                    sta_container1.title.text = "Product(" + productModel + ") in " + year + "-" + month + " " + successfulString + " update " + totalUpdateTimes +  " times totally";
+                    sta_container1.title.text = "Product(" + productModel + ") in " + year + "-" + month + " successfully update " + totalUpdateTimes +  " times totally";
 
                     new Highcharts.Chart(sta_container1);
             });
