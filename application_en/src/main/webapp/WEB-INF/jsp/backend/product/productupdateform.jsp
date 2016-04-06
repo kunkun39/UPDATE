@@ -476,7 +476,7 @@
                             <spring-form:input path="apkUpdateURL" maxlength="200" cssStyle="width:600px;"/>&nbsp;
                             <spring-form:errors path="apkUpdateURL" cssClass="required"/>
                             <br/>
-                            Not：if client update apk name update_xxxx.zip, such as http://www.baidu.com/update_1.0.zip
+                            Note：if client update apk name update_xxxx.zip, such as http://www.baidu.com/update_1.0.zip
                         </td>
                     </tr>
 

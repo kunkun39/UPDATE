@@ -112,6 +112,17 @@
 
 	    return items;
 	}
+
+	function saveAppCategory(form) {
+        var categoryName = jQuery("#name").val();
+        if (categoryName == null || categoryName == '') {
+            jQuery("#categoryName_help").css("display", "block");
+        } else {
+            jQuery("#categoryName_help").css("display", "none");
+	    form.submit();
+        }
+    }
+
 	function loadProducts(categoryId){
 		jQuery.ajax({
 			type: "post",

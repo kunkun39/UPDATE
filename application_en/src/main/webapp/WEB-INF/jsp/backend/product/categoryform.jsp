@@ -21,11 +21,12 @@
                 <td>Categoy Name:</td>
                 <td>
                     <input type="text" id="name" name="name" value="${category.name}" style="width: 200px"/>
+                    <span id="categoryName_help"style="display: none; color: red;">The category name field not allowed to be empty</span>
                 </td>
             </tr>
 			<tr>
                 <td></td>
-                <td><input type="submit" value="Save"></td>
+                <td><input type="button" onclick="saveAppCategory(this.form);" value="save"/></td>
             </tr>
 		</table>
 	</form>
