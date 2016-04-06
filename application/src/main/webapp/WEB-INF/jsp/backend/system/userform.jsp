@@ -70,7 +70,7 @@
                                         <c:set var="existCategories" value="${existCategories}_${category.id}|"/>
                                         <div id="manage_category_${category.id}">
                                             ${category.fullPath}
-                                            <a onclick="removeManageCategory('${category.id}')" href="userform.jsp#">
+                                            <a onclick="removeManageCategory('${category.id}')" href="#">
                                                 <input type="button" value="删除"/>
                                             </a>
                                         </div>
@@ -90,7 +90,7 @@
                             <button type="button" class="thoughtbotform" onclick="window.location.href='${pageContext.request.contextPath}/backend/useroverview.html?filername=${filername}&current=${current}'">
                                 返回
                             </button>
-                        	<button name="" type="submit" class="thoughtbotform" onclick="javascript: return validate();">保存</button>
+                        	<button name="" type="submit" class="thoughtbotform" >保存</button>
                         </td>
                     </tr>
                 </table>

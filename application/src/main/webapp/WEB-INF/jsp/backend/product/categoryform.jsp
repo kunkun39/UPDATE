@@ -21,11 +21,12 @@
                 <td>目录名称:</td>
                 <td>
                     <input type="text" id="name" name="name" value="${category.name}" style="width: 200px"/>
+                    <span id="categoryName_help"style="display: none; color: red;">目录名称不能为空</span>
                 </td>
             </tr>
 			<tr>
                 <td></td>
-                <td><input type="submit" value="保存"></td>
+		<td><input type="button" onclick="saveAppCategory(this.form);" value="保存"/></td>
             </tr>
 		</table>
 	</form>

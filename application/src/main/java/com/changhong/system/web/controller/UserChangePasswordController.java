@@ -61,7 +61,6 @@ public class UserChangePasswordController extends SimpleFormController {
                 }
             }
         }
-        System.out.println(1);
     }
 
     @Override

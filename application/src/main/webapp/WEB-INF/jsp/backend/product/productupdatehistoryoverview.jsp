@@ -15,7 +15,7 @@
     <tr>
         <td valign="top">
             <div style="float: left; padding-right: 5px; padding-top: 5px; padding-left: 1px;">
-                <a href="${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${productId}"><button class="thoughtbot">新增升级</button></a>
+                <a href="#" onclick="window.location.href='${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${productId}'"><button class="thoughtbot">新增升级</button></a>
             </div>
             <form action="${pageContext.request.contextPath}/backend/productupdatehistory.html" class="search_form" method="POST">
                 <div class="search">
@@ -70,7 +70,7 @@
                             </c:if>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${product.id}&productUpdateId=${update.id}&updateWayFilter=${updateWayFilter}&versionFilter=${versionFilter}"><button class="thoughtbot">编辑</button></a>
+                            <a href="#" onclick="window.location.href='${pageContext.request.contextPath}/backend/productupdatehistoryform.html?productId=${product.id}&productUpdateId=${update.id}&updateWayFilter=${updateWayFilter}&versionFilter=${versionFilter}'"><button class="thoughtbot">编辑</button></a>
                             <a href="${pageContext.request.contextPath}/backend/productupdatehistorydelete.html?productId=${product.id}&productUpdateId=${update.id}&updateWayFilter=${updateWayFilter}&versionFilter=${versionFilter}" onclick="return updateDeleteConfirm();"><button class="thoughtbot">删除</button></a>
                             <%--<c:if test="${update.updateUploadFileId > 0}">--%>
                                 <%--<a href="${pageContext.request.contextPath}/backend/productupdatefiledownload.html?productUpdateId=${update.id}&updateUploadFileId=${update.updateUploadFileId}" class="btns"><span>下载</span></a>--%>
