@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 
 /**
  * User: Jack Wang
@@ -28,11 +27,7 @@ public class DeviceUpdateSourceProvideController extends AbstractController {
             String updateResponseURL = deviceUpdateService.obtainUpdateData(getJson);
 
             if (StringUtils.hasText(updateResponseURL)) {
-                response.setContentType("application/json; charset=utf-8");
-                PrintWriter writer = response.getWriter();
-                writer.write(updateResponseURL);
-                writer.flush();
-                writer.close();
+                response.sendRedirect(updateResponseURL);
             } else {
                 response.setStatus(HttpStatus.SC_NOT_FOUND);
             }
