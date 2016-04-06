@@ -199,7 +199,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                 }
 
                 //验证用户名范围
-                if(!validateUsernameInRange(model, datatype, androidsdk, username)) {
+                if(!validateUsernameInRange(model, datatype, androidsdk, username, update.getId())) {
                     passed = false;
                 }
             }
@@ -331,7 +331,7 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
                 }
 
                 //验证用户名范围
-                if(!validateUsernameInRange(model, datatype, dtvversion, username)) {
+                if(!validateUsernameInRange(model, datatype, dtvversion, username, update.getId())) {
                     passed = false;
                 }
             }
@@ -453,10 +453,10 @@ public class DeviceUpdateServiceImpl implements DeviceUpdateService {
     }
 
     //不区分大小写
-    public boolean validateUsernameInRange(String model, String updateWay, String version, String username) {
+    public boolean validateUsernameInRange(String model, String updateWay, String version, String username, int updateId) {
         username = username.toLowerCase();
-        String cacheKey = model + "|" + updateWay + "|" + version;
+        String snCacheKey = model + "|" + updateWay + "|" + version + "|" + updateId;
 
-        return updateDao.isSNInList(cacheKey, username);
+        return updateDao.isSNInList(snCacheKey, username);
     }
 }

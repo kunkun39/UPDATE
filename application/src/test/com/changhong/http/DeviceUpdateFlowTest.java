@@ -20,20 +20,20 @@ import java.util.Scanner;
 public class DeviceUpdateFlowTest extends TestCase {
 
 //    public final static String HOST = "http://www.changhongotv.scmcc.com.cn:8080/update/";
-    public final static String HOST = "http://localhost:8080/update/";
+    public final static String HOST = "http://192.168.0.104:8080/application_en/";
 
     public void testExecuteDeviceUpdate() {
         String json = "{\n" +
                 "    \"client\": {\n" +
-                "        \"username\": \"98:2F:3C:D9:E7:01\",\n" +
-                "        \"model\": \"IHO-1000_2K\",\n" +
+                "        \"username\": \"00:14:49:0D:00:00\",\n" +
+                "        \"model\": \"IHO-10004K\",\n" +
                 "        \"datatype\": \"1\",\n" +
                 "        \"androidsdk\": \"19\",\n" +
                 "\t\t\"macadress\":\"101\",\n" +
                 "        \"signtype\": \"test\",\n" +
                 "        \"testmode\": \"false\",\n" +
-                "        \"firmwareversion\": \"1.6\",\n" +
-                "        \"hardwareversion\": \"00000020\",\n" +
+                "        \"firmwareversion\": \"2.0\",\n" +
+                "        \"hardwareversion\": \"00000030\",\n" +
                 "        \"apkversion\": \"2.6\"\n" +
                 "\t\t}\n" +
                 "}";
