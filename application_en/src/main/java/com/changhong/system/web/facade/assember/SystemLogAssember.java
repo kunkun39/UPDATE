@@ -17,7 +17,7 @@ public class SystemLogAssember {
     public static SystemActionLogDTO toSystemActionLogDTO(SystemActionLog log) {
         final Date time = log.getTimestamp();
         final String userName = log.getUserName();
-        String description = userName + log.getAction();
+        String description = userName + " " + log.getAction();
         description = description.replace("<", "&lt;").replace(">", "&gt;");
         return new SystemActionLogDTO(time, userName, description);
     }

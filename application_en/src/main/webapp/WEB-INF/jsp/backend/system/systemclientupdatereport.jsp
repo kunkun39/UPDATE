@@ -115,7 +115,7 @@
                 var total = statisticData[0].total.split(",");
 
                     var days = statisticData[0].days;
-                    sta_container1.xAxis.categories = ['Jan', 'Fed', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+                    sta_container1.xAxis.categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
                     var newData = new Array();
                     var totalUpdateTimes = 0;
