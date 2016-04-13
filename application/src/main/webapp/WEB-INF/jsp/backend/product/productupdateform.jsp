@@ -139,7 +139,7 @@
                                         <li style="color: blue;">强制升级类型：1）普通升级 -> 服务端校验客户端的所有字段</li>
                                         <li style="color: blue;">强制升级类型：2）忽略固件版本比对的普通强制升级 -> 服务端校验客户端除固件版本的所有字段</li>
                                         <li style="color: blue;">强制升级类型：3）只比对产品型号 -> 服务端只校验客户端的产品型号</li>
-                                        <li style="color: blue;">SN列表：必须上传一个文件名为devices.txt的SN列表</li>
+                                        <li style="color: blue;">MAC列表：必须上传一个文件名为devices.txt的MAC列表</li>
                                         <li style="color: blue;">系统软件版本：服务端和客户端需保持一致可通过校验</li>
                                         <li style="color: blue;">MAC Filter：服务端的MAC地址的结尾需和客户端MAC地址保持一致</li>
                                         <li style="color: blue;">签名类型：服务端和客户端需保持一致可通过校验</li>
@@ -226,7 +226,7 @@
 
                                 <tr>
                                     <td width="200px;">
-                                         固件版本
+                                         升级前固件版本
                                     </td>
                                     <td>
                                         <spring-form:input path="guJianVersion" maxlength="30" cssStyle="width:200px;"/>&nbsp; 长虹软件版本

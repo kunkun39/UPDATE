@@ -24,10 +24,10 @@
             <div>
                 <table width="100%" cellpadding="0" cellspacing="0" class="list">
                     <thead>
-                        <td width="25%">SN</td>
-                        <td width="25%">SN</td>
-                        <td width="25%">SN</td>
-                        <td width="25%">SN</td>
+                        <td width="25%">MAC</td>
+                        <td width="25%">MAC</td>
+                        <td width="25%">MAC</td>
+                        <td width="25%">MAC</td>
                     </thead>
                     <tbody>
                     <c:forEach items="${snLists}" var="sn" varStatus="counter">

@@ -199,10 +199,12 @@ public class ProductServiceImpl implements ProductService {
         if(file != null && file.getSize() > 0) {
             updateFile = DocumentWebAssember.toUpdateFileDomain(file, "");
         }
+
+        //先保存update再保存SN文件，因为SN文件的需要用UPDATE保存后的ID
         ProductUpdate update = ProductUpdateWebAssember.toProductUpdateDomain(updateDTO, updateFile);
         documentService.uploadData(update, updateFile);
-        documentService.uploadSNData(update, snFile);
         productDao.persist(update);
+        documentService.uploadSNData(update, snFile);
 
         //清楚缓存
         updateDao.cleanCache();
@@ -249,6 +251,6 @@ public class ProductServiceImpl implements ProductService {
         String returnPath = DocumentPathResolver.generateUploadFileNamePath(update);
         File directory = new File(baseStorePath + File.separatorChar + returnPath);
 
-        return directory.getAbsolutePath() + File.separatorChar + update.getUpdateVersionName() + "_" + "devices.txt";
+        return directory.getAbsolutePath() + File.separatorChar + "devices" + "_" + updateId + ".txt";
     }
 }
