@@ -115,7 +115,7 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
 
         //上传有文件
         if (snFile != null && snFile.getSize() > 0) {
-            File dataFile = new File(directory, update.getUpdateVersionName() + "_" + "devices.txt");
+            File dataFile = new File(directory, "devices_" + update.getId() + ".txt");
 
             try {
                 OutputStream dataOut = new FileOutputStream(dataFile.getAbsolutePath());
